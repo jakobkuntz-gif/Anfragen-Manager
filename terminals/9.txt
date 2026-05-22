@@ -1,0 +1,6 @@
+---
+pid: 18392
+cwd: |
+  C:\Users\VP
+---
+PS C:\Users\VP>

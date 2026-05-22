@@ -1,0 +1,34 @@
+---
+pid: 2316
+cwd: |
+  C:\Users\VP
+---
+PS C:\Users\VP>
+
+
+PS C:\Users\VP>
+PS C:\Users\VP> $g = "C:\Program Files\Git\cmd\git.exe"
+>> $c = "C:\Users\VP\.cursor\projects\empty-window"
+>>
+>> & $g -C $c init
+>> & $g -C $c add .
+>> & $g -C $c commit -m "first commit"
+>> & $g -C $c log -1 --oneline$g = "C:\Program Files\Git\cmd\git.exe"
+>> $c = "C:\Users\VP\.cursor\projects\empty-window"
+>> 
+>> & $g -C $c init
+>> & $g -C $c add .
+>> & $g -C $c commit -m "first commit"
+>> & $g -C $c log -1 --oneline$g = "C:\Program Files\Git\cmd\git.exe"
+>> $c = "C:\Users\VP\.cursor\projects\empty-window"
+>> 
+>> & $g -C $c init
+>> & $g -C $c add .
+>> & $g -C $c commit -m "first commit"
+>> & $g -C $c log -1 --oneline$g = "C:\Program Files\Git\cmd\git.exe"
+>> $c = "C:\Users\VP\.cursor\projects\empty-window"
+>> 
+>> & $g -C $c init
+>> & $g -C $c add .
+>> & $g -C $c commit -m "first commit"
+>> & $g -C $c log -1 --onelinegit --versiongit --versiongit --versiongit --versiongit --version

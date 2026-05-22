@@ -1,0 +1,6 @@
+---
+pid: 16324
+cwd: |
+  C:\Users\VP
+---
+PS C:\Users\VP> 
