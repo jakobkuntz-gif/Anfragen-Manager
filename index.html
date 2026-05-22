@@ -6178,12 +6178,6 @@
                           <p class="stats-perf-combo-intro">Wählen Sie <strong>Gebiet</strong>, <strong>Mitarbeiter</strong> und/oder <strong>Produkt</strong>. Ohne Gebiet und Mitarbeiter zeigt die Vorschau die Umwandlung je <strong>Produkt</strong> für alle Produkte mit Leads.</p>
                           <div class="stats-perf-combo-list" aria-live="polite"></div>
                           <button type="button" class="btn btn-secondary stats-perf-combo-add">+ Kombination hinzufügen</button>
-                          <div class="stats-perf-compare">
-                            <h4 class="stats-perf-compare-title">Vergleich der Kombinationen</h4>
-                            <div class="stats-perf-compare-legend"></div>
-                            <div class="stats-perf-compare-ref"></div>
-                            <div class="stats-perf-compare-chart"></div>
-                          </div>
                         </div>
                       </details>
                     </div>
@@ -6223,12 +6217,6 @@
                           <p class="stats-perf-combo-intro">Wählen Sie <strong>Gebiet</strong>, <strong>Mitarbeiter</strong> und/oder <strong>Produkt</strong>. Ohne Gebiet und Mitarbeiter zeigt die Vorschau die Umwandlung je <strong>Produkt</strong> für alle Produkte mit Leads.</p>
                           <div class="stats-perf-combo-list" aria-live="polite"></div>
                           <button type="button" class="btn btn-secondary stats-perf-combo-add">+ Kombination hinzufügen</button>
-                          <div class="stats-perf-compare">
-                            <h4 class="stats-perf-compare-title">Vergleich der Kombinationen</h4>
-                            <div class="stats-perf-compare-legend"></div>
-                            <div class="stats-perf-compare-ref"></div>
-                            <div class="stats-perf-compare-chart"></div>
-                          </div>
                         </div>
                       </details>
                     </div>
@@ -6268,12 +6256,6 @@
                           <p class="stats-perf-combo-intro">Wählen Sie <strong>Gebiet</strong>, <strong>Mitarbeiter</strong> und/oder <strong>Produkt</strong>. Ohne Gebiet und Mitarbeiter zeigt die Vorschau die Umwandlung je <strong>Produkt</strong> für alle Produkte mit Leads.</p>
                           <div class="stats-perf-combo-list" aria-live="polite"></div>
                           <button type="button" class="btn btn-secondary stats-perf-combo-add">+ Kombination hinzufügen</button>
-                          <div class="stats-perf-compare">
-                            <h4 class="stats-perf-compare-title">Vergleich der Kombinationen</h4>
-                            <div class="stats-perf-compare-legend"></div>
-                            <div class="stats-perf-compare-ref"></div>
-                            <div class="stats-perf-compare-chart"></div>
-                          </div>
                         </div>
                       </details>
                     </div>
@@ -9717,47 +9699,6 @@
         return card;
       }
 
-      function renderComparePanel(segment, metric, period, combos) {
-        const legend = segment.querySelector(".stats-perf-compare-legend");
-        const ref = segment.querySelector(".stats-perf-compare-ref");
-        const chart = segment.querySelector(".stats-perf-compare-chart");
-        const refText = segment.querySelector(".stats-perf-consolidated-value")?.textContent || "—";
-        const meta = PERF_METRIC_META[metric];
-        if (ref) {
-          ref.innerHTML = `<span>Referenz (konsolidiert):</span> <strong>${refText}</strong> <span class="stats-perf-compare-ref-hint">— ${meta.column}</span>`;
-        }
-        if (!legend || !chart) return;
-        if (!combos.length) {
-          legend.innerHTML = "";
-          chart.innerHTML = '<p class="stats-perf-empty">Fügen Sie mindestens eine Kombination hinzu.</p>';
-          return;
-        }
-        legend.innerHTML = combos
-          .map((combo, idx) => {
-            const name = combo.name || hierarchyLevelLabel(combo.level);
-            return `<span class="stats-perf-compare-legend-item"><span class="stats-perf-compare-legend-swatch" style="background:${PERF_COMBO_COLORS[idx]}"></span>${name}</span>`;
-          })
-          .join("");
-        const compareRows = [];
-        combos.forEach((combo, idx) => {
-          const rows = getComboPreviewRows(combo, metric, period, { summaryOnly: true });
-          rows.forEach((row) => {
-            compareRows.push({
-              ...row,
-              comboIndex: idx,
-              sublabel: combo.name || hierarchyLevelLabel(combo.level),
-            });
-          });
-        });
-        const refValue = parsePerfSummaryValue(metric, refText);
-        renderPerfBarChart(chart, compareRows, metric, { refValue, leanHierarchy: true });
-        chart.querySelectorAll(".stats-bar-fill").forEach((el, i) => {
-          const comboIndex = compareRows[i]?.comboIndex ?? 0;
-          el.className = `stats-bar-fill combo-${comboIndex}`;
-          el.style.background = PERF_COMBO_COLORS[comboIndex];
-        });
-      }
-
       function refreshPerformanceSegment(segment) {
         const metric = segment.dataset.perfMetric;
         if (!metric) return;
@@ -9800,7 +9741,6 @@
           state.combos.forEach((combo, idx) => list.appendChild(renderComboCard(segment, metric, period, combo, idx)));
         }
         if (addBtn) addBtn.disabled = state.combos.length >= PERF_MAX_COMBOS;
-        renderComparePanel(segment, metric, period, state.combos);
       }
 
       function refreshAllPerformanceSegments() {
@@ -9923,7 +9863,6 @@
           const combo = state.combos[Number(card.dataset.comboIndex)];
           if (!combo) return;
           combo.name = event.target.value;
-          renderComparePanel(segment, segment.dataset.perfMetric, getPerformancePeriod(), state.combos);
         });
         document.addEventListener("click", (event) => {
           if (event.target.closest(".stats-multi-select")) return;
