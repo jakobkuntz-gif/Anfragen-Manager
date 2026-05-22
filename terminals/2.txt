@@ -9,8 +9,8 @@ PS C:\Users\VP> cd "C:\Users\VP\.cursor\projects\empty-window"
 >> git commit -m "first commit"
 Reinitialized existing Git repository in C:/Users/VP/.cursor/projects/empty-window/.git/
 warning: in the working copy of 'agent-transcripts/50fb4f0c-3231-44a3-86cc-61ff9c678c86/50fb4f0c-3231-44a3-86cc-61ff9c678c86.jsonl', LF will be replaced by CRLF the next time Git touches it     
-warning: in the working copy of 'terminals/1.txt', LF will be replaced by CRLF the next time Gittouches it
-warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF the next time Gittouches it
+warning: in the working copy of 'terminals/1.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF the next time Git touches it
 [main 05cd477] first commit
  6 files changed, 119 insertions(+), 47 deletions(-)
  create mode 100644 terminals/1.txt
@@ -21,3 +21,35 @@ warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF t
 PS C:\Users\VP\.cursor\projects\empty-window> git add .
 >> git commit -m "describe your change"
 >> git push
+warning: in the working copy of 'agent-transcripts/50fb4f0c-3231-44a3-86cc-61ff9c678c86/50fb4f0c-3231-44a3-86cc-61ff9c678c86.jsonl', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-app-control/INSTRUCTIONS.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-app-control/SERVER_METADATA.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-app-control/tools/create_project.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-app-control/tools/move_agent_to_cloned_root.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-app-control/tools/move_agent_to_root.json', LF willbe replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-backend-control/INSTRUCTIONS.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-backend-control/SERVER_METADATA.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-backend-control/tools/build_automation_prefill_url.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-backend-control/tools/create_automation.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-backend-control/tools/get_automation.json', LF willbe replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-backend-control/tools/list_automations.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-backend-control/tools/update_automation.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-ide-browser/INSTRUCTIONS.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcps/cursor-ide-browser/SERVER_METADATA.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF the next time Gittouches it
+[main 5e1cc2a] describe your change
+ 3 files changed, 23 insertions(+), 63 deletions(-)
+Enumerating objects: 22, done.
+Counting objects: 100% (22/22), done.
+Delta compression using up to 14 threads
+Compressing objects: 100% (16/16), done.
+Writing objects: 100% (16/16), 3.23 KiB | 1.08 MiB/s, done.
+Total 16 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (8/8), completed with 4 local objects.
+To https://github.com/jakobkuntz-gif/Anfragen-Manager.git
+   c3b6174..5e1cc2a  main -> main
+PS C:\Users\VP\.cursor\projects\empty-window> ^C
+PS C:\Users\VP\.cursor\projects\empty-window> ^C
+PS C:\Users\VP\.cursor\projects\empty-window> git add .
+>> git commit -m "describe your change"
+>> git pushhttps://fontawesome.com/icons/classic/solid/tablegit push

@@ -44,6 +44,10 @@
         --menu-active-bg: #e1f0f7;
         --chart-combo-1: #5a9e6e;
         --chart-combo-2: #e8b84a;
+        --chart-fill-depth-1: #7aa8bc;
+        --chart-fill-depth-2: #a8c5d4;
+        --chart-fill-green-depth-1: #b5d47a;
+        --chart-fill-green-depth-2: #cbe1a5;
         --border-dashed-stats: #c5d8e3;
         --info: #4aa3df;
         --warning-text: #b8860b;
@@ -2416,6 +2420,13 @@
         font-weight: 700;
         font-size: 24px;
         border: 2px solid #d6e6ee;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .upload-preview-circle.has-image {
+        color: transparent;
       }
 
       .upload-preview-logo {
@@ -3054,6 +3065,18 @@
         font-weight: 700;
         color: var(--white);
         background: #d6bf69;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        flex-shrink: 0;
+      }
+
+      .avatar-mini.has-image {
+        color: transparent;
+      }
+
+      .avatar-mini.avatar-tenant.has-image {
+        background-color: transparent;
       }
 
       .inline-icon-btn {
@@ -3186,6 +3209,17 @@
         background: var(--primary-dark);
       }
 
+      .btn-primary:disabled {
+        background: #a8bcc6;
+        color: var(--white);
+        opacity: 1;
+        cursor: not-allowed;
+      }
+
+      .btn-primary:disabled:hover {
+        background: #a8bcc6;
+      }
+
       .btn-secondary {
         background: var(--primary-light);
         color: var(--primary-dark);
@@ -3226,11 +3260,31 @@
         font-weight: 600;
       }
 
+      .stats-tabs-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px 16px;
+        margin-bottom: 22px;
+      }
+
       .stats-tabs {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-bottom: 22px;
+        margin-bottom: 0;
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .stats-performance-period {
+        flex-shrink: 0;
+        margin-left: auto;
+      }
+
+      .stats-performance-period[hidden] {
+        display: none !important;
       }
 
       .stats-tab {
@@ -3286,44 +3340,78 @@
         gap: 16px;
       }
 
-      .stats-perf-consolidated {
+      .stats-perf-breakdown-head {
         display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
+        align-items: center;
         justify-content: space-between;
-        gap: 8px 16px;
-        padding: 16px 18px;
-        border: 1px solid #b8d4e3;
-        border-left: 4px solid var(--primary);
-        border-radius: 8px;
-        background: var(--primary-surface);
-        box-shadow: 0 1px 3px rgba(76, 139, 165, 0.1);
-      }
-
-      .stats-perf-consolidated-label {
-        margin: 0;
-        font-size: var(--font-helper);
-        font-weight: 700;
-        color: var(--primary);
-        letter-spacing: 0.02em;
-      }
-
-      .stats-perf-consolidated-value {
-        margin: 0;
-        font-size: 36px;
-        font-weight: 700;
-        line-height: 1.1;
-        color: var(--primary);
+        gap: 12px;
+        margin: 0 0 10px;
       }
 
       .stats-perf-breakdown-heading {
-        margin: 20px 0 10px;
-        padding-top: 4px;
+        margin: 0;
         font-size: 12px;
         font-weight: 700;
         color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.06em;
+      }
+
+      .stats-perf-viz-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px;
+        border: 1px solid var(--line-subtle);
+        border-radius: 8px;
+        background: var(--white);
+      }
+
+      .stats-perf-viz-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+
+      .stats-perf-viz-btn:hover {
+        background: var(--primary-surface);
+        color: var(--primary);
+      }
+
+      .stats-perf-viz-btn.is-active {
+        background: var(--primary);
+        color: var(--white);
+      }
+
+      .stats-perf-viz-btn:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+
+      .stats-perf-export-bar {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line-subtle);
+      }
+
+      .stats-perf-export-toggle .stats-perf-export-btn {
+        cursor: pointer;
+      }
+
+      .stats-perf-export-toggle .stats-perf-export-btn:hover {
+        background: var(--primary);
+        color: var(--white);
       }
 
       .stats-perf-folds {
@@ -3334,6 +3422,8 @@
         border: 1px solid #e8eef2;
         border-radius: 8px;
         background: #fafcfe;
+        min-width: 0;
+        max-width: 100%;
       }
 
       .stats-perf-fold {
@@ -3341,6 +3431,20 @@
         border-radius: 6px;
         background: var(--white);
         overflow: hidden;
+      }
+
+      .stats-perf-fold[open] {
+        overflow: hidden;
+      }
+
+      .stats-perf-combo-fold[open] {
+        overflow: visible;
+        position: relative;
+        z-index: 4;
+      }
+
+      .stats-perf-combo-fold[open] .stats-perf-fold-body {
+        overflow: visible;
       }
 
       .stats-perf-fold summary {
@@ -3376,6 +3480,10 @@
 
       .stats-perf-fold-body {
         padding: 0 12px 12px;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
       }
 
       .stats-perf-combo-block + .stats-perf-combo-block {
@@ -3393,15 +3501,32 @@
 
       .stats-perf-viz {
         margin-bottom: 10px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .stats-perf-viz.has-table {
+        overflow: hidden;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .stats-perf-viz .stats-bar-row.dense {
+        grid-template-columns: 160px minmax(0, 1fr) 72px;
+        column-gap: 10px;
+        padding-left: 12px;
+        padding-right: 12px;
+        box-sizing: border-box;
       }
 
       .stats-perf-viz .stats-bar-row.is-consolidated {
-        padding: 10px 12px;
+        padding-top: 10px;
+        padding-bottom: 10px;
         margin-bottom: 8px;
         border-radius: 6px;
         background: var(--primary-surface);
         border: 1px solid #c5dce8;
-        box-sizing: border-box;
       }
 
       .stats-perf-viz .stats-bar-row.is-consolidated .stats-bar-label {
@@ -3426,6 +3551,14 @@
       .stats-perf-viz .stats-bar-row.is-breakdown .stats-bar-label {
         font-weight: 500;
         color: var(--muted);
+        padding-left: 0;
+      }
+
+      .stats-bar-label small {
+        display: block;
+        margin-top: 2px;
+        font-weight: 500;
+        color: var(--muted-read);
       }
 
       .stats-perf-viz .stats-bar-row.is-breakdown .stats-bar-value {
@@ -3439,8 +3572,28 @@
         background: #f2f5f7;
       }
 
-      .stats-perf-viz .stats-bar-row.is-breakdown .stats-bar-fill {
-        opacity: 0.88;
+      .stats-perf-viz .stats-bar-row.is-consolidated .stats-bar-fill.blue {
+        background: var(--primary);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-consolidated .stats-bar-fill.green {
+        background: var(--green);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-breakdown.is-depth-1 .stats-bar-fill.blue {
+        background: var(--chart-fill-depth-1);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-breakdown.is-depth-2 .stats-bar-fill.blue {
+        background: var(--chart-fill-depth-2);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-breakdown.is-depth-1 .stats-bar-fill.green {
+        background: var(--chart-fill-green-depth-1);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-breakdown.is-depth-2 .stats-bar-fill.green {
+        background: var(--chart-fill-green-depth-2);
       }
 
       .stats-perf-viz .stats-bar-row:last-child {
@@ -3454,44 +3607,98 @@
         line-height: 1.45;
       }
 
-      .stats-perf-combo-list {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-bottom: 12px;
-      }
-
-      .stats-perf-combo-card {
+      .stats-perf-combo-configurator {
         padding: 14px;
         border: 1px solid var(--line-subtle);
         border-radius: 6px;
         background: #fafcfe;
-      }
-
-      .stats-perf-combo-card-head {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
         margin-bottom: 12px;
+        overflow: visible;
       }
 
-      .stats-perf-combo-card-title {
-        margin: 0;
+      .stats-perf-combo-compare-wrap {
+        display: flex;
+        justify-content: center;
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line-subtle);
+      }
+
+      .stats-perf-combo-compare {
+        min-width: 240px;
+        padding: 12px 36px;
         font-size: var(--font-body);
         font-weight: 700;
+      }
+
+      @media (max-width: 640px) {
+        .stats-perf-combo-compare {
+          width: 100%;
+          max-width: 320px;
+        }
+      }
+
+      .stats-perf-combo-active-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .stats-perf-combo-active-list[hidden] {
+        display: none !important;
+      }
+
+      .stats-perf-combo-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border: 1px solid var(--line-subtle);
+        border-radius: 999px;
+        background: var(--primary-surface);
+        font-size: var(--font-helper);
         color: var(--text);
       }
 
-      .stats-perf-combo-remove {
+      .stats-perf-combo-chip-remove {
         border: none;
         background: transparent;
-        color: var(--red);
-        font-size: var(--font-helper);
-        font-weight: 600;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1;
         cursor: pointer;
-        padding: 4px 0;
+        padding: 0;
+      }
+
+      .stats-perf-combo-chip-remove:hover {
+        color: var(--red);
+      }
+
+      .stats-perf-combo-results {
+        margin-top: 4px;
+      }
+
+      .stats-perf-combo-results-heading {
+        margin: 0 0 10px;
+        font-size: var(--font-helper);
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .stats-perf-combo-section-head {
+        margin: 14px 0 8px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        background: var(--primary-surface);
+        border: 1px solid var(--line-subtle);
+        font-size: var(--font-helper);
+        font-weight: 700;
+        color: var(--primary-dark);
+      }
+
+      .stats-perf-combo-section-head:first-child {
+        margin-top: 0;
       }
 
       .stats-perf-combo-config {
@@ -3542,6 +3749,15 @@
         flex-direction: column;
         gap: 4px;
         min-width: 0;
+      }
+
+      .stats-multi-select.is-open {
+        z-index: 50;
+      }
+
+      .stats-perf-segment.stats-panel:has(.stats-multi-select.is-open),
+      .stats-perf-segment:has(.stats-multi-select.is-open) .stats-perf-folds {
+        overflow: visible;
       }
 
       .stats-multi-select-field-label {
@@ -3595,14 +3811,27 @@
         transform: rotate(180deg);
       }
 
+      .stats-multi-select.is-disabled .stats-multi-select-trigger {
+        opacity: 0.55;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .stats-multi-select.is-disabled .stats-multi-select-field-label {
+        color: var(--muted);
+      }
+
       .stats-multi-select-panel {
         position: absolute;
-        z-index: 30;
+        z-index: 51;
         top: calc(100% + 4px);
         left: 0;
         right: 0;
-        max-height: 220px;
-        overflow: auto;
+        max-height: min(320px, calc(100vh - 140px));
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -3610,6 +3839,10 @@
         border-radius: 4px;
         background: var(--white);
         box-shadow: 0 8px 20px rgba(43, 43, 43, 0.12);
+      }
+
+      .stats-multi-select-panel:not([hidden]) {
+        display: block;
       }
 
       .stats-multi-select-toggle-all {
@@ -3633,6 +3866,7 @@
 
       .stats-multi-select-options {
         padding: 4px 0;
+        max-height: none;
       }
 
       .stats-multi-select-option {
@@ -3661,13 +3895,6 @@
       .stats-multi-select-option span {
         flex: 1;
         min-width: 0;
-      }
-
-      .stats-perf-combo-preview h5 {
-        margin: 0 0 8px;
-        font-size: var(--font-helper);
-        font-weight: 700;
-        color: var(--primary);
       }
 
       .stats-perf-compare {
@@ -3742,16 +3969,6 @@
         color: var(--muted);
       }
 
-      .stats-perf-combo-add {
-        width: 100%;
-        max-width: 280px;
-      }
-
-      .stats-perf-combo-add:disabled {
-        opacity: 0.55;
-        cursor: not-allowed;
-      }
-
       .stats-perf-empty {
         margin: 0;
         padding: 10px 0;
@@ -3768,26 +3985,35 @@
         color: var(--muted);
       }
 
-      .stats-performance-toolbar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 12px;
-        margin-bottom: 18px;
-      }
-
       .stats-perf-table-wrap {
-        overflow: auto;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
         border: 1px solid var(--line-subtle);
         border-radius: 6px;
         background: var(--white);
+        box-sizing: border-box;
       }
 
       .stats-perf-table {
         width: 100%;
+        max-width: 100%;
+        table-layout: fixed;
         border-collapse: collapse;
         font-size: var(--font-helper);
+        box-sizing: border-box;
+      }
+
+      .stats-perf-table col.col-label {
+        width: 34%;
+      }
+
+      .stats-perf-table col.col-spacer {
+        width: 30%;
+      }
+
+      .stats-perf-table col.col-value {
+        width: 36%;
       }
 
       .stats-perf-table th,
@@ -3795,18 +4021,52 @@
         padding: 10px 12px;
         border-bottom: 1px solid var(--divider-stats);
         text-align: left;
+        vertical-align: middle;
+        box-sizing: border-box;
       }
 
       .stats-perf-table th {
         background: #eef5f9;
         font-weight: 700;
         color: var(--text);
+        line-height: 1.3;
+      }
+
+      .stats-perf-table th:first-child,
+      .stats-perf-table td:first-child {
+        padding-right: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      .stats-perf-table th.num,
+      .stats-perf-table th.spacer,
+      .stats-perf-table td.spacer {
+        padding: 0;
+        border-bottom: 1px solid var(--divider-stats);
+        background: transparent;
+      }
+
+      .stats-perf-table thead th.spacer {
+        background: #eef5f9;
+      }
+
+      .stats-perf-table tr.is-area td.spacer {
+        background: var(--primary-surface);
+      }
+
+      .stats-perf-table th.num {
+        text-align: center;
+        white-space: nowrap;
+        padding-left: 10px;
+        padding-right: 12px;
+      }
+
       .stats-perf-table td.num {
-        text-align: right;
+        text-align: center;
+        white-space: nowrap;
+        padding-left: 10px;
+        padding-right: 12px;
       }
 
       .stats-perf-table tr.is-area td {
@@ -3872,11 +4132,11 @@
       }
 
       .stats-perf-viz .stats-bar-label.is-depth-1 {
-        padding-left: 12px;
+        padding-left: 14px;
       }
 
       .stats-perf-viz .stats-bar-label.is-depth-2 {
-        padding-left: 24px;
+        padding-left: 28px;
       }
 
       .stats-perf-table tbody tr:last-child td {
@@ -3946,6 +4206,70 @@
         margin: 2px 0 0;
         font-size: var(--font-helper);
         color: var(--muted);
+      }
+
+      .stats-perf-kpi-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .stats-perf-kpi-main {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .stats-perf-detail-btn {
+        margin-top: 14px;
+        width: 100%;
+        text-align: center;
+        font-size: var(--font-helper);
+      }
+
+      .stats-perf-kpi-card.is-detail-open .stats-perf-detail-btn {
+        background: var(--primary);
+        color: var(--white);
+      }
+
+      .stats-perf-segment.is-detail-hidden {
+        display: none;
+      }
+
+      .stats-perf-panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .stats-perf-panel-title {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .stats-perf-detail-close {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: none;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.15);
+        color: var(--white);
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+
+      .stats-perf-detail-close:hover {
+        background: rgba(255, 255, 255, 0.28);
+      }
+
+      .stats-perf-detail-close:focus-visible {
+        outline: 2px solid var(--white);
+        outline-offset: 2px;
       }
 
       .stats-panel {
@@ -4233,14 +4557,15 @@
         text-align: left;
       }
 
-      body.viewport-mobile .stats-perf-consolidated-value {
-        font-size: 26px;
-      }
-
       body.viewport-mobile .stats-perf-table th,
       body.viewport-mobile .stats-perf-table td {
         padding: 8px 10px;
         font-size: 12px;
+      }
+
+      body.viewport-mobile .stats-perf-table th.num,
+      body.viewport-mobile .stats-perf-table td.num {
+        padding-right: 14px;
       }
 
       /* Viewport preview toggle (clickdummy: mobile / desktop) */
@@ -4957,7 +5282,7 @@
                   <td data-col="quelle">Buchung</td>
                   <td data-col="prioritaet"><span class="chip medium">Mittel</span></td>
                   <td data-col="status"><span class="status progress">In Bearbeitung</span></td>
-                  <td data-col="zustandigkeit">Jonas Markus</td>
+                  <td data-col="zustandigkeit">Jakob Kuntz</td>
                   <td data-col="zurAnfrage">
                     <button class="lead-link-btn open-lead-btn" type="button">
                       <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
@@ -4971,7 +5296,7 @@
                   <td data-col="name">Hoffmann, Lea</td>
                   <td data-col="bedarf">Betreutes Wohnen</td>
                   <td data-col="bedarfsort">64293 Riedstadt</td>
-                  <td data-col="standort">Kein Gebiet</td>
+                  <td data-col="standort">Darmstadt</td>
                   <td data-col="quelle">Privat</td>
                   <td data-col="prioritaet"><span class="chip high">Hoch</span></td>
                   <td data-col="status"><span class="status new">Neu</span></td>
@@ -5007,7 +5332,7 @@
                   <td data-col="name">Fischer, Anna</td>
                   <td data-col="bedarf">24h Verhinderungspflege</td>
                   <td data-col="bedarfsort">55118 Mainz</td>
-                  <td data-col="standort">Kein Gebiet</td>
+                  <td data-col="standort">Darmstadt</td>
                   <td data-col="quelle">Deutsches Seniorenportal</td>
                   <td data-col="prioritaet"><span class="chip medium">Mittel</span></td>
                   <td data-col="status"><span class="status done">Geschlossen</span></td>
@@ -5562,43 +5887,55 @@
             <h1 class="stats-hero-title">Meine Verwaltung</h1>
             <p class="stats-hero-subtitle">Übersicht der Aktivitäten und Kennzahlen</p>
 
-            <div class="stats-tabs" role="tablist" aria-label="Statistik-Ansichten">
-              <button
-                type="button"
-                class="stats-tab is-active"
-                role="tab"
-                aria-selected="true"
-                data-stats-tab="overview"
-              >
-                ÜBERSICHT
-              </button>
-              <button
-                type="button"
-                class="stats-tab"
-                role="tab"
-                aria-selected="false"
-                data-stats-tab="details"
-              >
-                DETAILS
-              </button>
-              <button
-                type="button"
-                class="stats-tab"
-                role="tab"
-                aria-selected="false"
-                data-stats-tab="evaluations"
-              >
-                AUSWERTUNGEN
-              </button>
-              <button
-                type="button"
-                class="stats-tab"
-                role="tab"
-                aria-selected="false"
-                data-stats-tab="performance"
-              >
-                PERFORMANCE
-              </button>
+            <div class="stats-tabs-bar">
+              <div class="stats-tabs" role="tablist" aria-label="Statistik-Ansichten">
+                <button
+                  type="button"
+                  class="stats-tab is-active"
+                  role="tab"
+                  aria-selected="true"
+                  data-stats-tab="overview"
+                >
+                  ÜBERSICHT
+                </button>
+                <button
+                  type="button"
+                  class="stats-tab"
+                  role="tab"
+                  aria-selected="false"
+                  data-stats-tab="details"
+                >
+                  DETAILS
+                </button>
+                <button
+                  type="button"
+                  class="stats-tab"
+                  role="tab"
+                  aria-selected="false"
+                  data-stats-tab="evaluations"
+                >
+                  AUSWERTUNGEN
+                </button>
+                <button
+                  type="button"
+                  class="stats-tab"
+                  role="tab"
+                  aria-selected="false"
+                  data-stats-tab="performance"
+                >
+                  PERFORMANCE
+                </button>
+              </div>
+              <label class="stats-filter stats-performance-period" id="statsPerformancePeriodWrap" hidden>
+                Zeitraum:
+                <select id="statsPerformancePeriod" aria-label="Zeitraum für Performance-Kennzahlen">
+                  <option value="gesamt" selected>Gesamt</option>
+                  <option value="day">Letzter Tag</option>
+                  <option value="7d">Letzte 7 Tage</option>
+                  <option value="30d">Letzte 30 Tage</option>
+                  <option value="60d">Letzte 60 Tage</option>
+                </select>
+              </label>
             </div>
 
             <div id="statsPanelOverview" class="stats-tab-panel is-active" role="tabpanel">
@@ -6102,57 +6439,89 @@
 
             <div id="statsPanelPerformance" class="stats-tab-panel" role="tabpanel" hidden>
               <div class="stats-kpi-grid cols-3">
-                <div class="stats-kpi-card">
-                  <span class="stats-kpi-icon conversion" aria-hidden="true"
-                    ><i class="fa-solid fa-chart-line"></i
-                  ></span>
-                  <div>
-                    <p class="stats-kpi-value" id="perfKpiConversion">32,4%</p>
-                    <p class="stats-kpi-label">Umwandlungsquote (Ø)</p>
+                <div class="stats-kpi-card stats-perf-kpi-card is-detail-open" data-perf-metric="conversion">
+                  <div class="stats-perf-kpi-main">
+                    <span class="stats-kpi-icon conversion" aria-hidden="true"
+                      ><i class="fa-solid fa-chart-line"></i
+                    ></span>
+                    <div>
+                      <p class="stats-kpi-value" id="perfKpiConversion">32,4%</p>
+                      <p class="stats-kpi-label">Umwandlungsquote (Ø)</p>
+                    </div>
                   </div>
+                  <button
+                    type="button"
+                    class="btn btn-secondary stats-perf-detail-btn"
+                    data-perf-metric="conversion"
+                    aria-expanded="true"
+                  >
+                    Detailansicht
+                  </button>
                 </div>
-                <div class="stats-kpi-card">
-                  <span class="stats-kpi-icon complaints" aria-hidden="true"
-                    ><i class="fa-solid fa-triangle-exclamation"></i
-                  ></span>
-                  <div>
-                    <p class="stats-kpi-value" id="perfKpiComplaints">2,1%</p>
-                    <p class="stats-kpi-label">Reklamationsrate (Ø)</p>
+                <div class="stats-kpi-card stats-perf-kpi-card" data-perf-metric="complaints">
+                  <div class="stats-perf-kpi-main">
+                    <span class="stats-kpi-icon complaints" aria-hidden="true"
+                      ><i class="fa-solid fa-triangle-exclamation"></i
+                    ></span>
+                    <div>
+                      <p class="stats-kpi-value" id="perfKpiComplaints">2,1%</p>
+                      <p class="stats-kpi-label">Reklamationsrate (Ø)</p>
+                    </div>
                   </div>
+                  <button
+                    type="button"
+                    class="btn btn-secondary stats-perf-detail-btn"
+                    data-perf-metric="complaints"
+                    aria-expanded="false"
+                  >
+                    Detailansicht
+                  </button>
                 </div>
-                <div class="stats-kpi-card">
-                  <span class="stats-kpi-icon investment" aria-hidden="true"
-                    ><i class="fa-solid fa-euro-sign"></i
-                  ></span>
-                  <div>
-                    <p class="stats-kpi-value" id="perfKpiInvestment">284 €</p>
-                    <p class="stats-kpi-label">Investition / Neukunde (Ø)</p>
+                <div class="stats-kpi-card stats-perf-kpi-card" data-perf-metric="investment">
+                  <div class="stats-perf-kpi-main">
+                    <span class="stats-kpi-icon investment" aria-hidden="true"
+                      ><i class="fa-solid fa-euro-sign"></i
+                    ></span>
+                    <div>
+                      <p class="stats-kpi-value" id="perfKpiInvestment">284 €</p>
+                      <p class="stats-kpi-label">Investition / Neukunde (Ø)</p>
+                    </div>
                   </div>
+                  <button
+                    type="button"
+                    class="btn btn-secondary stats-perf-detail-btn"
+                    data-perf-metric="investment"
+                    aria-expanded="false"
+                  >
+                    Detailansicht
+                  </button>
                 </div>
-              </div>
-
-              <div class="stats-performance-toolbar">
-                <label class="stats-filter">
-                  Zeitraum:
-                  <select id="statsPerformancePeriod" aria-label="Zeitraum für Performance-Kennzahlen">
-                    <option value="gesamt" selected>Gesamt</option>
-                    <option value="day">Letzter Tag</option>
-                    <option value="7d">Letzte 7 Tage</option>
-                    <option value="30d">Letzte 30 Tage</option>
-                    <option value="60d">Letzte 60 Tage</option>
-                  </select>
-                </label>
               </div>
 
               <div class="stats-performance-stack">
                 <article class="stats-panel stats-perf-segment" data-perf-metric="conversion">
-                  <div class="stats-panel-head">Umwandlungsquoten</div>
+                  <div class="stats-panel-head stats-perf-panel-head">
+                    <span class="stats-perf-panel-title">Umwandlungsquoten</span>
+                    <button
+                      type="button"
+                      class="stats-perf-detail-close"
+                      aria-label="Detailansicht schließen"
+                    >
+                      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                  </div>
                   <div class="stats-panel-body">
-                    <div class="stats-perf-consolidated">
-                      <p class="stats-perf-consolidated-label">Konsolidiert</p>
-                      <p class="stats-perf-consolidated-value" id="perfConsolidatedConversion">32,4%</p>
+                    <div class="stats-perf-breakdown-head">
+                      <span class="stats-perf-breakdown-heading">Aufschlüsselung</span>
+                      <div class="stats-perf-viz-toggle" role="group" aria-label="Darstellungsart für Nach Gebiet, Mitarbeiter und Produkt">
+                        <button type="button" class="stats-perf-viz-btn is-active" data-viz-mode="bars" data-viz-scope="dimension" title="Balkendiagramm" aria-label="Balkendiagramm" aria-pressed="true">
+                          <i class="fa-solid fa-bars-progress" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="stats-perf-viz-btn" data-viz-mode="table" data-viz-scope="dimension" title="Tabelle" aria-label="Tabelle" aria-pressed="false">
+                          <i class="fa-solid fa-table" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </div>
-                    <p class="stats-perf-breakdown-heading">Aufschlüsselung</p>
                     <div class="stats-perf-folds">
                       <details class="stats-perf-fold" data-perf-view="gebiet">
                         <summary>Nach Gebiet</summary>
@@ -6175,23 +6544,41 @@
                       <details class="stats-perf-fold stats-perf-combo-fold">
                         <summary>Kombinationen &amp; Vergleich</summary>
                         <div class="stats-perf-fold-body">
-                          <p class="stats-perf-combo-intro">Wählen Sie <strong>Gebiet</strong>, <strong>Mitarbeiter</strong> und/oder <strong>Produkt</strong>. Ohne Gebiet und Mitarbeiter zeigt die Vorschau die Umwandlung je <strong>Produkt</strong> für alle Produkte mit Leads.</p>
-                          <div class="stats-perf-combo-list" aria-live="polite"></div>
-                          <button type="button" class="btn btn-secondary stats-perf-combo-add">+ Kombination hinzufügen</button>
+                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten zeigt die aktuelle Hierarchie (<strong>Gebiet → Mitarbeiter</strong> und ggf. <strong>Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
+                          <div class="stats-perf-combo-configurator" aria-live="polite"></div>
+                          <div class="stats-perf-combo-results">
+                            <h5 class="stats-perf-combo-results-heading">Vergleich</h5>
+                            <div class="stats-perf-viz stats-perf-combo-results-viz"></div>
+                          </div>
                         </div>
                       </details>
                     </div>
                   </div>
                 </article>
 
-                <article class="stats-panel stats-perf-segment" data-perf-metric="complaints">
-                  <div class="stats-panel-head">Reklamationsrate</div>
+                <article class="stats-panel stats-perf-segment is-detail-hidden" data-perf-metric="complaints">
+                  <div class="stats-panel-head stats-perf-panel-head">
+                    <span class="stats-perf-panel-title">Reklamationsrate</span>
+                    <button
+                      type="button"
+                      class="stats-perf-detail-close"
+                      aria-label="Detailansicht schließen"
+                    >
+                      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                  </div>
                   <div class="stats-panel-body">
-                    <div class="stats-perf-consolidated">
-                      <p class="stats-perf-consolidated-label">Konsolidiert</p>
-                      <p class="stats-perf-consolidated-value" id="perfConsolidatedComplaints">2,1%</p>
+                    <div class="stats-perf-breakdown-head">
+                      <span class="stats-perf-breakdown-heading">Aufschlüsselung</span>
+                      <div class="stats-perf-viz-toggle" role="group" aria-label="Darstellungsart für Nach Gebiet, Mitarbeiter und Produkt">
+                        <button type="button" class="stats-perf-viz-btn is-active" data-viz-mode="bars" data-viz-scope="dimension" title="Balkendiagramm" aria-label="Balkendiagramm" aria-pressed="true">
+                          <i class="fa-solid fa-bars-progress" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="stats-perf-viz-btn" data-viz-mode="table" data-viz-scope="dimension" title="Tabelle" aria-label="Tabelle" aria-pressed="false">
+                          <i class="fa-solid fa-table" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </div>
-                    <p class="stats-perf-breakdown-heading">Aufschlüsselung</p>
                     <div class="stats-perf-folds">
                       <details class="stats-perf-fold" data-perf-view="gebiet">
                         <summary>Nach Gebiet</summary>
@@ -6214,23 +6601,41 @@
                       <details class="stats-perf-fold stats-perf-combo-fold">
                         <summary>Kombinationen &amp; Vergleich</summary>
                         <div class="stats-perf-fold-body">
-                          <p class="stats-perf-combo-intro">Wählen Sie <strong>Gebiet</strong>, <strong>Mitarbeiter</strong> und/oder <strong>Produkt</strong>. Ohne Gebiet und Mitarbeiter zeigt die Vorschau die Umwandlung je <strong>Produkt</strong> für alle Produkte mit Leads.</p>
-                          <div class="stats-perf-combo-list" aria-live="polite"></div>
-                          <button type="button" class="btn btn-secondary stats-perf-combo-add">+ Kombination hinzufügen</button>
+                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten zeigt die aktuelle Hierarchie (<strong>Gebiet → Mitarbeiter</strong> und ggf. <strong>Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
+                          <div class="stats-perf-combo-configurator" aria-live="polite"></div>
+                          <div class="stats-perf-combo-results">
+                            <h5 class="stats-perf-combo-results-heading">Vergleich</h5>
+                            <div class="stats-perf-viz stats-perf-combo-results-viz"></div>
+                          </div>
                         </div>
                       </details>
                     </div>
                   </div>
                 </article>
 
-                <article class="stats-panel stats-perf-segment" data-perf-metric="investment">
-                  <div class="stats-panel-head">Investition pro Neukunde</div>
+                <article class="stats-panel stats-perf-segment is-detail-hidden" data-perf-metric="investment">
+                  <div class="stats-panel-head stats-perf-panel-head">
+                    <span class="stats-perf-panel-title">Investition pro Neukunde</span>
+                    <button
+                      type="button"
+                      class="stats-perf-detail-close"
+                      aria-label="Detailansicht schließen"
+                    >
+                      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                  </div>
                   <div class="stats-panel-body">
-                    <div class="stats-perf-consolidated">
-                      <p class="stats-perf-consolidated-label">Konsolidiert</p>
-                      <p class="stats-perf-consolidated-value" id="perfConsolidatedInvestment">284 €</p>
+                    <div class="stats-perf-breakdown-head">
+                      <span class="stats-perf-breakdown-heading">Aufschlüsselung</span>
+                      <div class="stats-perf-viz-toggle" role="group" aria-label="Darstellungsart für Nach Gebiet, Mitarbeiter und Produkt">
+                        <button type="button" class="stats-perf-viz-btn is-active" data-viz-mode="bars" data-viz-scope="dimension" title="Balkendiagramm" aria-label="Balkendiagramm" aria-pressed="true">
+                          <i class="fa-solid fa-bars-progress" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="stats-perf-viz-btn" data-viz-mode="table" data-viz-scope="dimension" title="Tabelle" aria-label="Tabelle" aria-pressed="false">
+                          <i class="fa-solid fa-table" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </div>
-                    <p class="stats-perf-breakdown-heading">Aufschlüsselung</p>
                     <div class="stats-perf-folds">
                       <details class="stats-perf-fold" data-perf-view="gebiet">
                         <summary>Nach Gebiet</summary>
@@ -6253,9 +6658,12 @@
                       <details class="stats-perf-fold stats-perf-combo-fold">
                         <summary>Kombinationen &amp; Vergleich</summary>
                         <div class="stats-perf-fold-body">
-                          <p class="stats-perf-combo-intro">Wählen Sie <strong>Gebiet</strong>, <strong>Mitarbeiter</strong> und/oder <strong>Produkt</strong>. Ohne Gebiet und Mitarbeiter zeigt die Vorschau die Umwandlung je <strong>Produkt</strong> für alle Produkte mit Leads.</p>
-                          <div class="stats-perf-combo-list" aria-live="polite"></div>
-                          <button type="button" class="btn btn-secondary stats-perf-combo-add">+ Kombination hinzufügen</button>
+                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten zeigt die aktuelle Hierarchie (<strong>Gebiet → Mitarbeiter</strong> und ggf. <strong>Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
+                          <div class="stats-perf-combo-configurator" aria-live="polite"></div>
+                          <div class="stats-perf-combo-results">
+                            <h5 class="stats-perf-combo-results-heading">Vergleich</h5>
+                            <div class="stats-perf-viz stats-perf-combo-results-viz"></div>
+                          </div>
                         </div>
                       </details>
                     </div>
@@ -6789,7 +7197,8 @@
       let dragIndex = null;
       const cropCtx = cropperCanvas.getContext("2d");
       const DEFAULT_PROFILE_IMAGE =
-        "file:///C:/Users/VP/OneDrive%20-%20VP%20Verbund%20Pflegehilfe%20GmbH/Desktop/Screenshots/Screenshot%202025-10-01%20133314.png";
+        "file:///C:/Users/VP/OneDrive%20-%20VP%20Verbund%20Pflegehilfe%20GmbH/Desktop/Jakob/P/Bewerbungsunterlagen%20-%20Jakob%20Kuntz/Mastermind%201.2.jpg";
+      const DEFAULT_TENANT_AVATAR_IMAGE = DEFAULT_PROFILE_IMAGE;
       const DEFAULT_LOGO_IMAGE = "";
       const AVV_FILE_URL = "file:///C:/Users/VP/Downloads/AVV%20(13).pdf";
       let uploadedProfileImage = DEFAULT_PROFILE_IMAGE;
@@ -6849,6 +7258,25 @@
       const TENANT_GEBIETE = [...OVERVIEW_STANDORT_OPTIONS, "Kein Gebiet"];
       /** Mein Standort → Nutzer (sidebar catalog for statistics breakdowns). */
       const TENANT_MITARBEITER = [...OVERVIEW_OWNER_OPTIONS];
+      /** Demo: each employee has one home Gebiet; several employees may share a Gebiet. */
+      const TENANT_EMPLOYEE_HOME_GEBIET = {
+        "Jakob Kuntz": "Darmstadt",
+        "Jonas Markus": "Darmstadt",
+        "Marie Becker": "Berlin",
+        "Tim Wagner": "Berlin",
+        "Sara Hoffmann": "Hamburg",
+        "Felix Braun": "Hamburg",
+        "Lea Schneider": "Kein Gebiet",
+      };
+
+      function getEmployeeHomeGebiet(mitarbeiter) {
+        return TENANT_EMPLOYEE_HOME_GEBIET[String(mitarbeiter || "").trim()] || null;
+      }
+
+      function getMitarbeiterForGebiet(gebiet) {
+        return TENANT_MITARBEITER.filter((name) => TENANT_EMPLOYEE_HOME_GEBIET[name] === gebiet);
+      }
+
       const UNASSIGNED_STANDORT_OPTIONS = ["Bitte wahlen...", "Kein Gebiet"];
       const UNASSIGNED_OWNER_OPTIONS = ["Nicht zugewiesen"];
 
@@ -7049,23 +7477,42 @@
         return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
       }
 
+      function applyAvatarImage(el, imageUrl, fallbackText = "") {
+        if (!el) return;
+        if (imageUrl) {
+          el.textContent = "";
+          el.style.backgroundImage = `url("${imageUrl}")`;
+          el.style.backgroundSize = "cover";
+          el.style.backgroundPosition = "center";
+          el.style.backgroundRepeat = "no-repeat";
+          el.classList.add("has-image");
+          return;
+        }
+        el.style.backgroundImage = "none";
+        el.classList.remove("has-image");
+        el.textContent = fallbackText;
+      }
+
+      function getTenantAvatarImage() {
+        return uploadedProfileImage || DEFAULT_TENANT_AVATAR_IMAGE || "";
+      }
+
       function updateSidebarAvatar() {
         const fallbackInitials = getUserInitials();
-        sidebarAvatar.style.backgroundImage = "none";
         sidebarAvatar.style.color = "var(--primary-dark)";
 
         if (uploadedProfileImage) {
-          sidebarAvatar.textContent = "";
-          sidebarAvatar.style.backgroundImage = `url("${uploadedProfileImage}")`;
+          applyAvatarImage(sidebarAvatar, uploadedProfileImage);
           return;
         }
 
         if (uploadedLogoImage) {
-          sidebarAvatar.textContent = "";
-          sidebarAvatar.style.backgroundImage = `url("${uploadedLogoImage}")`;
+          applyAvatarImage(sidebarAvatar, uploadedLogoImage);
           return;
         }
 
+        sidebarAvatar.classList.remove("has-image");
+        sidebarAvatar.style.backgroundImage = "none";
         sidebarAvatar.textContent = fallbackInitials;
       }
 
@@ -7076,13 +7523,11 @@
 
       function applyUploadedPreviewDefaults() {
         if (uploadedProfileImage) {
-          profilePreview.textContent = "";
-          profilePreview.style.backgroundImage = `url("${uploadedProfileImage}")`;
-          profilePreview.style.backgroundSize = "cover";
-          profilePreview.style.backgroundPosition = "center";
+          applyAvatarImage(profilePreview, uploadedProfileImage);
         } else {
-          profilePreview.textContent = getUserInitials().slice(0, 1);
+          profilePreview.classList.remove("has-image");
           profilePreview.style.backgroundImage = "none";
+          profilePreview.textContent = getUserInitials().slice(0, 1);
         }
 
         if (uploadedLogoImage) {
@@ -7771,9 +8216,18 @@
           tenantPill.className = "pill lead-task-tenant-pill";
           tenantPill.textContent = task.assignee ? task.assignee : "Mandant";
           const avatar = document.createElement("span");
-          avatar.className = `avatar-mini${task.assignee ? "" : " avatar-tenant"}`;
-          avatar.textContent = task.assignee ? getUserInitials(task.assignee) : "Alle";
-          avatar.title = task.assignee || "Mandantenweit – noch nicht zugewiesen";
+          const isTenantTask = !task.assignee;
+          avatar.className = `avatar-mini${isTenantTask ? " avatar-tenant" : ""}`;
+          if (isTenantTask) {
+            applyAvatarImage(avatar, getTenantAvatarImage(), "Alle");
+            avatar.title = "Mandantenweit – noch nicht zugewiesen";
+          } else if (task.assignee === getCurrentUserName()) {
+            applyAvatarImage(avatar, getTenantAvatarImage(), getUserInitials(task.assignee));
+            avatar.title = task.assignee;
+          } else {
+            avatar.textContent = getUserInitials(task.assignee);
+            avatar.title = task.assignee;
+          }
           right.append(duePill, tenantPill, avatar);
 
           rowEl.append(left, right);
@@ -7856,6 +8310,15 @@
             panel.setAttribute("hidden", "");
           }
         });
+        const periodWrap = document.getElementById("statsPerformancePeriodWrap");
+        if (periodWrap) {
+          const showPeriod = tabKey === "performance";
+          if (showPeriod) {
+            periodWrap.removeAttribute("hidden");
+          } else {
+            periodWrap.setAttribute("hidden", "");
+          }
+        }
       }
 
       function openStatistikenPage() {
@@ -8266,6 +8729,15 @@
             });
           }
           if (colKey === "zustandigkeit") {
+            const homeGebiet = getEmployeeHomeGebiet(nextValue);
+            if (homeGebiet) {
+              syncLeadRowPlainColumn(row, "standort", homeGebiet);
+              renderOverviewInlineSelectCell(row, "standort", homeGebiet);
+              if (leadDetailActiveRow === row) {
+                renderDetailInlineSelect(detailStandortSelect, "standort", homeGebiet);
+                setSelectValue("detailStandortSelect", homeGebiet);
+              }
+            }
             applyAssigneeChangeSideEffects(row, nextValue, previousValue);
             queueQuickAccessToast({
               kind: "assignee",
@@ -8518,7 +8990,7 @@
       backToOverviewBtn?.addEventListener("click", openOverviewPage);
       wireLeadOverviewTable();
       menuMeineAnfragenBtn?.addEventListener("click", openOverviewPage);
-      menuKontoeinstellungenBtn.addEventListener("click", openMeinKontoPage);
+      menuKontoeinstellungenBtn?.addEventListener("click", openMeinKontoPage);
       if (menuHilfeBtn) {
         menuHilfeBtn.addEventListener("click", openHelpCenterPage);
       }
@@ -8541,11 +9013,10 @@
       ];
       const PERF_DIM_LABELS = { produkt: "Produkt", gebiet: "Gebiet", mitarbeiter: "Mitarbeiter" };
       const PERF_METRIC_META = {
-        conversion: { column: "Umwandlung", fill: "blue" },
+        conversion: { column: "Umwandlungsquoten", fill: "blue" },
         complaints: { column: "Reklamation", fill: "blue" },
         investment: { column: "Investition", fill: "green" },
       };
-      const PERF_MAX_COMBOS = 3;
       const COMBO_FILTER_NONE = "__NONE__";
 
       const PERF_BASE_DATA = {
@@ -8652,109 +9123,144 @@
         "gebiet-produkt": { label: "3 — Gebiet → Produkt (ohne Mitarbeiter)", short: "Gebiet → Produkt" },
       };
 
+      const DEMO_GEBIET_EMPLOYEE_STATS = [
+        {
+          gebiet: "Darmstadt",
+          mitarbeiter: "Jakob Kuntz",
+          conversion: { gebiet: 38.2, employee: 39.5, produkt: { "Stationäre Pflege": 42.0, "Std. Betreuung": 33.8 } },
+          complaints: { gebiet: 1.6, employee: 1.4, produkt: { "Stationäre Pflege": 1.1, "Std. Betreuung": 1.8 } },
+          investment: { gebiet: 265, employee: 258, produkt: { "Stationäre Pflege": 255, "Std. Betreuung": 284 } },
+        },
+        {
+          gebiet: "Darmstadt",
+          mitarbeiter: "Jonas Markus",
+          conversion: { gebiet: 38.2, employee: 37.2, produkt: { Haushaltshilfe: 37.0, "Betreutes Wohnen": 36.5 } },
+          complaints: { gebiet: 1.6, employee: 1.7, produkt: { Haushaltshilfe: 1.7, "Betreutes Wohnen": 1.5 } },
+          investment: { gebiet: 265, employee: 272, produkt: { Haushaltshilfe: 275, "Betreutes Wohnen": 268 } },
+        },
+        {
+          gebiet: "Berlin",
+          mitarbeiter: "Marie Becker",
+          conversion: { gebiet: 33.5, employee: 34.8, produkt: { "Betreutes Wohnen": 35.2, Kurzzeitpflege: 32.1 } },
+          complaints: { gebiet: 2.0, employee: 1.9, produkt: { "Betreutes Wohnen": 2.1, Kurzzeitpflege: 1.7 } },
+          investment: { gebiet: 278, employee: 271, produkt: { "Betreutes Wohnen": 268, Kurzzeitpflege: 282 } },
+        },
+        {
+          gebiet: "Berlin",
+          mitarbeiter: "Tim Wagner",
+          conversion: { gebiet: 33.5, employee: 32.1, produkt: { Tagespflege: 31.4, Haushaltshilfe: 33.0 } },
+          complaints: { gebiet: 2.0, employee: 2.1, produkt: { Tagespflege: 2.2, Haushaltshilfe: 1.9 } },
+          investment: { gebiet: 278, employee: 285, produkt: { Tagespflege: 288, Haushaltshilfe: 279 } },
+        },
+        {
+          gebiet: "Hamburg",
+          mitarbeiter: "Sara Hoffmann",
+          conversion: { gebiet: 29.8, employee: 31.2, produkt: { "Std. Betreuung": 32.0, Pflegedienst: 29.8 } },
+          complaints: { gebiet: 2.2, employee: 2.0, produkt: { "Std. Betreuung": 1.9, Pflegedienst: 2.1 } },
+          investment: { gebiet: 288, employee: 295, produkt: { "Std. Betreuung": 292, Pflegedienst: 301 } },
+        },
+        {
+          gebiet: "Hamburg",
+          mitarbeiter: "Felix Braun",
+          conversion: { gebiet: 29.8, employee: 28.4, produkt: { Bewerbung: 30.1, Haushaltshilfe: 26.8 } },
+          complaints: { gebiet: 2.2, employee: 2.3, produkt: { Bewerbung: 2.4, Haushaltshilfe: 2.1 } },
+          investment: { gebiet: 288, employee: 302, produkt: { Bewerbung: 305, Haushaltshilfe: 296 } },
+        },
+        {
+          gebiet: "Kein Gebiet",
+          mitarbeiter: "Lea Schneider",
+          conversion: { gebiet: 28.6, employee: 30.9, produkt: { Bewerbung: 32.1, Unbekannt: 27.4 } },
+          complaints: { gebiet: 2.4, employee: 2.5, produkt: { Bewerbung: 2.1, Unbekannt: 2.9 } },
+          investment: { gebiet: 298, employee: 301, produkt: { Bewerbung: 289, Unbekannt: 318 } },
+        },
+      ];
+
+      /** Gebiete ohne Mitarbeiter — Gebiet-Durchschnitt inkl. zugehöriger Produkte. */
+      const DEMO_GEBIET_ONLY_STATS = [
+        {
+          gebiet: "Koln",
+          conversion: {
+            gebiet: 27.4,
+            produkt: { Bewerbung: 30.1, "24 Stunden Betreuung": 26.5, "Betreutes Wohnen": 28.2 },
+          },
+          complaints: {
+            gebiet: 2.6,
+            produkt: { Bewerbung: 2.5, "24 Stunden Betreuung": 2.2, "Betreutes Wohnen": 2.7 },
+          },
+          investment: {
+            gebiet: 305,
+            produkt: { Bewerbung: 302, "24 Stunden Betreuung": 310, "Betreutes Wohnen": 298 },
+          },
+        },
+        {
+          gebiet: "Frankfurt",
+          conversion: {
+            gebiet: 31.8,
+            produkt: { "Betreutes Wohnen": 31.5, Haushaltshilfe: 34.1, "Ambulante Pflege": 30.4 },
+          },
+          complaints: {
+            gebiet: 2.3,
+            produkt: { "Betreutes Wohnen": 2.2, Haushaltshilfe: 1.9, "Ambulante Pflege": 2.4 },
+          },
+          investment: {
+            gebiet: 292,
+            produkt: { "Betreutes Wohnen": 296, Haushaltshilfe: 278, "Ambulante Pflege": 288 },
+          },
+        },
+        {
+          gebiet: "Munchen",
+          conversion: {
+            gebiet: 36.1,
+            produkt: { "Std. Betreuung": 38.0, Pflegedienst: 34.2, Kurzzeitpflege: 35.5 },
+          },
+          complaints: {
+            gebiet: 1.8,
+            produkt: { "Std. Betreuung": 1.5, Pflegedienst: 1.9, Kurzzeitpflege: 1.7 },
+          },
+          investment: {
+            gebiet: 272,
+            produkt: { "Std. Betreuung": 260, Pflegedienst: 279, Kurzzeitpflege: 268 },
+          },
+        },
+      ];
+
+      function buildPerfHierarchyForMetric(metricKey) {
+        const tree = {};
+        DEMO_GEBIET_EMPLOYEE_STATS.forEach((entry) => {
+          const stats = entry[metricKey];
+          if (!tree[entry.gebiet]) {
+            tree[entry.gebiet] = {
+              value: stats.gebiet,
+              mitarbeiter: {},
+              produkt: {},
+            };
+          }
+          tree[entry.gebiet].mitarbeiter[entry.mitarbeiter] = {
+            value: stats.employee,
+            produkt: { ...stats.produkt },
+          };
+          Object.entries(stats.produkt).forEach(([product, value]) => {
+            if (tree[entry.gebiet].produkt[product] == null) {
+              tree[entry.gebiet].produkt[product] = value;
+            }
+          });
+        });
+        DEMO_GEBIET_ONLY_STATS.forEach((entry) => {
+          if (tree[entry.gebiet]) return;
+          const stats = entry[metricKey];
+          tree[entry.gebiet] = {
+            value: stats.gebiet,
+            mitarbeiter: {},
+            produkt: { ...stats.produkt },
+          };
+        });
+        return tree;
+      }
+
       const PERF_HIERARCHY_BASE = {
-        conversion: {
-          Darmstadt: {
-            value: 38.2,
-            mitarbeiter: {
-              "Jakob Kuntz": {
-                value: 39.5,
-                produkt: { "Stationäre Pflege": 42.0, "Std. Betreuung": 33.8 },
-              },
-              "Jonas Markus": { value: 37.2, produkt: { Haushaltshilfe: 37.0 } },
-            },
-            produkt: { "Stationäre Pflege": 42.0, "Std. Betreuung": 35.5 },
-          },
-          Frankfurt: {
-            value: 31.8,
-            mitarbeiter: {
-              "Jonas Markus": {
-                value: 31.5,
-                produkt: { "Betreutes Wohnen": 31.5, Haushaltshilfe: 34.1 },
-              },
-              "Lea Schneider": { value: 30.2, produkt: { Unbekannt: 27.4 } },
-            },
-            produkt: { "Betreutes Wohnen": 29.4, Haushaltshilfe: 34.1 },
-          },
-          "Kein Gebiet": {
-            value: 28.6,
-            mitarbeiter: {
-              "Lea Schneider": {
-                value: 30.9,
-                produkt: { Bewerbung: 32.1, Unbekannt: 27.4 },
-              },
-            },
-            produkt: { Unbekannt: 26.2 },
-          },
-        },
-        complaints: {
-          Darmstadt: {
-            value: 1.6,
-            mitarbeiter: {
-              "Jakob Kuntz": {
-                value: 1.4,
-                produkt: { "Stationäre Pflege": 1.1, "Std. Betreuung": 1.8 },
-              },
-              "Jonas Markus": { value: 1.7, produkt: { Haushaltshilfe: 1.7 } },
-            },
-            produkt: { "Stationäre Pflege": 1.2, "Std. Betreuung": 2.0 },
-          },
-          Frankfurt: {
-            value: 2.3,
-            mitarbeiter: {
-              "Jonas Markus": {
-                value: 2.2,
-                produkt: { "Betreutes Wohnen": 2.2, Haushaltshilfe: 1.9 },
-              },
-              "Lea Schneider": { value: 2.5, produkt: { Unbekannt: 2.9 } },
-            },
-            produkt: { "Betreutes Wohnen": 2.8, Haushaltshilfe: 1.9 },
-          },
-          "Kein Gebiet": {
-            value: 2.4,
-            mitarbeiter: {
-              "Lea Schneider": {
-                value: 2.5,
-                produkt: { Bewerbung: 2.1, Unbekannt: 2.9 },
-              },
-            },
-            produkt: { Unbekannt: 2.7 },
-          },
-        },
-        investment: {
-          Darmstadt: {
-            value: 265,
-            mitarbeiter: {
-              "Jakob Kuntz": {
-                value: 258,
-                produkt: { "Stationäre Pflege": 255, "Std. Betreuung": 284 },
-              },
-              "Jonas Markus": { value: 272, produkt: { Haushaltshilfe: 275 } },
-            },
-            produkt: { "Stationäre Pflege": 248, "Std. Betreuung": 279 },
-          },
-          Frankfurt: {
-            value: 292,
-            mitarbeiter: {
-              "Jonas Markus": {
-                value: 290,
-                produkt: { "Betreutes Wohnen": 296, Haushaltshilfe: 278 },
-              },
-              "Lea Schneider": { value: 301, produkt: { Unbekannt: 318 } },
-            },
-            produkt: { "Betreutes Wohnen": 305, Haushaltshilfe: 278 },
-          },
-          "Kein Gebiet": {
-            value: 298,
-            mitarbeiter: {
-              "Lea Schneider": {
-                value: 301,
-                produkt: { Bewerbung: 289, Unbekannt: 318 },
-              },
-            },
-            produkt: { Unbekannt: 312 },
-          },
-        },
+        conversion: buildPerfHierarchyForMetric("conversion"),
+        complaints: buildPerfHierarchyForMetric("complaints"),
+        investment: buildPerfHierarchyForMetric("investment"),
       };
 
       const PERF_HIERARCHY_PERIOD = {
@@ -8765,10 +9271,227 @@
         "7d": null,
       };
 
+      function fallbackProductMetric(metricKey, index) {
+        const samples = {
+          conversion: [40.8, 34.6, 30.2, 35.5, 31.4, 28.4, 32.0, 26.8, 38.0, 29.8, 36.5, 33.2, 27.6, 31.0, 34.1],
+          complaints: [1.4, 1.9, 2.5, 1.8, 2.0, 2.3, 1.6, 2.8, 1.5, 2.2, 1.7, 2.1, 2.4, 1.9, 2.0],
+          investment: [258, 281, 300, 276, 289, 295, 266, 315, 260, 301, 272, 285, 298, 268, 279],
+        };
+        const list = samples[metricKey] || samples.conversion;
+        return list[index % list.length];
+      }
+
+      function collectTenantProduktCatalog(metric, period) {
+        const products = new Set(LEAD_BEDARF_PRODUCTS);
+        const addKeys = (keys) => keys.forEach((key) => products.add(key));
+        addKeys(getDimensionKeys(metric, period, "produkt"));
+        const tree = getPerfHierarchy(metric, period) || PERF_HIERARCHY_BASE[metric] || {};
+        Object.values(tree).forEach((node) => {
+          addKeys(Object.keys(node.produkt || {}));
+          Object.values(node.mitarbeiter || {}).forEach((maNode) => {
+            addKeys(Object.keys(maNode.produkt || {}));
+          });
+        });
+        const nested = getPerfMetricData(metric, period)?.mitarbeiter?.nested;
+        if (nested) {
+          Object.values(nested).forEach((entry) => addKeys(Object.keys(entry)));
+        }
+        return Array.from(products).sort((a, b) => a.localeCompare(b, "de"));
+      }
+
+      function syncPerfBaseDataFromDemo() {
+        ["conversion", "complaints", "investment"].forEach((metricKey) => {
+          const gebietFlat = {};
+          const gebietNested = {};
+          const mitarbeiterFlat = {};
+          const mitarbeiterNested = {};
+          const produktFlat = {};
+          DEMO_GEBIET_EMPLOYEE_STATS.forEach((entry) => {
+            const stats = entry[metricKey];
+            gebietFlat[entry.gebiet] = stats.gebiet;
+            gebietNested[entry.gebiet] = { ...stats.produkt };
+            mitarbeiterFlat[entry.mitarbeiter] = stats.employee;
+            mitarbeiterNested[entry.mitarbeiter] = { ...stats.produkt };
+            Object.entries(stats.produkt).forEach(([product, value]) => {
+              if (produktFlat[product] === undefined) produktFlat[product] = value;
+            });
+          });
+          DEMO_GEBIET_ONLY_STATS.forEach((entry) => {
+            const stats = entry[metricKey];
+            if (gebietFlat[entry.gebiet] == null) gebietFlat[entry.gebiet] = stats.gebiet;
+            gebietNested[entry.gebiet] = { ...stats.produkt };
+          });
+          collectTenantProduktCatalog(metricKey, "gesamt").forEach((product, index) => {
+            if (produktFlat[product] == null) {
+              produktFlat[product] = fallbackProductMetric(metricKey, index);
+            }
+          });
+          PERF_BASE_DATA[metricKey].gebiet.flat = gebietFlat;
+          PERF_BASE_DATA[metricKey].gebiet.nested = gebietNested;
+          PERF_BASE_DATA[metricKey].mitarbeiter.flat = mitarbeiterFlat;
+          PERF_BASE_DATA[metricKey].mitarbeiter.nested = mitarbeiterNested;
+          PERF_BASE_DATA[metricKey].produkt.flat = produktFlat;
+        });
+      }
+
+      try {
+        syncPerfBaseDataFromDemo();
+      } catch (perfSyncError) {
+        console.error("Performance demo data sync failed:", perfSyncError);
+      }
+
       const perfSegmentState = new WeakMap();
 
       function getPerformancePeriod() {
         return document.getElementById("statsPerformancePeriod")?.value || "gesamt";
+      }
+
+      function getPerformancePeriodLabel() {
+        const select = document.getElementById("statsPerformancePeriod");
+        if (!select) return "Gesamt";
+        const option = select.options[select.selectedIndex];
+        return option?.textContent?.trim() || "Gesamt";
+      }
+
+      const PERF_EXPORT_LEVEL = "gebiet-mitarbeiter-produkt";
+
+      function getPerfFullBreakdownRows(metric, period) {
+        return filterPerfDisplayRows(
+          getHierarchyRows(metric, period, PERF_EXPORT_LEVEL, {}, "detail", []),
+        );
+      }
+
+      function perfExportRowFields(row) {
+        let gebiet = "";
+        let mitarbeiter = "";
+        let produkt = "";
+        if (row.kind === "gebiet") {
+          gebiet = row.label || row.path || "";
+        } else if (row.kind === "mitarbeiter") {
+          gebiet = row.parent || "";
+          mitarbeiter = row.label || row.path || "";
+        } else if (row.kind === "produkt") {
+          if (row.depth === 2) {
+            gebiet = row.gebiet || "";
+            mitarbeiter = row.parent || "";
+            produkt = row.label || "";
+          } else {
+            gebiet = row.parent || "";
+            produkt = row.label || "";
+          }
+        }
+        const ebene =
+          row.kind === "gebiet" ? "Gebiet" : row.kind === "mitarbeiter" ? "Mitarbeiter" : "Produkt";
+        return { ebene, gebiet, mitarbeiter, produkt };
+      }
+
+      function formatPerfCsvRawValue(metric, value) {
+        if (value == null || Number.isNaN(value)) return "";
+        if (metric === "investment") return String(Math.round(value));
+        return value.toFixed(2).replace(".", ",");
+      }
+
+      function escapeCsvField(value) {
+        const text = String(value ?? "");
+        if (/[;"\n\r]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
+        return text;
+      }
+
+      function buildPerfSegmentCsv(metric, period) {
+        const meta = PERF_METRIC_META[metric];
+        const title =
+          document
+            .querySelector(
+              `.stats-perf-segment[data-perf-metric="${metric}"] .stats-perf-panel-title`,
+            )
+            ?.textContent?.trim() || metric;
+        const periodLabel = getPerformancePeriodLabel();
+        const unit = metric === "investment" ? "EUR" : "%";
+        const header = ["Ebene", "Gebiet", "Mitarbeiter", "Produkt", meta?.column || "Wert", "Einheit"];
+        const lines = [
+          `Bericht;${escapeCsvField(title)}`,
+          `Zeitraum;${escapeCsvField(periodLabel)}`,
+          `Aufschlüsselung;Gebiet → Mitarbeiter → Produkt (vollständig)`,
+          "",
+          header.map(escapeCsvField).join(";"),
+        ];
+        getPerfFullBreakdownRows(metric, period).forEach((row) => {
+          const { ebene, gebiet, mitarbeiter, produkt } = perfExportRowFields(row);
+          lines.push(
+            [
+              ebene,
+              gebiet,
+              mitarbeiter,
+              produkt,
+              formatPerfCsvRawValue(metric, row.value),
+              unit,
+            ]
+              .map(escapeCsvField)
+              .join(";"),
+          );
+        });
+        return `\uFEFF${lines.join("\r\n")}`;
+      }
+
+      function downloadTextFile(filename, content, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        link.rel = "noopener";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function perfSegmentExportFilename(metric, period) {
+        const title =
+          document
+            .querySelector(
+              `.stats-perf-segment[data-perf-metric="${metric}"] .stats-perf-panel-title`,
+            )
+            ?.textContent?.trim() || metric;
+        const slug = title
+          .toLowerCase()
+          .replace(/ä/g, "ae")
+          .replace(/ö/g, "oe")
+          .replace(/ü/g, "ue")
+          .replace(/ß/g, "ss")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+        return `${slug || metric}-${period}.csv`;
+      }
+
+      function ensurePerfExportBar(segment) {
+        const body = segment.querySelector(".stats-panel-body");
+        if (!body) return null;
+        let bar = body.querySelector(".stats-perf-export-bar");
+        if (!bar) {
+          bar = document.createElement("div");
+          bar.className = "stats-perf-export-bar";
+          bar.innerHTML = `<div class="stats-perf-viz-toggle stats-perf-export-toggle" role="group" aria-label="Export">
+              <button type="button" class="stats-perf-viz-btn stats-perf-export-btn is-active" title="Als CSV exportieren (vollständige Aufschlüsselung)" aria-label="Als CSV exportieren (vollständige Aufschlüsselung)">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+              </button>
+            </div>`;
+          body.appendChild(bar);
+        }
+        return bar;
+      }
+
+      function exportPerformanceSegmentCsv(segment) {
+        const metric = segment?.dataset?.perfMetric;
+        if (!metric) return;
+        const period = getPerformancePeriod();
+        const rows = getPerfFullBreakdownRows(metric, period);
+        if (!rows.length) {
+          window.alert("Keine Daten für den gewählten Zeitraum zum Exportieren.");
+          return;
+        }
+        const csv = buildPerfSegmentCsv(metric, period);
+        downloadTextFile(perfSegmentExportFilename(metric, period), csv, "text/csv;charset=utf-8");
       }
 
       function parseAnfrageDatum(text) {
@@ -8849,20 +9572,58 @@
         return getPerfMetricData(metric, period)?.[dimension]?.flat?.[label] ?? null;
       }
 
+      const MIN_LEADS_FOR_COMPUTED_METRIC = 6;
+
       function metricValueForLeadGroup(leads, metric, period, dimension, label) {
         const computed = computeGroupMetricFromLeads(leads, metric);
         if (computed != null) return computed;
         return lookupPerfFlatValue(metric, period, dimension, label);
       }
 
+      function resolveMetricValue(leads, metric, period, dimension, label, preferredValue) {
+        const computed = computeGroupMetricFromLeads(leads, metric);
+        if (leads.length >= MIN_LEADS_FOR_COMPUTED_METRIC && computed != null) return computed;
+        if (preferredValue != null && !Number.isNaN(preferredValue)) return preferredValue;
+        if (computed != null) return computed;
+        const flat = lookupPerfFlatValue(metric, period, dimension, label);
+        if (flat != null) return flat;
+        return preferredValue ?? null;
+      }
+
+      function weightedAverageMetricValues(entries) {
+        let totalWeight = 0;
+        let sum = 0;
+        entries.forEach(({ value, weight }) => {
+          if (value == null || Number.isNaN(value)) return;
+          const w = Math.max(weight, 1);
+          totalWeight += w;
+          sum += value * w;
+        });
+        return totalWeight ? sum / totalWeight : null;
+      }
+
+      function comboRowSublabel() {
+        return "";
+      }
+
+      function getGebietDimensionFoldRows(metric, period) {
+        const periodLeads = getLeadsInPerformancePeriod(period);
+        const tree = getPerfHierarchy(metric, period) || {};
+        const rows = [];
+        TENANT_GEBIETE.forEach((gebiet) => {
+          const node = tree[gebiet];
+          const gebietLeads = periodLeads.filter((row) => getCellValue(row, "standort") === gebiet);
+          const gebietValue =
+            metricValueForLeadGroup(gebietLeads, metric, period, "gebiet", gebiet) ?? node?.value ?? 0;
+          rows.push({ label: gebiet, value: gebietValue, kind: "gebiet", depth: 0, path: gebiet });
+        });
+        return rows;
+      }
+
       function getDimensionFoldRows(metric, period, view) {
         const periodLeads = getLeadsInPerformancePeriod(period);
         if (view === "gebiet") {
-          return TENANT_GEBIETE.map((label) => {
-            const groupLeads = periodLeads.filter((row) => getCellValue(row, "standort") === label);
-            const value = metricValueForLeadGroup(groupLeads, metric, period, "gebiet", label);
-            return { label, value, kind: "gebiet", depth: 0, path: label };
-          });
+          return getGebietDimensionFoldRows(metric, period);
         }
         if (view === "mitarbeiter") {
           return TENANT_MITARBEITER.map((label) => {
@@ -8872,18 +9633,11 @@
           });
         }
         if (view === "produkt") {
-          const productsWithLeads = new Set();
-          periodLeads.forEach((row) => {
-            const product = getCellValue(row, "bedarf");
-            if (product && product !== "-") productsWithLeads.add(product);
+          return collectTenantProduktCatalog(metric, period).map((label) => {
+            const groupLeads = periodLeads.filter((row) => getCellValue(row, "bedarf") === label);
+            const value = metricValueForLeadGroup(groupLeads, metric, period, "produkt", label);
+            return { label, value: value ?? 0, kind: "produkt", depth: 0, path: label };
           });
-          return Array.from(productsWithLeads)
-            .sort((a, b) => a.localeCompare(b, "de"))
-            .map((label) => {
-              const groupLeads = periodLeads.filter((row) => getCellValue(row, "bedarf") === label);
-              const value = computeGroupMetricFromLeads(groupLeads, metric);
-              return { label, value, kind: "produkt", depth: 0, path: label };
-            });
         }
         return [];
       }
@@ -8946,6 +9700,31 @@
         return asFilterArray(selected).includes(COMBO_FILTER_NONE);
       }
 
+      function comboLevelAllowsProduktFilter(level) {
+        return level === "gebiet-mitarbeiter-produkt" || level === "gebiet-produkt";
+      }
+
+      function isComboCompareReady(filters, level) {
+        const gebiet = asFilterArray(filters?.gebiet);
+        const mitarbeiter = asFilterArray(filters?.mitarbeiter);
+        const produkt = asFilterArray(filters?.produkt);
+        if (isComboFilterNone(gebiet) || isComboFilterNone(mitarbeiter)) return false;
+        if (comboLevelAllowsProduktFilter(level) && isComboFilterNone(produkt)) return false;
+        return true;
+      }
+
+      function syncComboCompareButtonState(segment, draft) {
+        const btn = segment?.querySelector(".stats-perf-combo-compare");
+        if (!btn) return;
+        const ready = isComboCompareReady(draft?.filters, draft?.level);
+        btn.disabled = !ready;
+        btn.setAttribute("aria-disabled", ready ? "false" : "true");
+      }
+
+      function comboDetailLevelForLevel(level) {
+        return comboLevelAllowsProduktFilter(level) ? "detail" : "summary";
+      }
+
       function isFilterAllSelected(selected, allOptions) {
         const list = asFilterArray(selected);
         if (isComboFilterNone(list)) return false;
@@ -8967,17 +9746,7 @@
       }
 
       function getAllTenantProduktKeys(metric, period) {
-        const fromLeads = getDimensionFoldRows(metric, period, "produkt").map((row) => row.label);
-        if (fromLeads.length) return fromLeads;
-        const products = new Set(getDimensionKeys(metric, period, "produkt"));
-        const tree = getPerfHierarchy(metric, period);
-        Object.values(tree || {}).forEach((node) => {
-          Object.keys(node.produkt || {}).forEach((p) => products.add(p));
-          Object.values(node.mitarbeiter || {}).forEach((maNode) => {
-            Object.keys(maNode.produkt || {}).forEach((p) => products.add(p));
-          });
-        });
-        return Array.from(products).sort((a, b) => a.localeCompare(b, "de"));
+        return collectTenantProduktCatalog(metric, period);
       }
 
       function getTenantProduktRows(metric, period, selectedProdukte = []) {
@@ -9070,19 +9839,7 @@
       }
 
       function getMitarbeiterKeysForGebiet(metric, period, gebiet) {
-        const fromLeads = new Set();
-        getLeadsInPerformancePeriod(period)
-          .filter((row) => getCellValue(row, "standort") === gebiet)
-          .forEach((row) => {
-            const name = getCellValue(row, "zustandigkeit");
-            if (TENANT_MITARBEITER.includes(name)) fromLeads.add(name);
-          });
-        if (fromLeads.size) {
-          return Array.from(fromLeads).sort((a, b) => a.localeCompare(b, "de"));
-        }
-        const tree = getPerfHierarchy(metric, period);
-        if (!gebiet || !tree?.[gebiet]?.mitarbeiter) return [];
-        return Object.keys(tree[gebiet].mitarbeiter).sort((a, b) => a.localeCompare(b, "de"));
+        return getMitarbeiterForGebiet(gebiet).sort((a, b) => a.localeCompare(b, "de"));
       }
 
       function getAllAssignableMitarbeiter(metric, period) {
@@ -9153,7 +9910,10 @@
         return rows;
       }
 
-      function filterComboRowsByProdukt(rows, produktSelection) {
+      function filterComboRowsByProdukt(rows, produktSelection, level) {
+        if (level && !comboLevelAllowsProduktFilter(level)) {
+          return rows.filter((row) => row.kind !== "produkt");
+        }
         const list = asFilterArray(produktSelection);
         if (!list.length) return rows;
         const hasMatch = rows.some(
@@ -9202,24 +9962,46 @@
           return [];
         }
 
-        let rows;
-        if (mitarbeiterList.length && !gebietList.length) {
-          rows = getEmployeesProductRows(metric, period, mitarbeiterList, combo.detailLevel);
-        } else {
-          const gebietFilters = gebietFiltersFromSelection(gebietList, metric, period);
-          rows = getHierarchyRows(
-            metric,
-            period,
-            combo.level,
-            gebietFilters,
-            combo.detailLevel,
-            mitarbeiterList,
-          );
-        }
-        rows = filterComboRowsByProdukt(rows, produktList);
+        const gebietFilters = gebietFiltersFromSelection(gebietList, metric, period);
+        let rows = getHierarchyRows(
+          metric,
+          period,
+          combo.level,
+          gebietFilters,
+          combo.detailLevel,
+          mitarbeiterList,
+        );
+        rows = filterComboRowsByProdukt(rows, produktList, combo.level);
         rows = applyLeanComboRowDisplay(rows, combo);
         if (summaryOnly) rows = rows.filter((r) => r.depth === 0);
         return rows;
+      }
+
+      /** Full hierarchy rows (Gebiet → Mitarbeiter → Produkt) for combo results — keeps parent/path context. */
+      function getComboHierarchyRows(combo, metric, period) {
+        normalizeComboFilters(combo, metric, period);
+        const gebietList = asFilterArray(combo.filters.gebiet);
+        const mitarbeiterList = asFilterArray(combo.filters.mitarbeiter);
+        const produktList = asFilterArray(combo.filters.produkt);
+
+        if (
+          isComboFilterNone(gebietList) ||
+          isComboFilterNone(mitarbeiterList) ||
+          isComboFilterNone(produktList)
+        ) {
+          return [];
+        }
+
+        const gebietFilters = gebietFiltersFromSelection(gebietList, metric, period);
+        const rows = getHierarchyRows(
+          metric,
+          period,
+          combo.level,
+          gebietFilters,
+          combo.detailLevel,
+          mitarbeiterList,
+        );
+        return filterComboRowsByProdukt(rows, produktList, combo.level);
       }
 
       function comboPreviewTableHeader(combo, metric, period) {
@@ -9275,7 +10057,10 @@
           combo.level = level;
         }
         if (!PERF_HIERARCHY_LEVELS[combo.level]) combo.level = "gebiet-mitarbeiter";
-        combo.detailLevel = "detail";
+        combo.detailLevel = comboDetailLevelForLevel(combo.level);
+        if (!comboLevelAllowsProduktFilter(combo.level)) {
+          combo.filters.produkt = [];
+        }
         return combo;
       }
 
@@ -9285,6 +10070,8 @@
 
       function getProduktMapForGebiet(metric, period, gebiet, node) {
         if (node?.produkt && Object.keys(node.produkt).length) return node.produkt;
+        const nested = getPerfMetricData(metric, period)?.gebiet?.nested?.[gebiet];
+        if (nested && Object.keys(nested).length) return { ...nested };
         const leads = getLeadsInPerformancePeriod(period).filter(
           (row) => getCellValue(row, "standort") === gebiet,
         );
@@ -9299,16 +10086,24 @@
           const value = computeGroupMetricFromLeads(productLeads, metric);
           if (value != null) map[product] = value;
         });
-        return map;
+        if (Object.keys(map).length) return map;
+        return {};
       }
 
       function getMitarbeiterMapForGebiet(metric, period, gebiet, node) {
-        if (node?.mitarbeiter && Object.keys(node.mitarbeiter).length) return node.mitarbeiter;
+        const assigned = getMitarbeiterForGebiet(gebiet);
+        if (node?.mitarbeiter && Object.keys(node.mitarbeiter).length) {
+          const filtered = {};
+          assigned.forEach((mitarbeiter) => {
+            if (node.mitarbeiter[mitarbeiter]) filtered[mitarbeiter] = node.mitarbeiter[mitarbeiter];
+          });
+          if (Object.keys(filtered).length) return filtered;
+        }
         const leads = getLeadsInPerformancePeriod(period).filter(
           (row) => getCellValue(row, "standort") === gebiet,
         );
         const map = {};
-        TENANT_MITARBEITER.forEach((mitarbeiter) => {
+        assigned.forEach((mitarbeiter) => {
           const maLeads = leads.filter((row) => getCellValue(row, "zustandigkeit") === mitarbeiter);
           if (!maLeads.length) return;
           const produkt = {};
@@ -9319,11 +10114,20 @@
           });
           products.forEach((product) => {
             const productLeads = maLeads.filter((row) => getCellValue(row, "bedarf") === product);
-            const value = computeGroupMetricFromLeads(productLeads, metric);
+            const preferred = node?.mitarbeiter?.[mitarbeiter]?.produkt?.[product];
+            const value = resolveMetricValue(productLeads, metric, period, "produkt", product, preferred);
             if (value != null) produkt[product] = value;
           });
-          const value = metricValueForLeadGroup(maLeads, metric, period, "mitarbeiter", mitarbeiter);
-          map[mitarbeiter] = { value: value ?? 0, produkt };
+          const preferredMa = node?.mitarbeiter?.[mitarbeiter]?.value;
+          const value = resolveMetricValue(
+            maLeads,
+            metric,
+            period,
+            "mitarbeiter",
+            mitarbeiter,
+            preferredMa,
+          );
+          map[mitarbeiter] = { value: value ?? preferredMa ?? 0, produkt };
         });
         return map;
       }
@@ -9331,7 +10135,10 @@
       function getHierarchyRows(metric, period, level, gebietFilters, detailLevel, mitarbeiterFilter = []) {
         const tree = getPerfHierarchy(metric, period) || {};
         const rows = [];
-        const showChildren = detailLevel === "detail";
+        const showMitarbeiter = level === "gebiet-mitarbeiter" || level === "gebiet-mitarbeiter-produkt";
+        const showProduktUnderMitarbeiter =
+          level === "gebiet-mitarbeiter-produkt" && detailLevel === "detail";
+        const showProduktUnderGebiet = level === "gebiet-produkt";
         const employeeFilter = asFilterArray(mitarbeiterFilter);
 
         getGebietKeys(metric, period).forEach((gebiet) => {
@@ -9340,72 +10147,136 @@
           const gebietLeads = getLeadsInPerformancePeriod(period).filter(
             (row) => getCellValue(row, "standort") === gebiet,
           );
-          const value =
+          const mitarbeiterMap = getMitarbeiterMapForGebiet(metric, period, gebiet, node);
+          const maPrepared = [];
+
+          Object.entries(mitarbeiterMap).forEach(([mitarbeiter, maNode]) => {
+            if (employeeFilter.length && !employeeFilter.includes(mitarbeiter)) return;
+            const maLeads = gebietLeads.filter(
+              (row) => getCellValue(row, "zustandigkeit") === mitarbeiter,
+            );
+            const maValue = resolveMetricValue(
+              maLeads,
+              metric,
+              period,
+              "mitarbeiter",
+              mitarbeiter,
+              maNode?.value,
+            );
+            maPrepared.push({ mitarbeiter, maNode, maLeads, maValue });
+          });
+
+          let gebietValue =
             metricValueForLeadGroup(gebietLeads, metric, period, "gebiet", gebiet) ??
             node?.value ??
+            lookupPerfFlatValue(metric, period, "gebiet", gebiet) ??
             null;
-          if (value == null && !gebietLeads.length && !node) return;
+          if (maPrepared.length) {
+            const fromEmployees = weightedAverageMetricValues(
+              maPrepared.map((entry) => ({
+                value: entry.maValue,
+                weight: entry.maLeads.length,
+              })),
+            );
+            if (fromEmployees != null) gebietValue = fromEmployees;
+          }
 
           rows.push({
             label: gebiet,
-            value: value ?? 0,
+            value: gebietValue ?? 0,
             kind: "gebiet",
             depth: 0,
             path: gebiet,
           });
 
-          if (level === "gebiet" || !showChildren) return;
+          if (level === "gebiet") return;
 
-          if (level === "gebiet-produkt") {
-            Object.entries(getProduktMapForGebiet(metric, period, gebiet, node)).forEach(
-              ([produkt, produktValue]) => {
+          if (showProduktUnderGebiet) {
+            const produktMap = getProduktMapForGebiet(metric, period, gebiet, node);
+            if (Object.keys(produktMap).length) {
+              Object.entries(produktMap).forEach(([produkt, produktValue]) => {
+                const produktLeads = gebietLeads.filter((row) => getCellValue(row, "bedarf") === produkt);
+                const value = resolveMetricValue(
+                  produktLeads,
+                  metric,
+                  period,
+                  "produkt",
+                  produkt,
+                  produktValue,
+                );
                 rows.push({
                   label: produkt,
-                  value: produktValue,
+                  value: value ?? produktValue ?? 0,
                   kind: "produkt",
                   depth: 1,
                   parent: gebiet,
                   path: `${gebiet} · ${produkt}`,
                 });
-              },
-            );
+              });
+            }
             return;
           }
 
-          Object.entries(getMitarbeiterMapForGebiet(metric, period, gebiet, node)).forEach(
-            ([mitarbeiter, maNode]) => {
-              if (employeeFilter.length && !employeeFilter.includes(mitarbeiter)) return;
-              const maLeads = gebietLeads.filter(
-                (row) => getCellValue(row, "zustandigkeit") === mitarbeiter,
+          if (!showMitarbeiter) return;
+
+          if (!maPrepared.length) {
+            const produktMapFallback = getProduktMapForGebiet(metric, period, gebiet, node);
+            Object.entries(produktMapFallback).forEach(([produkt, produktValue]) => {
+              const produktLeads = gebietLeads.filter((row) => getCellValue(row, "bedarf") === produkt);
+              const value = resolveMetricValue(
+                produktLeads,
+                metric,
+                period,
+                "produkt",
+                produkt,
+                produktValue,
               );
-              const maValue =
-                metricValueForLeadGroup(maLeads, metric, period, "mitarbeiter", mitarbeiter) ??
-                maNode?.value ??
-                0;
               rows.push({
-                label: mitarbeiter,
-                value: maValue,
-                kind: "mitarbeiter",
+                label: produkt,
+                value: value ?? produktValue ?? 0,
+                kind: "produkt",
                 depth: 1,
                 parent: gebiet,
-                path: `${gebiet} · ${mitarbeiter}`,
+                path: `${gebiet} · ${produkt}`,
               });
+            });
+            return;
+          }
 
-              if (level === "gebiet-mitarbeiter-produkt" && showChildren && maNode?.produkt) {
-                Object.entries(maNode.produkt).forEach(([produkt, produktValue]) => {
-                  rows.push({
-                    label: produkt,
-                    value: produktValue,
-                    kind: "produkt",
-                    depth: 2,
-                    parent: mitarbeiter,
-                    gebiet,
-                    path: `${gebiet} · ${mitarbeiter} · ${produkt}`,
-                  });
+          maPrepared.forEach(({ mitarbeiter, maNode, maLeads, maValue }) => {
+            rows.push({
+              label: mitarbeiter,
+              value: maValue ?? 0,
+              kind: "mitarbeiter",
+              depth: 1,
+              parent: gebiet,
+              path: mitarbeiter,
+            });
+
+            if (showProduktUnderMitarbeiter) {
+              const produktEntries = maNode?.produkt || {};
+              Object.entries(produktEntries).forEach(([produkt, produktPreferred]) => {
+                const produktLeads = maLeads.filter((row) => getCellValue(row, "bedarf") === produkt);
+                const produktValue = resolveMetricValue(
+                  produktLeads,
+                  metric,
+                  period,
+                  "produkt",
+                  produkt,
+                  produktPreferred,
+                );
+                rows.push({
+                  label: produkt,
+                  value: produktValue ?? produktPreferred ?? 0,
+                  kind: "produkt",
+                  depth: 2,
+                  parent: mitarbeiter,
+                  gebiet,
+                  path: `${mitarbeiter} · ${produkt}`,
                 });
-              }
-            },
-          );
+              });
+            }
+          });
         });
 
         return rows;
@@ -9421,27 +10292,22 @@
 
       function isPerfConsolidatedRow(row, options = {}) {
         if (row.kind === "gebiet") return true;
-        if (row.kind === "mitarbeiter" && row.depth === 0) return true;
+        if (row.kind === "mitarbeiter" && (row.depth == null || row.depth === 0)) return true;
+        if (row.kind === "produkt" && (row.depth == null || row.depth === 0)) return true;
         if (row.kind === "flat" && options.consolidatedFlat) return true;
         return false;
       }
 
       function isPerfBreakdownRow(row) {
-        return row.kind === "mitarbeiter" || row.kind === "produkt" || (row.depth != null && row.depth >= 1);
+        return row.depth != null && row.depth >= 1;
       }
 
       function getPerfRowContext(row) {
         if (row.sublabel != null && String(row.sublabel).trim() !== "") {
           return String(row.sublabel).trim();
         }
-        if (row.kind === "gebiet" || row.kind === "flat") return "";
-        if (row.kind === "mitarbeiter") return row.parent || "";
-        if (row.kind === "produkt") {
-          const parts = [];
-          if (row.gebiet) parts.push(row.gebiet);
-          if (row.parent && row.parent !== row.gebiet) parts.push(row.parent);
-          else if (row.parent && !row.gebiet) parts.push(row.parent);
-          return parts.join(" · ");
+        if (row.kind === "gebiet" || row.kind === "flat" || row.kind === "mitarbeiter" || row.kind === "produkt") {
+          return "";
         }
         return row.parent || "";
       }
@@ -9466,6 +10332,7 @@
 
       function renderPerfBarChart(container, rows, metric, options = {}) {
         if (!container) return;
+        container.classList.remove("has-table");
         if (options.leanHierarchy) container.classList.add("is-lean-hierarchy");
         else container.classList.remove("is-lean-hierarchy");
         const meta = PERF_METRIC_META[metric];
@@ -9477,41 +10344,97 @@
           container.innerHTML = '<p class="stats-perf-empty">Keine Daten für den gewählten Zeitraum.</p>';
           return;
         }
-        const sized = calcBarWidths(rows, metric, refValue);
+        const dataRows = filterPerfDisplayRows(rows).filter((row) => row.kind !== "combo-header");
+        const sized = calcBarWidths(dataRows, metric, refValue);
+        const sizedByKey = new Map(
+          sized.map((row) => [`${row.kind}|${row.path}|${row.label}|${row.depth}`, row]),
+        );
         const leanHierarchy = options.leanHierarchy === true;
-        container.innerHTML = sized
+        container.innerHTML = rows
           .map((row) => {
-            const displayLabel = row.label || row.path || "";
-            const context = leanHierarchy ? "" : getPerfRowContext(row);
+            if (row.kind === "combo-header") {
+              return `<div class="stats-perf-combo-section-head">${row.label}</div>`;
+            }
+            const sizedRow =
+              sizedByKey.get(`${row.kind}|${row.path}|${row.label}|${row.depth}`) || row;
+            const displayLabel = sizedRow.label || sizedRow.path || "";
+            const context = leanHierarchy
+              ? ""
+              : sizedRow.sublabel != null && String(sizedRow.sublabel).trim() !== ""
+                ? String(sizedRow.sublabel).trim()
+                : getPerfRowContext(sizedRow);
             const sub = context ? `<small>${context}</small>` : "";
             const depthClass =
-              row.depth === 1 ? " is-depth-1" : row.depth === 2 ? " is-depth-2" : "";
-            const tierClass = isPerfConsolidatedRow(row, options)
+              sizedRow.depth === 1 ? " is-depth-1" : sizedRow.depth === 2 ? " is-depth-2" : "";
+            const tierClass = isPerfConsolidatedRow(sizedRow, options)
               ? " is-consolidated"
-              : isPerfBreakdownRow(row)
+              : isPerfBreakdownRow(sizedRow)
                 ? " is-breakdown"
                 : "";
             const labelClass = `stats-bar-label${depthClass}`;
-            return `<div class="stats-bar-row dense${tierClass}">
+            const comboFill =
+              sizedRow.comboIndex != null ? ` combo-${sizedRow.comboIndex % PERF_COMBO_COLORS.length}` : fillExtra;
+            return `<div class="stats-bar-row dense${tierClass}${depthClass}">
               <span class="${labelClass}">${displayLabel}${sub}</span>
               <div class="stats-bar-track">
-                <div class="stats-bar-fill ${fillClass}${fillExtra}" style="width:${row.width}%"></div>
+                <div class="stats-bar-fill ${fillClass}${comboFill}" style="width:${sizedRow.width}%"></div>
               </div>
-              <span class="stats-bar-value">${formatPerfValue(metric, row.value)}</span>
+              <span class="stats-bar-value">${formatPerfValue(metric, sizedRow.value)}</span>
             </div>`;
           })
           .join("");
       }
 
+      function escapePerfHtml(text) {
+        return String(text ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function perfViewColLabel(view) {
+        if (view === "gebiet") return "Gebiet";
+        if (view === "mitarbeiter") return "Mitarbeiter";
+        if (view === "produkt") return "Produkt";
+        return "Eintrag";
+      }
+
+      function getPerfSegmentVizMode(segment) {
+        const state = perfSegmentState.get(segment);
+        return state?.vizMode === "table" ? "table" : "bars";
+      }
+
+      function syncPerfVizToggleUi(segment, mode) {
+        if (!segment) return;
+        const activeMode = mode === "table" ? "table" : "bars";
+        segment.querySelectorAll(".stats-perf-viz-btn[data-viz-mode]").forEach((btn) => {
+          const isActive = btn.dataset.vizMode === activeMode;
+          btn.classList.toggle("is-active", isActive);
+          btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+        });
+      }
+
+      function renderPerfViz(container, rows, metric, colLabel, mode, options = {}) {
+        if (!container) return;
+        container.classList.toggle("has-table", mode === "table");
+        if (mode === "table") {
+          renderPerfTable(container, rows, colLabel, metric, options);
+        } else {
+          renderPerfBarChart(container, rows, metric, options);
+        }
+      }
+
       function renderPerfTable(mount, rows, colLabel, metric, options = {}) {
         if (!mount) return;
         const meta = PERF_METRIC_META[metric];
-        if (!rows.length) {
-          mount.innerHTML = "";
+        const dataRows = filterPerfDisplayRows(rows).filter((row) => row.kind !== "combo-header");
+        if (!dataRows.length) {
+          mount.innerHTML = '<p class="stats-perf-empty">Keine Daten für den gewählten Zeitraum.</p>';
           return;
         }
         const leanHierarchy = options.leanHierarchy === true;
-        const body = rows
+        const body = dataRows
           .map((row) => {
             let cls = "";
             if (leanHierarchy) {
@@ -9529,49 +10452,85 @@
             } else if (row.kind === "produkt") {
               cls = "is-product";
             }
-            const cellLabel = row.label || row.path || "";
+            const cellLabel = escapePerfHtml(row.label || row.path || "");
             const context = leanHierarchy ? "" : getPerfRowContext(row);
             const cellHtml = context
-              ? `${cellLabel}<span class="stats-perf-cell-context">${context}</span>`
+              ? `${cellLabel}<span class="stats-perf-cell-context">${escapePerfHtml(context)}</span>`
               : cellLabel;
-            return `<tr class="${cls}"><td>${cellHtml}</td><td class="num">${formatPerfValue(metric, row.value)}</td></tr>`;
+            return `<tr class="${cls}"><td>${cellHtml}</td><td class="spacer" aria-hidden="true"></td><td class="num">${formatPerfValue(metric, row.value)}</td></tr>`;
           })
           .join("");
-        mount.innerHTML = `<div class="stats-perf-table-wrap"><table class="stats-perf-table"><thead><tr><th>${colLabel}</th><th class="num">${meta.column}</th></tr></thead><tbody>${body}</tbody></table></div>`;
+        mount.innerHTML = `<div class="stats-perf-table-wrap"><table class="stats-perf-table"><colgroup><col class="col-label" /><col class="col-spacer" /><col class="col-value" /></colgroup><thead><tr><th>${escapePerfHtml(colLabel)}</th><th class="spacer" aria-hidden="true"></th><th class="num">${escapePerfHtml(meta.column)}</th></tr></thead><tbody>${body}</tbody></table></div>`;
+      }
+
+      const PERF_KPI_REF_IDS = {
+        conversion: "perfKpiConversion",
+        complaints: "perfKpiComplaints",
+        investment: "perfKpiInvestment",
+      };
+
+      function getPerfSegmentRefValue(metric) {
+        const kpiId = PERF_KPI_REF_IDS[metric];
+        if (!kpiId) return null;
+        return parsePerfSummaryValue(metric, document.getElementById(kpiId)?.textContent);
+      }
+
+      function removePerfConsolidatedSummaryBlocks(root = document) {
+        root.querySelectorAll(".stats-perf-consolidated").forEach((el) => el.remove());
+      }
+
+      function filterPerfDisplayRows(rows) {
+        return rows.filter((row) => {
+          if (row.kind === "consolidated-summary" || row.kind === "consolidated-ref") return false;
+          const label = String(row.label || row.path || "").trim();
+          return label.toLowerCase() !== "konsolidiert";
+        });
       }
 
       function renderSimpleDimensionFold(segment, metric, period, view) {
         const fold = segment.querySelector(`[data-perf-view="${view}"]`);
         if (!fold) return;
-        const rows = getDimensionFoldRows(metric, period, view);
-        const refText = segment.querySelector(".stats-perf-consolidated-value")?.textContent;
-        const refValue = parsePerfSummaryValue(metric, refText);
+        let rows = filterPerfDisplayRows(getDimensionFoldRows(metric, period, view));
+        const refValue = getPerfSegmentRefValue(metric);
         const chartOptions = {
           refValue,
-          consolidatedFlat: view === "gebiet" || view === "mitarbeiter",
+          consolidatedFlat: true,
         };
-        renderPerfBarChart(fold.querySelector(".stats-perf-viz"), rows, metric, chartOptions);
+        const vizMode = getPerfSegmentVizMode(segment);
+        renderPerfViz(
+          fold.querySelector(".stats-perf-viz"),
+          rows,
+          metric,
+          perfViewColLabel(view),
+          vizMode,
+          chartOptions,
+        );
       }
 
-      function buildStatsMultiSelectHtml(dimension, fieldLabel, placeholder, options, selected) {
+      function buildStatsMultiSelectHtml(dimension, fieldLabel, placeholder, options, selected, disabled = false) {
         const selectedList = asFilterArray(selected);
         const noneSelected = isComboFilterNone(selectedList);
         const allSelected = !noneSelected && isFilterAllSelected(selectedList, options);
         const selectedSet = new Set(selectedList);
-        const summary = multiSelectTriggerLabel(selectedList, options, placeholder);
+        const summary = disabled
+          ? "Nicht verfügbar"
+          : multiSelectTriggerLabel(selectedList, options, placeholder);
         const optionsHtml = options
           .map((option) => {
             const safe = option.replace(/"/g, "&quot;");
             const checked = !noneSelected && (allSelected || selectedSet.has(option)) ? " checked" : "";
+            const inputDisabled = disabled ? " disabled" : "";
             return `<label class="stats-multi-select-option">
-              <input type="checkbox" class="perf-combo-${dimension}-cb" value="${safe}"${checked} />
+              <input type="checkbox" class="perf-combo-${dimension}-cb" value="${safe}"${checked}${inputDisabled} />
               <span>${option}</span>
             </label>`;
           })
           .join("");
-        return `<div class="stats-multi-select" data-multi-dimension="${dimension}" data-placeholder="${placeholder.replace(/"/g, "&quot;")}">
+        const disabledClass = disabled ? " is-disabled" : "";
+        const triggerDisabled = disabled ? " disabled" : "";
+        return `<div class="stats-multi-select${disabledClass}" data-multi-dimension="${dimension}" data-placeholder="${placeholder.replace(/"/g, "&quot;")}"${disabled ? ' data-filter-disabled="1"' : ""}>
             <span class="stats-multi-select-field-label">${fieldLabel}</span>
-            <button type="button" class="stats-multi-select-trigger" aria-expanded="false" aria-haspopup="listbox">
+            <button type="button" class="stats-multi-select-trigger" aria-expanded="false" aria-haspopup="listbox"${triggerDisabled}${disabled ? ' title="Bei dieser Analyseebene nicht verfügbar"' : ""}>
               <span class="stats-multi-select-trigger-text">${summary}</span>
               <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
             </button>
@@ -9606,23 +10565,155 @@
         });
       }
 
-      function applyComboFiltersFromCard(card, segment, combo) {
-        const metric = segment.dataset.perfMetric;
-        const period = getPerformancePeriod();
+      function defaultPerfSegmentState() {
+        return {
+          vizMode: "bars",
+          draft: {
+            level: "gebiet-mitarbeiter",
+            detailLevel: "detail",
+            filters: defaultComboFilters(),
+            name: "",
+          },
+          selected: [],
+        };
+      }
+
+      function normalizePerfSegmentState(state, metric, period) {
+        if (state.combos && !state.selected) {
+          state.selected = state.combos;
+          delete state.combos;
+        }
+        if (!state.draft) {
+          state.draft = defaultPerfSegmentState().draft;
+        }
+        if (!state.selected) state.selected = [];
+        if (state.vizMode === "pie") state.vizMode = "bars";
+        if (state.vizMode !== "table" && state.vizMode !== "bars") {
+          state.vizMode = "bars";
+        }
+        state.draft = normalizePerfCombo({ ...state.draft }, metric, period);
+        state.selected = state.selected.map((combo) => normalizePerfCombo({ ...combo }, metric, period));
+        return state;
+      }
+
+      function getComboConfiguratorRoot(segment) {
+        return segment.querySelector(".stats-perf-combo-configurator");
+      }
+
+      function readDraftFromConfigurator(segment, metric, period) {
+        const root = getComboConfiguratorRoot(segment);
+        if (!root) return defaultPerfSegmentState().draft;
+        const draft = {
+          level: root.querySelector(".perf-combo-level")?.value || "gebiet-mitarbeiter",
+          name: root.querySelector(".perf-combo-name")?.value?.trim() || "",
+          detailLevel: "detail",
+          filters: defaultComboFilters(),
+        };
         const gebietKeys = getGebietKeys(metric, period);
-        combo.filters.gebiet = readMultiFilterFromCard(card, "gebiet", gebietKeys);
-        const maKeys = getMitarbeiterKeysForCombo(metric, period, combo.filters.gebiet);
-        combo.filters.mitarbeiter = readMultiFilterFromCard(card, "mitarbeiter", maKeys);
+        draft.filters.gebiet = readMultiFilterFromCard(root, "gebiet", gebietKeys);
+        const maKeys = getMitarbeiterKeysForCombo(metric, period, draft.filters.gebiet);
+        draft.filters.mitarbeiter = readMultiFilterFromCard(root, "mitarbeiter", maKeys);
         const produktKeys = getProduktKeysForCombo(
           metric,
           period,
-          combo.filters.gebiet,
-          combo.filters.mitarbeiter,
+          draft.filters.gebiet,
+          draft.filters.mitarbeiter,
         );
-        combo.filters.produkt = readMultiFilterFromCard(card, "produkt", produktKeys);
-        normalizeComboFilters(combo, metric, period);
-        syncComboLevelForFilters(combo, metric, period);
-        refreshPerformanceSegment(segment);
+        draft.filters.produkt = readMultiFilterFromCard(root, "produkt", produktKeys);
+        return normalizePerfCombo(draft, metric, period);
+      }
+
+      function syncDraftFromConfigurator(segment, metric, period) {
+        const state = perfSegmentState.get(segment);
+        if (!state) return;
+        Object.assign(state.draft, readDraftFromConfigurator(segment, metric, period));
+      }
+
+      function getOpenComboMultiDimensions(segment) {
+        const root = getComboConfiguratorRoot(segment);
+        if (!root) return [];
+        return [...root.querySelectorAll(".stats-multi-select.is-open")]
+          .map((el) => el.dataset.multiDimension)
+          .filter(Boolean);
+      }
+
+      function restoreOpenComboMultiSelects(segment, dimensions) {
+        const root = getComboConfiguratorRoot(segment);
+        if (!root || !dimensions.length) return;
+        dimensions.forEach((dimension) => {
+          const multi = root.querySelector(
+            `.stats-multi-select[data-multi-dimension="${dimension}"]`,
+          );
+          if (!multi || multi.dataset.filterDisabled === "1") return;
+          multi.classList.add("is-open");
+          const trigger = multi.querySelector(".stats-multi-select-trigger");
+          const panelEl = multi.querySelector(".stats-multi-select-panel");
+          if (trigger) trigger.setAttribute("aria-expanded", "true");
+          if (panelEl) panelEl.hidden = false;
+        });
+      }
+
+      function applyComboFiltersFromConfigurator(segment) {
+        const metric = segment.dataset.perfMetric;
+        const period = getPerformancePeriod();
+        const state = perfSegmentState.get(segment);
+        if (!state) return;
+        const openDimensions = getOpenComboMultiDimensions(segment);
+        syncDraftFromConfigurator(segment, metric, period);
+        state.draft = normalizePerfCombo(state.draft, metric, period);
+        renderComboConfigurator(segment, metric, period, state.draft);
+        restoreOpenComboMultiSelects(segment, openDimensions);
+      }
+
+      function applyComboCompareFromConfigurator(segment) {
+        const metric = segment.dataset.perfMetric;
+        const period = getPerformancePeriod();
+        const state = perfSegmentState.get(segment);
+        if (!state) return;
+        syncDraftFromConfigurator(segment, metric, period);
+        state.draft = normalizePerfCombo(state.draft, metric, period);
+        if (!isComboCompareReady(state.draft.filters, state.draft.level)) {
+          syncComboCompareButtonState(segment, state.draft);
+          return;
+        }
+        state.selected = [cloneCombo(state.draft)];
+        renderComboResults(segment, metric, period);
+      }
+
+      function cloneCombo(combo) {
+        return {
+          level: combo.level,
+          detailLevel: combo.detailLevel,
+          name: combo.name,
+          filters: {
+            gebiet: [...asFilterArray(combo.filters?.gebiet)],
+            mitarbeiter: [...asFilterArray(combo.filters?.mitarbeiter)],
+            produkt: [...asFilterArray(combo.filters?.produkt)],
+          },
+        };
+      }
+
+      function getSelectedComboDisplayRows(selected, metric, period) {
+        const rows = [];
+        selected.forEach((combo, comboIndex) => {
+          const comboLabel = combo.name || hierarchyLevelLabel(combo.level);
+          rows.push({
+            kind: "combo-header",
+            label: comboLabel,
+            depth: -1,
+            comboIndex,
+            value: null,
+            width: 0,
+          });
+          getComboHierarchyRows(combo, metric, period).forEach((row) => {
+            rows.push({
+              ...row,
+              sublabel: comboRowSublabel(row, combo.level),
+              comboIndex,
+            });
+          });
+        });
+        return rows;
       }
 
       function updateStatsMultiSelectTrigger(multiSelectEl, selected, allOptions, placeholder) {
@@ -9643,7 +10734,7 @@
         });
       }
 
-      function buildComboFilterHtml(metric, period, filters) {
+      function buildComboFilterHtml(metric, period, filters, level) {
         const gebietKeys = getGebietKeys(metric, period);
         if (!gebietKeys.length) return "<p class=\"stats-perf-empty\">Keine Filter verfügbar.</p>";
         const gebietSel = asFilterArray(filters?.gebiet);
@@ -9651,96 +10742,74 @@
         const produktSel = asFilterArray(filters?.produkt);
         const maKeys = getMitarbeiterKeysForCombo(metric, period, gebietSel);
         const produktKeys = getProduktKeysForCombo(metric, period, gebietSel, maSel);
+        const produktFilterDisabled = !comboLevelAllowsProduktFilter(level);
         return `<div class="stats-perf-combo-filters">
             ${buildStatsMultiSelectHtml("gebiet", "Gebiet", "Gebiete auswählen", gebietKeys, gebietSel)}
             ${buildStatsMultiSelectHtml("mitarbeiter", "Mitarbeiter", "Mitarbeiter auswählen", maKeys, maSel)}
-            ${buildStatsMultiSelectHtml("produkt", "Produkt", "Produkte auswählen", produktKeys, produktSel)}
+            ${buildStatsMultiSelectHtml("produkt", "Produkt", "Produkte auswählen", produktKeys, produktSel, produktFilterDisabled)}
           </div>`;
       }
 
-      function renderComboCard(segment, metric, period, combo, index) {
-        const normalized = normalizePerfCombo(combo, metric, period);
-        Object.assign(combo, normalized);
-        const rows = getComboPreviewRows(combo, metric, period);
-        const refText = segment.querySelector(".stats-perf-consolidated-value")?.textContent;
-        const refValue = parsePerfSummaryValue(metric, refText);
+      function renderComboConfigurator(segment, metric, period, draft) {
+        const mount = getComboConfiguratorRoot(segment);
+        if (!mount) return;
         const levelOptions = Object.entries(PERF_HIERARCHY_LEVELS)
           .map(
             ([id, meta]) =>
-              `<option value="${id}" ${combo.level === id ? "selected" : ""}>${meta.label}</option>`,
+              `<option value="${id}" ${draft.level === id ? "selected" : ""}>${meta.label}</option>`,
           )
           .join("");
-        const card = document.createElement("article");
-        card.className = "stats-perf-combo-card";
-        card.dataset.comboIndex = String(index);
-        card.innerHTML = `
-          <div class="stats-perf-combo-card-head">
-            <h5 class="stats-perf-combo-card-title">Kombination ${index + 1}</h5>
-            <button type="button" class="stats-perf-combo-remove" aria-label="Kombination entfernen">Entfernen</button>
-          </div>
+        mount.innerHTML = `
           <div class="stats-perf-combo-config">
             <label class="stats-perf-combo-field">Name
-              <input type="text" class="perf-combo-name" value="${(combo.name || hierarchyLevelLabel(combo.level)).replace(/"/g, "&quot;")}" maxlength="48" />
+              <input type="text" class="perf-combo-name" value="${(draft.name || hierarchyLevelLabel(draft.level)).replace(/"/g, "&quot;")}" maxlength="48" />
             </label>
             <label class="stats-perf-combo-field">Analyseebene
               <select class="perf-combo-level">${levelOptions}</select>
             </label>
           </div>
-          ${buildComboFilterHtml(metric, period, combo.filters)}
-          <div class="stats-perf-combo-preview">
-            <h5>Vorschau</h5>
-            <div class="stats-perf-viz perf-combo-viz"></div>
+          ${buildComboFilterHtml(metric, period, draft.filters, draft.level)}
+          <div class="stats-perf-combo-compare-wrap">
+            <button type="button" class="btn btn-primary stats-perf-combo-compare" disabled>Jetzt vergleichen</button>
           </div>`;
-        renderPerfBarChart(card.querySelector(".perf-combo-viz"), rows, metric, {
-          comboIndex: index,
+        syncComboCompareButtonState(segment, draft);
+      }
+
+      function renderComboResults(segment, metric, period) {
+        const state = perfSegmentState.get(segment);
+        const viz = segment.querySelector(".stats-perf-combo-results-viz");
+        if (!viz || !state) return;
+        const selected = state.selected || [];
+        const refValue = getPerfSegmentRefValue(metric);
+        if (!selected.length) {
+          viz.innerHTML =
+            '<p class="stats-perf-empty">Wählen Sie Analyseebene und Filter und klicken Sie auf „Jetzt vergleichen“.</p>';
+          return;
+        }
+        const rows = filterPerfDisplayRows(getSelectedComboDisplayRows(selected, metric, period));
+        const level = selected[0]?.level || "gebiet-mitarbeiter";
+        renderPerfBarChart(viz, rows, metric, {
           refValue,
-          leanHierarchy: true,
+          leanHierarchy: false,
         });
-        return card;
       }
 
       function refreshPerformanceSegment(segment) {
         const metric = segment.dataset.perfMetric;
         if (!metric) return;
+        ensurePerfExportBar(segment);
+        removePerfConsolidatedSummaryBlocks(segment);
         const period = getPerformancePeriod();
         let state = perfSegmentState.get(segment);
         if (!state) {
-          state = {
-            combos: [
-              {
-                level: "gebiet-mitarbeiter",
-                detailLevel: "detail",
-                filters: defaultComboFilters(),
-                name: "",
-              },
-              {
-                level: "gebiet-mitarbeiter-produkt",
-                detailLevel: "detail",
-                filters: defaultComboFilters(),
-                name: "",
-              },
-              {
-                level: "gebiet-produkt",
-                detailLevel: "detail",
-                filters: defaultComboFilters(),
-                name: "",
-              },
-            ],
-          };
+          state = defaultPerfSegmentState();
           perfSegmentState.set(segment, state);
         }
-        state.combos = state.combos.map((combo) => normalizePerfCombo(combo, metric, period));
-        state.combos.forEach((combo) => {
-          normalizePerfCombo(combo, metric, period);
-        });
+        normalizePerfSegmentState(state, metric, period);
+        syncPerfVizToggleUi(segment, state.vizMode);
         ["gebiet", "mitarbeiter", "produkt"].forEach((view) => renderSimpleDimensionFold(segment, metric, period, view));
-        const list = segment.querySelector(".stats-perf-combo-list");
-        const addBtn = segment.querySelector(".stats-perf-combo-add");
-        if (list) {
-          list.innerHTML = "";
-          state.combos.forEach((combo, idx) => list.appendChild(renderComboCard(segment, metric, period, combo, idx)));
-        }
-        if (addBtn) addBtn.disabled = state.combos.length >= PERF_MAX_COMBOS;
+        renderComboConfigurator(segment, metric, period, state.draft);
+        renderComboResults(segment, metric, period);
       }
 
       function refreshAllPerformanceSegments() {
@@ -9756,31 +10825,135 @@
         renderSimpleDimensionFold(segment, segment.dataset.perfMetric, getPerformancePeriod(), view);
       }
 
+      const PERF_DETAIL_DEFAULT_ORDER = ["conversion", "complaints", "investment"];
+      let perfDetailOpenOrder = [];
+
+      function applyPerfDetailStackOrder() {
+        const stack = document.querySelector("#statsPanelPerformance .stats-performance-stack");
+        if (!stack) return;
+        const byMetric = new Map(
+          [...stack.querySelectorAll(".stats-perf-segment[data-perf-metric]")].map((segment) => [
+            segment.dataset.perfMetric,
+            segment,
+          ]),
+        );
+        const ordered = [
+          ...perfDetailOpenOrder.map((metric) => byMetric.get(metric)).filter(Boolean),
+          ...PERF_DETAIL_DEFAULT_ORDER.filter((metric) => !perfDetailOpenOrder.includes(metric))
+            .map((metric) => byMetric.get(metric))
+            .filter(Boolean),
+        ];
+        ordered.forEach((segment) => stack.appendChild(segment));
+      }
+
+      function syncPerfDetailUi() {
+        const panel = document.getElementById("statsPanelPerformance");
+        if (!panel) return;
+        panel.querySelectorAll(".stats-perf-kpi-card").forEach((card) => {
+          const metric = card.dataset.perfMetric;
+          const isOpen = perfDetailOpenOrder.includes(metric);
+          card.classList.toggle("is-detail-open", isOpen);
+          const btn = card.querySelector(".stats-perf-detail-btn");
+          if (btn) btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+      }
+
+      function openPerfDetail(metric) {
+        const panel = document.getElementById("statsPanelPerformance");
+        if (!panel || !metric) return;
+        perfDetailOpenOrder = perfDetailOpenOrder.filter((m) => m !== metric);
+        perfDetailOpenOrder.push(metric);
+        const segment = panel.querySelector(`.stats-perf-segment[data-perf-metric="${metric}"]`);
+        if (!segment) return;
+        segment.classList.remove("is-detail-hidden");
+        refreshPerformanceSegment(segment);
+        applyPerfDetailStackOrder();
+        syncPerfDetailUi();
+        segment.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function closePerfDetail(metric) {
+        const panel = document.getElementById("statsPanelPerformance");
+        if (!panel) return;
+        if (metric) {
+          perfDetailOpenOrder = perfDetailOpenOrder.filter((m) => m !== metric);
+          const segment = panel.querySelector(`.stats-perf-segment[data-perf-metric="${metric}"]`);
+          segment?.classList.add("is-detail-hidden");
+        } else {
+          perfDetailOpenOrder = [];
+          panel.querySelectorAll(".stats-perf-segment[data-perf-metric]").forEach((segment) => {
+            segment.classList.add("is-detail-hidden");
+          });
+        }
+        applyPerfDetailStackOrder();
+        syncPerfDetailUi();
+      }
+
       function initPerformanceSegments() {
         const panel = document.getElementById("statsPanelPerformance");
         if (!panel) return;
+        openPerfDetail("conversion");
         panel.addEventListener("toggle", (event) => {
           const fold = event.target.closest(".stats-perf-fold[data-perf-view]");
           if (fold) renderPerformanceFoldOnOpen(fold);
         });
         panel.addEventListener("click", (event) => {
+          const detailCloseBtn = event.target.closest(".stats-perf-detail-close");
+          if (detailCloseBtn) {
+            const segment = detailCloseBtn.closest(".stats-perf-segment[data-perf-metric]");
+            closePerfDetail(segment?.dataset.perfMetric);
+            return;
+          }
+          const detailOpenBtn = event.target.closest(".stats-perf-detail-btn");
+          if (detailOpenBtn) {
+            const metric = detailOpenBtn.dataset.perfMetric;
+            const panelEl = document.getElementById("statsPanelPerformance");
+            const segment = panelEl?.querySelector(
+              `.stats-perf-segment[data-perf-metric="${metric}"]`,
+            );
+            const isOpen = segment && !segment.classList.contains("is-detail-hidden");
+            if (isOpen) {
+              closePerfDetail(metric);
+            } else {
+              openPerfDetail(metric);
+            }
+            return;
+          }
+          const exportBtn = event.target.closest(".stats-perf-export-btn");
+          if (exportBtn) {
+            const segment = exportBtn.closest(".stats-perf-segment[data-perf-metric]");
+            if (segment) exportPerformanceSegmentCsv(segment);
+            return;
+          }
+          const vizBtn = event.target.closest(".stats-perf-viz-btn[data-viz-mode]");
+          if (vizBtn) {
+            const segment = vizBtn.closest(".stats-perf-segment[data-perf-metric]");
+            if (!segment) return;
+            const mode = vizBtn.dataset.vizMode;
+            let state = perfSegmentState.get(segment);
+            if (!state) {
+              state = defaultPerfSegmentState();
+              perfSegmentState.set(segment, state);
+            }
+            state.vizMode = mode === "table" ? "table" : "bars";
+            syncPerfVizToggleUi(segment, state.vizMode);
+            refreshPerformanceSegment(segment);
+            return;
+          }
           const toggleAllBtn = event.target.closest(".stats-multi-select-toggle-all");
           if (toggleAllBtn) {
             event.preventDefault();
             const multi = toggleAllBtn.closest(".stats-multi-select");
-            const card = multi?.closest(".stats-perf-combo-card");
-            const segment = card?.closest(".stats-perf-segment[data-perf-metric]");
-            const state = segment && perfSegmentState.get(segment);
-            const combo = state && card ? state.combos[Number(card.dataset.comboIndex)] : null;
-            if (!multi || !card || !segment || !combo) return;
+            const segment = multi?.closest(".stats-perf-segment[data-perf-metric]");
+            if (!multi || !segment) return;
             toggleStatsMultiSelectAll(multi);
-            applyComboFiltersFromCard(card, segment, combo);
+            applyComboFiltersFromConfigurator(segment);
             return;
           }
           const trigger = event.target.closest(".stats-multi-select-trigger");
           if (trigger) {
             const multi = trigger.closest(".stats-multi-select");
-            if (!multi) return;
+            if (!multi || multi.dataset.filterDisabled === "1") return;
             const open = !multi.classList.contains("is-open");
             closeAllStatsMultiSelects(open ? multi : null);
             multi.classList.toggle("is-open", open);
@@ -9792,77 +10965,45 @@
           if (!event.target.closest(".stats-multi-select")) {
             closeAllStatsMultiSelects();
           }
-          const addBtn = event.target.closest(".stats-perf-combo-add");
-          const removeBtn = event.target.closest(".stats-perf-combo-remove");
+          const compareBtn = event.target.closest(".stats-perf-combo-compare");
           const segment = event.target.closest(".stats-perf-segment[data-perf-metric]");
           if (!segment) return;
-          const state = perfSegmentState.get(segment);
-          if (!state) return;
-          if (addBtn) {
-            if (state.combos.length >= PERF_MAX_COMBOS) return;
-            const metric = segment.dataset.perfMetric;
-            const period = getPerformancePeriod();
-            const levelOrder = [
-              "gebiet-mitarbeiter",
-              "gebiet-mitarbeiter-produkt",
-              "gebiet-produkt",
-            ];
-            const used = new Set(state.combos.map((c) => c.level));
-            const nextLevel = levelOrder.find((l) => !used.has(l)) || "gebiet-produkt";
-            state.combos.push({
-              level: nextLevel,
-              detailLevel: "detail",
-              filters: defaultComboFilters(),
-              name: "",
-            });
-            refreshPerformanceSegment(segment);
+          if (compareBtn) {
+            if (compareBtn.disabled) return;
+            applyComboCompareFromConfigurator(segment);
             return;
-          }
-          if (removeBtn) {
-            const card = removeBtn.closest(".stats-perf-combo-card");
-            const idx = Number(card?.dataset.comboIndex);
-            if (!Number.isFinite(idx)) return;
-            state.combos.splice(idx, 1);
-            refreshPerformanceSegment(segment);
           }
         });
         panel.addEventListener("change", (event) => {
           const segment = event.target.closest(".stats-perf-segment[data-perf-metric]");
           if (!segment) return;
+          const configurator = event.target.closest(".stats-perf-combo-configurator");
+          if (!configurator) return;
           const state = perfSegmentState.get(segment);
           if (!state) return;
-          const card = event.target.closest(".stats-perf-combo-card");
-          if (!card) return;
-          const idx = Number(card.dataset.comboIndex);
-          const combo = state.combos[idx];
-          if (!combo) return;
           const metric = segment.dataset.perfMetric;
           const period = getPerformancePeriod();
           if (event.target.classList.contains("perf-combo-level")) {
-            combo.level = event.target.value;
-            refreshPerformanceSegment(segment);
-            return;
-          }
-          if (event.target.classList.contains("perf-combo-name")) {
-            combo.name = event.target.value;
+            syncDraftFromConfigurator(segment, metric, period);
+            state.draft = normalizePerfCombo(state.draft, metric, period);
+            renderComboConfigurator(segment, metric, period, state.draft);
             return;
           }
           const gebietCb = event.target.classList.contains("perf-combo-gebiet-cb");
           const maCb = event.target.classList.contains("perf-combo-mitarbeiter-cb");
           const produktCb = event.target.classList.contains("perf-combo-produkt-cb");
           if (gebietCb || maCb || produktCb) {
-            applyComboFiltersFromCard(card, segment, combo);
+            event.stopPropagation();
+            applyComboFiltersFromConfigurator(segment);
           }
         });
         panel.addEventListener("input", (event) => {
           if (!event.target.classList.contains("perf-combo-name")) return;
           const segment = event.target.closest(".stats-perf-segment[data-perf-metric]");
-          const state = segment && perfSegmentState.get(segment);
-          const card = event.target.closest(".stats-perf-combo-card");
-          if (!state || !card) return;
-          const combo = state.combos[Number(card.dataset.comboIndex)];
-          if (!combo) return;
-          combo.name = event.target.value;
+          if (!segment || !event.target.closest(".stats-perf-combo-configurator")) return;
+          const state = perfSegmentState.get(segment);
+          if (!state) return;
+          state.draft.name = event.target.value;
         });
         document.addEventListener("click", (event) => {
           if (event.target.closest(".stats-multi-select")) return;
@@ -9887,20 +11028,15 @@
         const conversionEl = document.getElementById("perfKpiConversion");
         const complaintsEl = document.getElementById("perfKpiComplaints");
         const investmentEl = document.getElementById("perfKpiInvestment");
-        const consolidatedConversionEl = document.getElementById("perfConsolidatedConversion");
-        const consolidatedComplaintsEl = document.getElementById("perfConsolidatedComplaints");
-        const consolidatedInvestmentEl = document.getElementById("perfConsolidatedInvestment");
         if (conversionEl) conversionEl.textContent = data.conversion;
         if (complaintsEl) complaintsEl.textContent = data.complaints;
         if (investmentEl) investmentEl.textContent = data.investment;
-        if (consolidatedConversionEl) consolidatedConversionEl.textContent = data.conversion;
-        if (consolidatedComplaintsEl) consolidatedComplaintsEl.textContent = data.complaints;
-        if (consolidatedInvestmentEl) consolidatedInvestmentEl.textContent = data.investment;
         refreshAllPerformanceSegments();
       }
 
       document.getElementById("statsPerformancePeriod")?.addEventListener("change", syncPerformanceSummaryKpis);
       try {
+        removePerfConsolidatedSummaryBlocks();
         initPerformanceSegments();
         syncPerformanceSummaryKpis();
       } catch (perfInitError) {
@@ -10834,25 +11970,26 @@
         const names = buildUniqueDemoNamePairs(count);
         const statuses = ["Neu", "In Bearbeitung", "Gewonnen", "Geschlossen"];
         const priorities = ["Niedrig", "Mittel", "Hoch"];
-        const standorte = [...OVERVIEW_STANDORT_OPTIONS, "Kein Gebiet"];
-        const owners = [...OVERVIEW_OWNER_OPTIONS, "Nicht zugewiesen"];
+        const assignableOwners = TENANT_MITARBEITER;
 
         for (let i = 0; i < count; i++) {
           const person = names[i];
           if (!person) continue;
           const loc = DEMO_BEDARFSORTE[i % DEMO_BEDARFSORTE.length];
           const status = statuses[i % statuses.length];
+          const zustandigkeit = assignableOwners[i % assignableOwners.length];
+          const standort = getEmployeeHomeGebiet(zustandigkeit) || "Kein Gebiet";
           appendDemoLeadRow({
             ref: generateDemoLeadRef(i + 1),
             datum: formatLeadDateDaysAgo(i % 120),
             name: person.display,
             bedarf: bedarfProductForDemoIndex(i, count),
             bedarfsort: `${loc.plz} ${loc.ort}`,
-            standort: standorte[i % standorte.length],
+            standort,
             quelle: quelleForDemoIndex(i, count),
             prioritaet: priorities[i % priorities.length],
             status,
-            zustandigkeit: owners[i % owners.length],
+            zustandigkeit,
           });
         }
         applyColumnConfig();
@@ -11111,7 +12248,7 @@
         openOverviewPage();
       });
 
-      importExtraFieldsBtn.addEventListener("click", () => {
+      importExtraFieldsBtn?.addEventListener("click", () => {
         window.alert(
           "Zusätzliche Felder sind in diesem Prototyp nicht umgesetzt und würden in der späteren Version hier ergänzt.",
         );
@@ -11890,8 +13027,8 @@
       bootstrapApp();
 
       profileUploadBtn?.addEventListener("click", () => profileUploadInput.click());
-      logoUploadBtn.addEventListener("click", () => logoUploadInput.click());
-      profileEditBtn.addEventListener("click", () => {
+      logoUploadBtn?.addEventListener("click", () => logoUploadInput.click());
+      profileEditBtn?.addEventListener("click", () => {
         if (uploadedProfileImage) {
           openCropperWithImageSrc(uploadedProfileImage, "profile", true);
         }
