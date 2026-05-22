@@ -53,3 +53,13 @@ PS C:\Users\VP\.cursor\projects\empty-window> ^C
 PS C:\Users\VP\.cursor\projects\empty-window> git add .
 >> git commit -m "describe your change"
 >> git pushhttps://fontawesome.com/icons/classic/solid/tablegit push
+warning: in the working copy of 'agent-transcripts/50fb4f0c-3231-44a3-86cc-61ff9c678c86/50fb4f0c-3231-44a3-86cc-61ff9c678c86.jsonl', LF will be replaced by CRLF the next time Git touches it     
+warning: in the working copy of 'index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF the next time Gittouches it
+[main 6c4aeab] describe your change
+ 3 files changed, 2119 insertions(+), 586 deletions(-)
+git: 'pushhttps://fontawesome.com/icons/classic/solid/tablegit' is not a git command. See 'git --help'.
+PS C:\Users\VP\.cursor\projects\empty-window> cd "C:\Users\VP\.cursor\projects\empty-window"
+>> git add .
+>> git commit -m "Describe your change here"
+>> git push origin main
