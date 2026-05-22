@@ -36,7 +36,7 @@ warning: in the working copy of 'mcps/cursor-backend-control/tools/list_automati
 warning: in the working copy of 'mcps/cursor-backend-control/tools/update_automation.json', LF will be replaced by CRLF the next time Git touches it
 warning: in the working copy of 'mcps/cursor-ide-browser/INSTRUCTIONS.md', LF will be replaced by CRLF the next time Git touches it
 warning: in the working copy of 'mcps/cursor-ide-browser/SERVER_METADATA.json', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF the next time Gittouches it
+warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF the next time Git touches it
 [main 5e1cc2a] describe your change
  3 files changed, 23 insertions(+), 63 deletions(-)
 Enumerating objects: 22, done.
@@ -75,6 +75,21 @@ Total 12 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
 remote: Resolving deltas: 100% (6/6), completed with 4 local objects.
 To https://github.com/jakobkuntz-gif/Anfragen-Manager.git
    5e1cc2a..3ede561  main -> main
+PS C:\Users\VP\.cursor\projects\empty-window> git add .
+>> git commit -m "describe your change"
+>> git push
+warning: in the working copy of 'terminals/2.txt', LF will be replaced by CRLF the next time Gittouches it
+[main fdc178f] describe your change
+ 1 file changed, 18 insertions(+), 3 deletions(-)
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 14 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 587 bytes | 587.00 KiB/s, done.
+Total 4 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/jakobkuntz-gif/Anfragen-Manager.git
+   3ede561..fdc178f  main -> main
 PS C:\Users\VP\.cursor\projects\empty-window> git add .
 >> git commit -m "describe your change"
 >> git push

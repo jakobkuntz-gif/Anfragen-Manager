@@ -2398,35 +2398,62 @@
 
       .upload-row {
         display: flex;
-        align-items: flex-start;
-        gap: 14px;
+        align-items: center;
+        gap: 16px;
       }
 
       .upload-preview-block {
         display: flex;
         flex-direction: column;
         align-items: center;
+        flex-shrink: 0;
       }
 
       .upload-preview-circle {
-        width: 68px;
-        height: 68px;
+        position: relative;
+        width: 72px;
+        height: 72px;
         border-radius: 999px;
-        display: inline-flex;
+        display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
         background: #5a9fbc;
         color: var(--white);
         font-weight: 700;
         font-size: 24px;
         border: 2px solid #d6e6ee;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        flex-shrink: 0;
+      }
+
+      .upload-preview-circle .upload-preview-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        display: none;
+        border-radius: 50%;
+      }
+
+      .upload-preview-circle.has-image .upload-preview-media {
+        display: block;
+      }
+
+      .upload-preview-circle.has-image .upload-preview-initials {
+        display: none;
+      }
+
+      .upload-preview-initials {
+        position: relative;
+        z-index: 1;
+        line-height: 1;
+        pointer-events: none;
       }
 
       .upload-preview-circle.has-image {
-        color: transparent;
+        background-color: #eef5f9;
       }
 
       .upload-preview-logo {
@@ -3600,6 +3627,64 @@
         margin-bottom: 0;
       }
 
+      .stats-perf-viz .stats-bar-row.is-complaint-parent .stats-bar-label {
+        font-weight: 700;
+        font-size: var(--font-body);
+        color: var(--text);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-complaint-parent.is-consolidated .stats-bar-fill {
+        opacity: 1;
+      }
+
+      .stats-perf-viz .stats-bar-row.is-complaint-status .stats-bar-label {
+        font-weight: 400;
+        font-size: var(--font-helper);
+        color: var(--muted);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-complaint-status .stats-bar-value {
+        font-size: var(--font-helper);
+        color: var(--muted);
+      }
+
+      .stats-perf-viz .stats-bar-row.is-complaint-status .stats-bar-fill {
+        opacity: 0.72;
+      }
+
+      .stats-complaint-group-divider {
+        height: 0;
+        margin: 10px 0 12px;
+        border: none;
+        border-top: 1px solid var(--line-subtle);
+        padding: 0;
+      }
+
+      .stats-perf-table tbody tr.is-complaint-parent td {
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .stats-perf-table tbody tr.is-complaint-status td {
+        font-weight: 400;
+        font-size: var(--font-helper);
+        color: var(--muted);
+      }
+
+      .stats-perf-table tbody tr.stats-complaint-group-divider td {
+        padding: 0;
+        height: 0;
+        border: none;
+        border-bottom: 1px solid var(--line-subtle);
+        line-height: 0;
+      }
+
+      .stats-perf-table tbody tr.stats-complaint-group-divider .spacer,
+      .stats-perf-table tbody tr.stats-complaint-group-divider .num {
+        padding: 0;
+        border: none;
+      }
+
       .stats-perf-combo-intro {
         margin: 0 0 12px;
         font-size: var(--font-helper);
@@ -4137,6 +4222,14 @@
 
       .stats-perf-viz .stats-bar-label.is-depth-2 {
         padding-left: 28px;
+      }
+
+      .stats-perf-viz.is-lean-hierarchy .stats-bar-label.is-depth-3 {
+        padding-left: 64px;
+      }
+
+      .stats-perf-viz .stats-bar-label.is-depth-3 {
+        padding-left: 42px;
       }
 
       .stats-perf-table tbody tr:last-child td {
@@ -5033,7 +5126,12 @@
     <div class="app">
       <aside id="sidebarNav" class="sidebar">
         <div class="user-card">
-          <div id="sidebarAvatar" class="avatar">JK</div>
+          <div
+            id="sidebarAvatar"
+            class="avatar has-image"
+            style="background-image: url(&quot;assets/jakob-profile.jpg&quot;)"
+            aria-label="Profilbild Jakob Kuntz"
+          ></div>
           <div id="sidebarUserName" class="user-name">Jakob Kuntz</div>
           <div id="sidebarTenantName" class="user-meta">Carelink Solutions</div>
         </div>
@@ -5525,7 +5623,14 @@
                     <div class="account-upload-col-title">Profilbild</div>
                     <div class="upload-row">
                       <div class="upload-preview-block">
-                        <span id="profilePreview" class="upload-preview-circle">J</span>
+                        <div id="profilePreview" class="upload-preview-circle has-image">
+                          <img
+                            class="upload-preview-media"
+                            src="assets/jakob-profile.jpg"
+                            alt="Profilbild-Vorschau"
+                          />
+                          <span class="upload-preview-initials" aria-hidden="true">J</span>
+                        </div>
                         <button id="profileEditBtn" class="upload-edit-btn hidden" type="button">
                           Bearbeiten
                         </button>
@@ -5961,7 +6066,7 @@
                     ><i class="fa-solid fa-bullseye"></i
                   ></span>
                   <div>
-                    <p class="stats-kpi-value">127</p>
+                    <p class="stats-kpi-value" id="statsKpiReceivedLeads">127</p>
                     <p class="stats-kpi-label">Erhaltene Anfragen</p>
                   </div>
                 </div>
@@ -6074,23 +6179,23 @@
                   <div class="stats-period-grid">
                     <div class="stats-period-box">
                       <span class="label">Letzter Tag</span>
-                      <span class="value">0</span>
+                      <span class="value" id="statsPeriodDay">0</span>
                     </div>
                     <div class="stats-period-box">
                       <span class="label">Letzte 7 Tage</span>
-                      <span class="value">0</span>
+                      <span class="value" id="statsPeriod7d">0</span>
                     </div>
                     <div class="stats-period-box">
                       <span class="label">Letzte 30 Tage</span>
-                      <span class="value">28</span>
+                      <span class="value" id="statsPeriod30d">0</span>
                     </div>
                     <div class="stats-period-box">
                       <span class="label">Letzte 60 Tage</span>
-                      <span class="value">32</span>
+                      <span class="value" id="statsPeriod60d">0</span>
                     </div>
                     <div class="stats-period-box">
                       <span class="label">Gesamt</span>
-                      <span class="value">127</span>
+                      <span class="value" id="statsPeriodGesamt">0</span>
                     </div>
                   </div>
                 </div>
@@ -6289,34 +6394,7 @@
                   <div class="stats-eval-grid">
                     <div class="stats-chart-block">
                       <h3>Anfragen je Status</h3>
-                      <div class="stats-bar-row dense">
-                        <span class="stats-bar-label">Geschlossen</span>
-                        <div class="stats-bar-track">
-                          <div class="stats-bar-fill blue" style="width: 100%"></div>
-                        </div>
-                        <span class="stats-bar-meta">59 | 46,5%</span>
-                      </div>
-                      <div class="stats-bar-row dense">
-                        <span class="stats-bar-label">Neu</span>
-                        <div class="stats-bar-track">
-                          <div class="stats-bar-fill blue" style="width: 59%"></div>
-                        </div>
-                        <span class="stats-bar-meta">35 | 27,6%</span>
-                      </div>
-                      <div class="stats-bar-row dense">
-                        <span class="stats-bar-label">In Bearbeitung</span>
-                        <div class="stats-bar-track">
-                          <div class="stats-bar-fill blue" style="width: 42%"></div>
-                        </div>
-                        <span class="stats-bar-meta">25 | 19,7%</span>
-                      </div>
-                      <div class="stats-bar-row dense">
-                        <span class="stats-bar-label">Gewonnen</span>
-                        <div class="stats-bar-track">
-                          <div class="stats-bar-fill blue" style="width: 14%"></div>
-                        </div>
-                        <span class="stats-bar-meta">8 | 6,3%</span>
-                      </div>
+                      <div id="statsEvalStatusChart"></div>
                     </div>
                     <div class="stats-chart-block">
                       <h3>Anfragen je Priorität</h3>
@@ -6544,7 +6622,7 @@
                       <details class="stats-perf-fold stats-perf-combo-fold">
                         <summary>Kombinationen &amp; Vergleich</summary>
                         <div class="stats-perf-fold-body">
-                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten zeigt die aktuelle Hierarchie (<strong>Gebiet → Mitarbeiter</strong> und ggf. <strong>Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
+                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten folgt der gewählten Analyseebene (z.&nbsp;B. <strong>Gebiet → Produkt</strong> oder <strong>Gebiet → Mitarbeiter → Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
                           <div class="stats-perf-combo-configurator" aria-live="polite"></div>
                           <div class="stats-perf-combo-results">
                             <h5 class="stats-perf-combo-results-heading">Vergleich</h5>
@@ -6580,6 +6658,12 @@
                       </div>
                     </div>
                     <div class="stats-perf-folds">
+                      <details class="stats-perf-fold" data-perf-view="complaint-status">
+                        <summary>Eingereichte Reklamationen</summary>
+                        <div class="stats-perf-fold-body">
+                          <div class="stats-perf-viz"></div>
+                        </div>
+                      </details>
                       <details class="stats-perf-fold" data-perf-view="gebiet">
                         <summary>Nach Gebiet</summary>
                         <div class="stats-perf-fold-body">
@@ -6601,7 +6685,7 @@
                       <details class="stats-perf-fold stats-perf-combo-fold">
                         <summary>Kombinationen &amp; Vergleich</summary>
                         <div class="stats-perf-fold-body">
-                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten zeigt die aktuelle Hierarchie (<strong>Gebiet → Mitarbeiter</strong> und ggf. <strong>Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
+                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten folgt der gewählten Analyseebene (z.&nbsp;B. <strong>Gebiet → Produkt</strong> oder <strong>Gebiet → Mitarbeiter → Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
                           <div class="stats-perf-combo-configurator" aria-live="polite"></div>
                           <div class="stats-perf-combo-results">
                             <h5 class="stats-perf-combo-results-heading">Vergleich</h5>
@@ -6658,7 +6742,7 @@
                       <details class="stats-perf-fold stats-perf-combo-fold">
                         <summary>Kombinationen &amp; Vergleich</summary>
                         <div class="stats-perf-fold-body">
-                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten zeigt die aktuelle Hierarchie (<strong>Gebiet → Mitarbeiter</strong> und ggf. <strong>Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
+                          <p class="stats-perf-combo-intro">Wählen Sie Analyseebene und Filter, dann <strong>Jetzt vergleichen</strong>. Die Auswertung unten folgt der gewählten Analyseebene (z.&nbsp;B. <strong>Gebiet → Produkt</strong> oder <strong>Gebiet → Mitarbeiter → Produkt</strong>) und ersetzt die vorherige Ansicht.</p>
                           <div class="stats-perf-combo-configurator" aria-live="polite"></div>
                           <div class="stats-perf-combo-results">
                             <h5 class="stats-perf-combo-results-heading">Vergleich</h5>
@@ -7196,8 +7280,7 @@
       const menuItems = Array.from(document.querySelectorAll(".menu-item"));
       let dragIndex = null;
       const cropCtx = cropperCanvas.getContext("2d");
-      const DEFAULT_PROFILE_IMAGE =
-        "file:///C:/Users/VP/OneDrive%20-%20VP%20Verbund%20Pflegehilfe%20GmbH/Desktop/Jakob/P/Bewerbungsunterlagen%20-%20Jakob%20Kuntz/Mastermind%201.2.jpg";
+      const DEFAULT_PROFILE_IMAGE = "assets/jakob-profile.jpg";
       const DEFAULT_TENANT_AVATAR_IMAGE = DEFAULT_PROFILE_IMAGE;
       const DEFAULT_LOGO_IMAGE = "";
       const AVV_FILE_URL = "file:///C:/Users/VP/Downloads/AVV%20(13).pdf";
@@ -7479,18 +7562,32 @@
 
       function applyAvatarImage(el, imageUrl, fallbackText = "") {
         if (!el) return;
+        const img = el.querySelector(".upload-preview-media");
+        const initials = el.querySelector(".upload-preview-initials");
         if (imageUrl) {
-          el.textContent = "";
-          el.style.backgroundImage = `url("${imageUrl}")`;
-          el.style.backgroundSize = "cover";
-          el.style.backgroundPosition = "center";
-          el.style.backgroundRepeat = "no-repeat";
+          if (img) {
+            img.src = imageUrl;
+          } else {
+            el.textContent = "";
+            el.style.backgroundImage = `url("${imageUrl}")`;
+            el.style.backgroundSize = "cover";
+            el.style.backgroundPosition = "center center";
+            el.style.backgroundRepeat = "no-repeat";
+          }
+          if (initials) initials.textContent = "";
           el.classList.add("has-image");
           return;
         }
+        if (img) {
+          img.removeAttribute("src");
+        }
         el.style.backgroundImage = "none";
         el.classList.remove("has-image");
-        el.textContent = fallbackText;
+        if (initials) {
+          initials.textContent = fallbackText;
+        } else {
+          el.textContent = fallbackText;
+        }
       }
 
       function getTenantAvatarImage() {
@@ -7525,9 +7622,7 @@
         if (uploadedProfileImage) {
           applyAvatarImage(profilePreview, uploadedProfileImage);
         } else {
-          profilePreview.classList.remove("has-image");
-          profilePreview.style.backgroundImage = "none";
-          profilePreview.textContent = getUserInitials().slice(0, 1);
+          applyAvatarImage(profilePreview, "", getUserInitials().slice(0, 1));
         }
 
         if (uploadedLogoImage) {
@@ -7565,9 +7660,27 @@
         cropState.offsetY = Math.max(minY, Math.min(maxY, cropState.offsetY));
       }
 
+      function centerCropImageInFrame() {
+        if (!cropState.image) return;
+        const imageW = cropState.image.width * cropState.scale;
+        const imageH = cropState.image.height * cropState.scale;
+        cropState.offsetX = cropState.cropX + (cropState.cropW - imageW) / 2;
+        cropState.offsetY = cropState.cropY + (cropState.cropH - imageH) / 2;
+        clampCropImagePosition();
+      }
+
+      function cropScaleFromZoomPercent(percent) {
+        const min = Number(cropperZoom.min) || 100;
+        const max = Number(cropperZoom.max) || 300;
+        const t = Math.max(0, Math.min(1, (percent - min) / (max - min)));
+        return cropState.minScale + (cropState.maxScale - cropState.minScale) * t;
+      }
+
       function renderCropper() {
         if (!cropState.image) return;
         cropCtx.clearRect(0, 0, cropperCanvas.width, cropperCanvas.height);
+        cropCtx.fillStyle = "#111";
+        cropCtx.fillRect(0, 0, cropperCanvas.width, cropperCanvas.height);
         cropCtx.drawImage(
           cropState.image,
           cropState.offsetX,
@@ -7593,16 +7706,16 @@
           cropState.image = img;
           cropState.target = target;
           cropState.allowDelete = allowDelete;
-          cropState.cropW = target === "profile" ? 220 : 260;
-          cropState.cropH = target === "profile" ? 220 : 160;
-          cropState.cropX = Math.round((cropperCanvas.width - cropState.cropW) / 2);
-          cropState.cropY = Math.round((cropperCanvas.height - cropState.cropH) / 2);
+          const canvasW = cropperCanvas.width;
+          const canvasH = cropperCanvas.height;
+          cropState.cropW = target === "profile" ? 280 : 260;
+          cropState.cropH = target === "profile" ? 280 : 160;
+          cropState.cropX = Math.round((canvasW - cropState.cropW) / 2);
+          cropState.cropY = Math.round((canvasH - cropState.cropH) / 2);
           cropState.minScale = Math.max(cropState.cropW / img.width, cropState.cropH / img.height);
           cropState.maxScale = cropState.minScale * 3;
           cropState.scale = cropState.minScale;
-          cropState.offsetX = (cropperCanvas.width - img.width * cropState.scale) / 2;
-          cropState.offsetY = (cropperCanvas.height - img.height * cropState.scale) / 2;
-          clampCropImagePosition();
+          centerCropImageInFrame();
           cropperZoom.value = "100";
           cropperTitle.textContent =
             target === "profile" ? "Profilbild zuschneiden" : "Unternehmenslogo zuschneiden";
@@ -7659,11 +7772,8 @@
         const dataUrl = outputCanvas.toDataURL("image/png");
 
         if (cropState.target === "profile") {
-          profilePreview.textContent = "";
-          profilePreview.style.backgroundImage = `url("${dataUrl}")`;
-          profilePreview.style.backgroundSize = "cover";
-          profilePreview.style.backgroundPosition = "center";
           uploadedProfileImage = dataUrl;
+          applyAvatarImage(profilePreview, dataUrl);
           profileEditBtn.classList.remove("hidden");
         } else {
           logoPreview.textContent = "";
@@ -7701,11 +7811,72 @@
         "Reklamation erfolgreich - geschlossen",
       ];
 
+      /** Target share of leads per status in the overview (must sum to 100). */
+      const LEAD_STATUS_DISTRIBUTION = [
+        { status: "Neu", percent: 1 },
+        { status: "In Bearbeitung", percent: 10 },
+        { status: "Gewonnen", percent: 19 },
+        { status: "Geschlossen", percent: 40 },
+        { status: "Reklamation wird geprüft", percent: 15 },
+        { status: "Reklamation abgelehnt - geschlossen", percent: 7 },
+        { status: "Reklamation erfolgreich - geschlossen", percent: 8 },
+      ];
+
+      function buildLeadStatusPool(total) {
+        const buckets = LEAD_STATUS_DISTRIBUTION.map(({ status, percent }) => {
+          const exact = (total * percent) / 100;
+          const count = Math.floor(exact);
+          return { status, count, fraction: exact - count };
+        });
+        let assigned = buckets.reduce((sum, bucket) => sum + bucket.count, 0);
+        const remainder = total - assigned;
+        const byFraction = [...buckets].sort((a, b) => b.fraction - a.fraction);
+        for (let i = 0; i < remainder; i += 1) {
+          byFraction[i % byFraction.length].count += 1;
+        }
+        const pool = [];
+        buckets.forEach(({ status, count }) => {
+          for (let i = 0; i < count; i += 1) pool.push(status);
+        });
+        for (let i = pool.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        return pool;
+      }
+
+      function applyLeadStatusPoolToRows(rows, statusPool, startIndex = 0) {
+        let index = startIndex;
+        rows.forEach((row) => {
+          if (index >= statusPool.length) return;
+          const status = statusPool[index];
+          index += 1;
+          row.dataset.status = status;
+          const cell = row.querySelector('[data-col="status"]');
+          if (cell) cell.innerHTML = statusMarkupForLead(status);
+        });
+        return index;
+      }
+
       function isSystemLeadStatus(status) {
         return SYSTEM_LEAD_STATUSES.includes((status || "").trim());
       }
 
       const COMPLAINT_PENDING_STATUS = "Reklamation wird geprüft";
+      const REJECTED_COMPLAINT_STATUS = "Reklamation abgelehnt - geschlossen";
+      const SUCCESSFUL_COMPLAINT_STATUS = "Reklamation erfolgreich - geschlossen";
+
+      const LEAD_STATUS_CHART_LABELS = {
+        Neu: "Neu",
+        "In Bearbeitung": "In Bearbeitung",
+        Gewonnen: "Gewonnen",
+        Geschlossen: "Geschlossen",
+        "Reklamation wird geprüft": "Rekl. geprüft",
+        "Reklamation abgelehnt - geschlossen": "Rekl. abgelehnt",
+        "Reklamation erfolgreich - geschlossen": "Rekl. erfolgreich",
+      };
+
+      const LEAD_OVERVIEW_TOTAL = 300;
 
       function isComplaintPendingStatus(status) {
         return (status || "").trim() === COMPLAINT_PENDING_STATUS;
@@ -7713,10 +7884,7 @@
 
       function isFinalReklamationStatus(status) {
         const value = (status || "").trim();
-        return (
-          value === "Reklamation abgelehnt - geschlossen" ||
-          value === "Reklamation erfolgreich - geschlossen"
-        );
+        return value === REJECTED_COMPLAINT_STATUS || value === SUCCESSFUL_COMPLAINT_STATUS;
       }
 
       function hasWithdrawnComplaint(row) {
@@ -8108,9 +8276,10 @@
           delete task.completedAt;
         });
 
-        const targets = getFilteredLeadRows().slice(0, count);
+        const targets = getLeadRows()
+          .filter((row) => (row.dataset.status || getCellValue(row, "status") || "").trim() === "Neu")
+          .slice(0, count);
         targets.forEach((row) => {
-          syncLeadRowStatusFromDetailSelect(row, "Neu");
           syncLeadRowPlainColumn(row, "zustandigkeit", user);
           renderOverviewInlineSelectCell(row, "zustandigkeit", user);
 
@@ -9535,6 +9704,58 @@
         return value.includes("Reklamation");
       }
 
+      function isLeadSuccessfulComplaintStatus(status) {
+        return String(status || "").trim() === SUCCESSFUL_COMPLAINT_STATUS;
+      }
+
+      function isLeadRejectedComplaintStatus(status) {
+        return String(status || "").trim() === REJECTED_COMPLAINT_STATUS;
+      }
+
+      function isLeadExcludedFromConversionDenominator(status) {
+        return isLeadSuccessfulComplaintStatus(status);
+      }
+
+      /** All leads that incur lead cost (excludes successful complaints with no charge). */
+      function leadsEligibleForInvestmentSpend(leads) {
+        return leads.filter((row) => !isLeadSuccessfulComplaintStatus(getLeadRowStatus(row)));
+      }
+
+      function getLeadRowStatus(row) {
+        return (row?.dataset?.status || getCellValue(row, "status") || "").trim();
+      }
+
+      function leadPriceForProduct(bedarf, ref) {
+        const seed = hashLabelSeed(`${String(bedarf || "").trim()}|${ref || ""}`);
+        return 20 + (seed % 61);
+      }
+
+      function getLeadRowPrice(row) {
+        const stored = row?.dataset?.leadPrice;
+        if (stored != null && stored !== "") {
+          const parsed = parseInt(stored, 10);
+          if (Number.isFinite(parsed)) return parsed;
+        }
+        return leadPriceForProduct(getCellValue(row, "bedarf"), getCellValue(row, "anfragenNummer"));
+      }
+
+      function ensureLeadRowPrice(row) {
+        if (!row) return;
+        if (row.dataset.leadPrice != null && row.dataset.leadPrice !== "") return;
+        row.dataset.leadPrice = String(
+          leadPriceForProduct(getCellValue(row, "bedarf"), getCellValue(row, "anfragenNummer")),
+        );
+      }
+
+      function leadsEligibleForConversionMetric(leads) {
+        return leads.filter((row) => !isLeadExcludedFromConversionDenominator(getLeadRowStatus(row)));
+      }
+
+      function randomItem(list) {
+        if (!list.length) return "";
+        return list[Math.floor(Math.random() * list.length)];
+      }
+
       function hashLabelSeed(label) {
         let hash = 0;
         const text = String(label || "");
@@ -9545,25 +9766,24 @@
       }
 
       function computeGroupMetricFromLeads(leads, metric) {
-        const total = leads.length;
-        if (!total) return null;
+        if (!leads.length) return null;
         if (metric === "conversion") {
-          const won = leads.filter((row) => isLeadWonStatus(getCellValue(row, "status"))).length;
-          return (won / total) * 100;
+          const eligible = leadsEligibleForConversionMetric(leads);
+          if (!eligible.length) return null;
+          const won = eligible.filter((row) => isLeadWonStatus(getLeadRowStatus(row))).length;
+          return (won / eligible.length) * 100;
         }
         if (metric === "complaints") {
-          const complaints = leads.filter((row) =>
-            isLeadComplaintStatus(getCellValue(row, "status")),
-          ).length;
-          return (complaints / total) * 100;
+          const complaints = leads.filter((row) => isLeadComplaintStatus(getLeadRowStatus(row))).length;
+          return (complaints / leads.length) * 100;
         }
         if (metric === "investment") {
-          const sum = leads.reduce(
-            (acc, row) =>
-              acc + 248 + (hashLabelSeed(getCellValue(row, "anfragenNummer")) % 72),
-            0,
-          );
-          return sum / total;
+          const spendBase = leadsEligibleForInvestmentSpend(leads);
+          if (!spendBase.length) return null;
+          const totalCost = spendBase.reduce((acc, row) => acc + getLeadRowPrice(row), 0);
+          const neukunden = spendBase.filter((row) => isLeadWonStatus(getLeadRowStatus(row)));
+          if (!neukunden.length) return totalCost;
+          return totalCost / neukunden.length;
         }
         return null;
       }
@@ -9575,16 +9795,22 @@
       const MIN_LEADS_FOR_COMPUTED_METRIC = 6;
 
       function metricValueForLeadGroup(leads, metric, period, dimension, label) {
-        const computed = computeGroupMetricFromLeads(leads, metric);
-        if (computed != null) return computed;
+        if (leads.length > 0) {
+          const computed = computeGroupMetricFromLeads(leads, metric);
+          if (computed != null) return computed;
+          if (metric === "investment") return null;
+        }
         return lookupPerfFlatValue(metric, period, dimension, label);
       }
 
       function resolveMetricValue(leads, metric, period, dimension, label, preferredValue) {
-        const computed = computeGroupMetricFromLeads(leads, metric);
-        if (leads.length >= MIN_LEADS_FOR_COMPUTED_METRIC && computed != null) return computed;
+        if (leads.length > 0) {
+          const computed = computeGroupMetricFromLeads(leads, metric);
+          if (computed != null) return computed;
+          if (metric === "investment") return null;
+        }
+        if (metric === "investment") return null;
         if (preferredValue != null && !Number.isNaN(preferredValue)) return preferredValue;
-        if (computed != null) return computed;
         const flat = lookupPerfFlatValue(metric, period, dimension, label);
         if (flat != null) return flat;
         return preferredValue ?? null;
@@ -9606,6 +9832,92 @@
         return "";
       }
 
+      function countComplaintLeads(leads, statusFn) {
+        return leads.filter((row) => statusFn(getLeadRowStatus(row))).length;
+      }
+
+      /** Share of all leads in the period (Reklamationsrate). */
+      function complaintShareOfAllLeads(leads, statusFn) {
+        if (!leads.length) return null;
+        return (countComplaintLeads(leads, statusFn) / leads.length) * 100;
+      }
+
+      /** Share of eingereichte Reklamationen; status rows sum to 100%. */
+      function complaintShareOfSubmitted(leads, statusFn) {
+        const submitted = countComplaintLeads(leads, isLeadComplaintStatus);
+        if (!submitted) return null;
+        return (countComplaintLeads(leads, statusFn) / submitted) * 100;
+      }
+
+      const COMPLAINT_STATUS_BREAKDOWNS = [
+        { label: "Erfolgreiche Reklamationen", statusFn: isLeadSuccessfulComplaintStatus },
+        { label: "Abgelehnte Reklamationen", statusFn: isLeadRejectedComplaintStatus },
+        { label: "In Bearbeitung", statusFn: isComplaintPendingStatus },
+      ];
+
+      function markComplaintParentRow(rows) {
+        for (let i = rows.length - 1; i >= 0; i -= 1) {
+          const row = rows[i];
+          if (row.kind === "complaint-status" || row.kind === "complaint-group-divider") continue;
+          row.isComplaintParent = true;
+          return;
+        }
+      }
+
+      function appendComplaintStatusBreakdownRows(rows, leads, parentLabel, depth, extra = {}) {
+        const { includeSublabel = false, ...rowExtra } = extra;
+        if (rows.length) markComplaintParentRow(rows);
+        const submitted = countComplaintLeads(leads, isLeadComplaintStatus);
+        COMPLAINT_STATUS_BREAKDOWNS.forEach(({ label, statusFn }) => {
+          rows.push({
+            label,
+            value: submitted ? complaintShareOfSubmitted(leads, statusFn) : 0,
+            kind: "complaint-status",
+            depth,
+            parent: parentLabel,
+            path: `${parentLabel} · ${label}`,
+            ...(includeSublabel ? { sublabel: "Anteil der eingereichten Reklamationen" } : {}),
+            ...rowExtra,
+          });
+        });
+        rows.push({
+          kind: "complaint-group-divider",
+          label: "",
+          value: null,
+          depth,
+          parent: parentLabel,
+          path: `${parentLabel}::__divider`,
+        });
+      }
+
+      function getComplaintStatusFoldRows(period) {
+        const leads = getLeadsInPerformancePeriod(period);
+        if (!leads.length) return [];
+        const rows = [
+          {
+            label: "Eingereichte Reklamationen",
+            value: complaintShareOfAllLeads(leads, isLeadComplaintStatus),
+            kind: "complaint-group",
+            depth: 0,
+            path: "Eingereichte Reklamationen",
+            sublabel: "Anteil aller Leads",
+            isComplaintParent: true,
+          },
+        ];
+        appendComplaintStatusBreakdownRows(rows, leads, "Eingereichte Reklamationen", 1, {
+          includeSublabel: true,
+        });
+        return rows;
+      }
+
+      function perfSegmentDimensionViews(metric) {
+        const base = ["gebiet", "mitarbeiter", "produkt"];
+        if (metric === "complaints") {
+          return ["complaint-status", ...base];
+        }
+        return base;
+      }
+
       function getGebietDimensionFoldRows(metric, period) {
         const periodLeads = getLeadsInPerformancePeriod(period);
         const tree = getPerfHierarchy(metric, period) || {};
@@ -9613,6 +9925,18 @@
         TENANT_GEBIETE.forEach((gebiet) => {
           const node = tree[gebiet];
           const gebietLeads = periodLeads.filter((row) => getCellValue(row, "standort") === gebiet);
+          if (!gebietLeads.length) return;
+          if (metric === "complaints") {
+            rows.push({
+              label: gebiet,
+              value: complaintShareOfAllLeads(gebietLeads, isLeadComplaintStatus) ?? 0,
+              kind: "gebiet",
+              depth: 0,
+              path: gebiet,
+            });
+            appendComplaintStatusBreakdownRows(rows, gebietLeads, gebiet, 1);
+            return;
+          }
           const gebietValue =
             metricValueForLeadGroup(gebietLeads, metric, period, "gebiet", gebiet) ?? node?.value ?? 0;
           rows.push({ label: gebiet, value: gebietValue, kind: "gebiet", depth: 0, path: gebiet });
@@ -9622,22 +9946,53 @@
 
       function getDimensionFoldRows(metric, period, view) {
         const periodLeads = getLeadsInPerformancePeriod(period);
+        if (view === "complaint-status") {
+          return metric === "complaints" ? getComplaintStatusFoldRows(period) : [];
+        }
         if (view === "gebiet") {
           return getGebietDimensionFoldRows(metric, period);
         }
         if (view === "mitarbeiter") {
-          return TENANT_MITARBEITER.map((label) => {
+          const rows = [];
+          TENANT_MITARBEITER.forEach((label) => {
             const groupLeads = periodLeads.filter((row) => getCellValue(row, "zustandigkeit") === label);
+            if (!groupLeads.length) return;
+            if (metric === "complaints") {
+              rows.push({
+                label,
+                value: complaintShareOfAllLeads(groupLeads, isLeadComplaintStatus) ?? 0,
+                kind: "mitarbeiter",
+                depth: 0,
+                path: label,
+              });
+              appendComplaintStatusBreakdownRows(rows, groupLeads, label, 1);
+              return;
+            }
             const value = metricValueForLeadGroup(groupLeads, metric, period, "mitarbeiter", label);
-            return { label, value, kind: "mitarbeiter", depth: 0, path: label };
+            rows.push({ label, value, kind: "mitarbeiter", depth: 0, path: label });
           });
+          return rows;
         }
         if (view === "produkt") {
-          return collectTenantProduktCatalog(metric, period).map((label) => {
+          const rows = [];
+          collectTenantProduktCatalog(metric, period).forEach((label) => {
             const groupLeads = periodLeads.filter((row) => getCellValue(row, "bedarf") === label);
+            if (!groupLeads.length) return;
+            if (metric === "complaints") {
+              rows.push({
+                label,
+                value: complaintShareOfAllLeads(groupLeads, isLeadComplaintStatus) ?? 0,
+                kind: "produkt",
+                depth: 0,
+                path: label,
+              });
+              appendComplaintStatusBreakdownRows(rows, groupLeads, label, 1);
+              return;
+            }
             const value = metricValueForLeadGroup(groupLeads, metric, period, "produkt", label);
-            return { label, value: value ?? 0, kind: "produkt", depth: 0, path: label };
+            rows.push({ label, value: value ?? 0, kind: "produkt", depth: 0, path: label });
           });
+          return rows;
         }
         return [];
       }
@@ -9761,49 +10116,23 @@
         if (!gebiete.length) return getAllAssignableMitarbeiter(metric, period);
         const names = new Set();
         gebiete.forEach((gebiet) => {
-          getMitarbeiterKeysForGebiet(metric, period, gebiet).forEach((name) => names.add(name));
+          getMitarbeiterWithLeadsInGebiet(gebiet, period).forEach((name) => names.add(name));
         });
         return Array.from(names).sort((a, b) => a.localeCompare(b, "de"));
       }
 
       function getProduktKeysForCombo(metric, period, gebietSelection, mitarbeiterSelection) {
-        const tree = getPerfHierarchy(metric, period);
         const gebiete = asFilterArray(gebietSelection);
         const mas = asFilterArray(mitarbeiterSelection);
-        const products = new Set();
-        if (!gebiete.length && !mas.length) return getAllTenantProduktKeys(metric, period);
-
-        if (gebiete.length && mas.length) {
-          gebiete.forEach((gebiet) => {
-            mas.forEach((ma) => {
-              const maNode = tree?.[gebiet]?.mitarbeiter?.[ma];
-              if (maNode?.produkt) Object.keys(maNode.produkt).forEach((p) => products.add(p));
-            });
-          });
-          return Array.from(products).sort((a, b) => a.localeCompare(b, "de"));
-        }
-
+        let leads = getLeadsInPerformancePeriod(period);
         if (gebiete.length) {
-          gebiete.forEach((gebiet) => {
-            const node = tree?.[gebiet];
-            if (!node) return;
-            Object.keys(node.produkt || {}).forEach((p) => products.add(p));
-            Object.values(node.mitarbeiter || {}).forEach((maNode) => {
-              Object.keys(maNode.produkt || {}).forEach((p) => products.add(p));
-            });
-          });
-          return Array.from(products).sort((a, b) => a.localeCompare(b, "de"));
+          leads = leads.filter((row) => gebiete.includes(getCellValue(row, "standort")));
         }
-
-        mas.forEach((ma) => {
-          const nested = getPerfMetricData(metric, period)?.mitarbeiter?.nested?.[ma];
-          if (nested) Object.keys(nested).forEach((p) => products.add(p));
-          Object.entries(tree || {}).forEach(([, node]) => {
-            const maNode = node.mitarbeiter?.[ma];
-            if (maNode?.produkt) Object.keys(maNode.produkt).forEach((p) => products.add(p));
-          });
-        });
-        return Array.from(products).sort((a, b) => a.localeCompare(b, "de"));
+        if (mas.length) {
+          leads = leads.filter((row) => mas.includes(getCellValue(row, "zustandigkeit")));
+        }
+        if (!leads.length) return getAllTenantProduktKeys(metric, period);
+        return getProduktKeysFromLeads(leads);
       }
 
       function normalizeComboFilters(combo, metric, period) {
@@ -9839,7 +10168,29 @@
       }
 
       function getMitarbeiterKeysForGebiet(metric, period, gebiet) {
-        return getMitarbeiterForGebiet(gebiet).sort((a, b) => a.localeCompare(b, "de"));
+        return getMitarbeiterWithLeadsInGebiet(gebiet, period);
+      }
+
+      /** Employees who actually have leads in this Gebiet (not only home assignment). */
+      function getMitarbeiterWithLeadsInGebiet(gebiet, period) {
+        const leads = getLeadsInPerformancePeriod(period).filter(
+          (row) => getCellValue(row, "standort") === gebiet,
+        );
+        const names = new Set();
+        leads.forEach((row) => {
+          const name = getCellValue(row, "zustandigkeit");
+          if (name && name !== "-" && !UNASSIGNED_OWNER_OPTIONS.includes(name)) names.add(name);
+        });
+        return Array.from(names).sort((a, b) => a.localeCompare(b, "de"));
+      }
+
+      function getProduktKeysFromLeads(leads) {
+        const products = new Set();
+        leads.forEach((row) => {
+          const product = getCellValue(row, "bedarf");
+          if (product && product !== "-") products.add(product);
+        });
+        return Array.from(products).sort((a, b) => a.localeCompare(b, "de"));
       }
 
       function getAllAssignableMitarbeiter(metric, period) {
@@ -9914,15 +10265,32 @@
         if (level && !comboLevelAllowsProduktFilter(level)) {
           return rows.filter((row) => row.kind !== "produkt");
         }
+        let filtered = rows;
+        if (level === "gebiet-mitarbeiter-produkt") {
+          filtered = filtered.filter((row) => row.kind !== "produkt" || row.depth === 2);
+        }
         const list = asFilterArray(produktSelection);
-        if (!list.length) return rows;
-        const hasMatch = rows.some(
+        if (!list.length) return filtered;
+        const hasMatch = filtered.some(
           (r) => (r.kind === "produkt" || r.kind === "flat") && list.includes(r.label),
         );
-        if (!hasMatch) return rows;
-        return rows.filter(
+        if (!hasMatch) return filtered;
+        filtered = filtered.filter(
           (r) => (r.kind !== "produkt" && r.kind !== "flat") || list.includes(r.label),
         );
+        if (level === "gebiet-mitarbeiter-produkt") {
+          const maWithProduct = new Set(
+            filtered
+              .filter((r) => r.kind === "produkt" && r.depth === 2)
+              .map((r) => r.parent)
+              .filter(Boolean),
+          );
+          filtered = filtered.filter((r) => {
+            if (r.kind === "mitarbeiter") return maWithProduct.has(r.label);
+            return true;
+          });
+        }
+        return filtered;
       }
 
       function applyLeanComboRowDisplay(rows, combo) {
@@ -10068,6 +10436,48 @@
         return PERF_HIERARCHY_LEVELS[level]?.short || level;
       }
 
+      function comboSectionHeadline(combo) {
+        return hierarchyLevelLabel(combo.level);
+      }
+
+      /** Arithmetic mean of direct child row values (investition parent roll-up). */
+      function averageMetricChildValues(childRows) {
+        const values = childRows
+          .map((row) => row.value)
+          .filter((v) => typeof v === "number" && !Number.isNaN(v));
+        if (!values.length) return null;
+        return values.reduce((sum, v) => sum + v, 0) / values.length;
+      }
+
+      function rollupInvestmentGebietRow(rows, gebietBlockStart) {
+        const gebietRow = rows[gebietBlockStart];
+        if (!gebietRow || gebietRow.kind !== "gebiet") return;
+        const children = [];
+        for (let i = gebietBlockStart + 1; i < rows.length; i += 1) {
+          const row = rows[i];
+          if (row.kind === "gebiet" && row.depth === 0) break;
+          if (row.depth === 1) children.push(row);
+        }
+        const avg = averageMetricChildValues(children);
+        if (avg != null) gebietRow.value = avg;
+      }
+
+      function rollupInvestmentMitarbeiterRow(rows, maRowIndex, mitarbeiterLabel) {
+        const maRow = rows[maRowIndex];
+        if (!maRow || maRow.kind !== "mitarbeiter") return;
+        const children = [];
+        for (let i = maRowIndex + 1; i < rows.length; i += 1) {
+          const row = rows[i];
+          if (row.kind === "gebiet" && row.depth === 0) break;
+          if (row.kind === "mitarbeiter" && row.depth === 1) break;
+          if (row.kind === "produkt" && row.depth === 2 && row.parent === mitarbeiterLabel) {
+            children.push(row);
+          }
+        }
+        const avg = averageMetricChildValues(children);
+        if (avg != null) maRow.value = avg;
+      }
+
       function getProduktMapForGebiet(metric, period, gebiet, node) {
         if (node?.produkt && Object.keys(node.produkt).length) return node.produkt;
         const nested = getPerfMetricData(metric, period)?.gebiet?.nested?.[gebiet];
@@ -10091,19 +10501,12 @@
       }
 
       function getMitarbeiterMapForGebiet(metric, period, gebiet, node) {
-        const assigned = getMitarbeiterForGebiet(gebiet);
-        if (node?.mitarbeiter && Object.keys(node.mitarbeiter).length) {
-          const filtered = {};
-          assigned.forEach((mitarbeiter) => {
-            if (node.mitarbeiter[mitarbeiter]) filtered[mitarbeiter] = node.mitarbeiter[mitarbeiter];
-          });
-          if (Object.keys(filtered).length) return filtered;
-        }
         const leads = getLeadsInPerformancePeriod(period).filter(
           (row) => getCellValue(row, "standort") === gebiet,
         );
+        const mitarbeiterNames = getMitarbeiterWithLeadsInGebiet(gebiet, period);
         const map = {};
-        assigned.forEach((mitarbeiter) => {
+        mitarbeiterNames.forEach((mitarbeiter) => {
           const maLeads = leads.filter((row) => getCellValue(row, "zustandigkeit") === mitarbeiter);
           if (!maLeads.length) return;
           const produkt = {};
@@ -10136,8 +10539,7 @@
         const tree = getPerfHierarchy(metric, period) || {};
         const rows = [];
         const showMitarbeiter = level === "gebiet-mitarbeiter" || level === "gebiet-mitarbeiter-produkt";
-        const showProduktUnderMitarbeiter =
-          level === "gebiet-mitarbeiter-produkt" && detailLevel === "detail";
+        const showProduktUnderMitarbeiter = level === "gebiet-mitarbeiter-produkt";
         const showProduktUnderGebiet = level === "gebiet-produkt";
         const employeeFilter = asFilterArray(mitarbeiterFilter);
 
@@ -10149,6 +10551,7 @@
           );
           const mitarbeiterMap = getMitarbeiterMapForGebiet(metric, period, gebiet, node);
           const maPrepared = [];
+          const gebietBlockStart = rows.length;
 
           Object.entries(mitarbeiterMap).forEach(([mitarbeiter, maNode]) => {
             if (employeeFilter.length && !employeeFilter.includes(mitarbeiter)) return;
@@ -10171,7 +10574,9 @@
             node?.value ??
             lookupPerfFlatValue(metric, period, "gebiet", gebiet) ??
             null;
-          if (maPrepared.length) {
+          if (metric === "complaints") {
+            gebietValue = complaintShareOfAllLeads(gebietLeads, isLeadComplaintStatus);
+          } else if (maPrepared.length && metric !== "investment") {
             const fromEmployees = weightedAverageMetricValues(
               maPrepared.map((entry) => ({
                 value: entry.maValue,
@@ -10183,100 +10588,113 @@
 
           rows.push({
             label: gebiet,
-            value: gebietValue ?? 0,
+            value:
+              metric === "investment"
+                ? null
+                : gebietValue ?? (metric === "investment" ? null : 0),
             kind: "gebiet",
             depth: 0,
             path: gebiet,
           });
 
+          if (metric === "complaints") {
+            appendComplaintStatusBreakdownRows(rows, gebietLeads, gebiet, 1, { gebiet });
+          }
+
           if (level === "gebiet") return;
 
           if (showProduktUnderGebiet) {
-            const produktMap = getProduktMapForGebiet(metric, period, gebiet, node);
-            if (Object.keys(produktMap).length) {
-              Object.entries(produktMap).forEach(([produkt, produktValue]) => {
-                const produktLeads = gebietLeads.filter((row) => getCellValue(row, "bedarf") === produkt);
-                const value = resolveMetricValue(
-                  produktLeads,
-                  metric,
-                  period,
-                  "produkt",
-                  produkt,
-                  produktValue,
-                );
-                rows.push({
-                  label: produkt,
-                  value: value ?? produktValue ?? 0,
-                  kind: "produkt",
-                  depth: 1,
-                  parent: gebiet,
-                  path: `${gebiet} · ${produkt}`,
-                });
+            getProduktKeysFromLeads(gebietLeads).forEach((produkt) => {
+              const produktLeads = gebietLeads.filter((row) => getCellValue(row, "bedarf") === produkt);
+              if (!produktLeads.length) return;
+              const produktValue =
+                metric === "complaints"
+                  ? complaintShareOfAllLeads(produktLeads, isLeadComplaintStatus)
+                  : resolveMetricValue(produktLeads, metric, period, "produkt", produkt, null);
+              if (metric === "investment" && produktValue == null) return;
+              rows.push({
+                label: produkt,
+                value: produktValue ?? (metric === "investment" ? null : 0),
+                kind: "produkt",
+                depth: 1,
+                parent: gebiet,
+                path: `${gebiet} · ${produkt}`,
               });
-            }
+              if (metric === "complaints") {
+                appendComplaintStatusBreakdownRows(rows, produktLeads, produkt, 2, {
+                  gebiet,
+                  parent: gebiet,
+                });
+              }
+            });
+            if (metric === "investment") rollupInvestmentGebietRow(rows, gebietBlockStart);
             return;
           }
 
           if (!showMitarbeiter) return;
 
           if (!maPrepared.length) {
-            const produktMapFallback = getProduktMapForGebiet(metric, period, gebiet, node);
-            Object.entries(produktMapFallback).forEach(([produkt, produktValue]) => {
-              const produktLeads = gebietLeads.filter((row) => getCellValue(row, "bedarf") === produkt);
-              const value = resolveMetricValue(
-                produktLeads,
-                metric,
-                period,
-                "produkt",
-                produkt,
-                produktValue,
-              );
-              rows.push({
-                label: produkt,
-                value: value ?? produktValue ?? 0,
-                kind: "produkt",
-                depth: 1,
-                parent: gebiet,
-                path: `${gebiet} · ${produkt}`,
-              });
-            });
+            if (metric === "investment") {
+              rows[gebietBlockStart].value = computeGroupMetricFromLeads(gebietLeads, metric);
+            }
             return;
           }
 
           maPrepared.forEach(({ mitarbeiter, maNode, maLeads, maValue }) => {
+            const maRowIndex = rows.length;
+            const maDisplayValue =
+              metric === "complaints"
+                ? complaintShareOfAllLeads(maLeads, isLeadComplaintStatus)
+                : metric === "investment" && showProduktUnderMitarbeiter
+                  ? null
+                  : maValue ?? (metric === "investment" ? null : 0);
             rows.push({
               label: mitarbeiter,
-              value: maValue ?? 0,
+              value: maDisplayValue,
               kind: "mitarbeiter",
               depth: 1,
               parent: gebiet,
               path: mitarbeiter,
             });
 
+            if (metric === "complaints") {
+              appendComplaintStatusBreakdownRows(rows, maLeads, mitarbeiter, 2, {
+                gebiet,
+                parent: gebiet,
+              });
+            }
+
             if (showProduktUnderMitarbeiter) {
-              const produktEntries = maNode?.produkt || {};
-              Object.entries(produktEntries).forEach(([produkt, produktPreferred]) => {
+              getProduktKeysFromLeads(maLeads).forEach((produkt) => {
                 const produktLeads = maLeads.filter((row) => getCellValue(row, "bedarf") === produkt);
-                const produktValue = resolveMetricValue(
-                  produktLeads,
-                  metric,
-                  period,
-                  "produkt",
-                  produkt,
-                  produktPreferred,
-                );
+                if (!produktLeads.length) return;
+                const produktValue =
+                  metric === "complaints"
+                    ? complaintShareOfAllLeads(produktLeads, isLeadComplaintStatus)
+                    : resolveMetricValue(produktLeads, metric, period, "produkt", produkt, null);
+                if (metric === "investment" && produktValue == null) return;
                 rows.push({
                   label: produkt,
-                  value: produktValue ?? produktPreferred ?? 0,
+                  value: produktValue ?? (metric === "investment" ? null : 0),
                   kind: "produkt",
                   depth: 2,
                   parent: mitarbeiter,
                   gebiet,
-                  path: `${mitarbeiter} · ${produkt}`,
+                  path: `${gebiet} · ${mitarbeiter} · ${produkt}`,
                 });
+                if (metric === "complaints") {
+                  appendComplaintStatusBreakdownRows(rows, produktLeads, produkt, 3, {
+                    gebiet,
+                    parent: mitarbeiter,
+                  });
+                }
               });
+              if (metric === "investment") {
+                rollupInvestmentMitarbeiterRow(rows, maRowIndex, mitarbeiter);
+              }
             }
           });
+          if (metric === "investment") rollupInvestmentGebietRow(rows, gebietBlockStart);
         });
 
         return rows;
@@ -10295,6 +10713,7 @@
         if (row.kind === "mitarbeiter" && (row.depth == null || row.depth === 0)) return true;
         if (row.kind === "produkt" && (row.depth == null || row.depth === 0)) return true;
         if (row.kind === "flat" && options.consolidatedFlat) return true;
+        if (row.kind === "complaint-group") return true;
         return false;
       }
 
@@ -10306,6 +10725,9 @@
         if (row.sublabel != null && String(row.sublabel).trim() !== "") {
           return String(row.sublabel).trim();
         }
+        if (row.kind === "complaint-group" || row.kind === "complaint-status") {
+          return "";
+        }
         if (row.kind === "gebiet" || row.kind === "flat" || row.kind === "mitarbeiter" || row.kind === "produkt") {
           return "";
         }
@@ -10313,6 +10735,29 @@
       }
 
       function calcBarWidths(rows, metric, refValue) {
+        if (
+          metric === "complaints" &&
+          rows.some((row) => row.kind === "complaint-group" || row.kind === "complaint-status")
+        ) {
+          const parents = rows.filter((row) => row.kind === "complaint-group");
+          const children = rows.filter((row) => row.kind === "complaint-status");
+          const parentNums = parents.map((r) => r.value).filter((v) => typeof v === "number");
+          const childNums = children.map((r) => r.value).filter((v) => typeof v === "number");
+          let parentMax = parentNums.length ? Math.max(...parentNums) : 1;
+          const childMax = childNums.length ? Math.max(...childNums) : 1;
+          if (refValue != null) parentMax = Math.max(parentMax, refValue);
+          return rows.map((row) => {
+            if (typeof row.value !== "number") return { ...row, width: 0 };
+            if (row.kind === "complaint-group") {
+              return { ...row, width: Math.max(4, (row.value / parentMax) * 100) };
+            }
+            if (row.kind === "complaint-status") {
+              return { ...row, width: Math.max(4, (row.value / childMax) * 100) };
+            }
+            const max = Math.max(parentMax, childMax, 1);
+            return { ...row, width: Math.max(4, (row.value / max) * 100) };
+          });
+        }
         const nums = rows.map((r) => r.value).filter((v) => typeof v === "number");
         let max = nums.length ? Math.max(...nums) : 1;
         if (refValue != null) max = Math.max(max, refValue);
@@ -10344,7 +10789,9 @@
           container.innerHTML = '<p class="stats-perf-empty">Keine Daten für den gewählten Zeitraum.</p>';
           return;
         }
-        const dataRows = filterPerfDisplayRows(rows).filter((row) => row.kind !== "combo-header");
+        const dataRows = filterPerfDisplayRows(rows).filter(
+          (row) => row.kind !== "combo-header" && row.kind !== "complaint-group-divider",
+        );
         const sized = calcBarWidths(dataRows, metric, refValue);
         const sizedByKey = new Map(
           sized.map((row) => [`${row.kind}|${row.path}|${row.label}|${row.depth}`, row]),
@@ -10354,6 +10801,9 @@
           .map((row) => {
             if (row.kind === "combo-header") {
               return `<div class="stats-perf-combo-section-head">${row.label}</div>`;
+            }
+            if (row.kind === "complaint-group-divider") {
+              return '<div class="stats-complaint-group-divider" role="presentation"></div>';
             }
             const sizedRow =
               sizedByKey.get(`${row.kind}|${row.path}|${row.label}|${row.depth}`) || row;
@@ -10365,16 +10815,31 @@
                 : getPerfRowContext(sizedRow);
             const sub = context ? `<small>${context}</small>` : "";
             const depthClass =
-              sizedRow.depth === 1 ? " is-depth-1" : sizedRow.depth === 2 ? " is-depth-2" : "";
-            const tierClass = isPerfConsolidatedRow(sizedRow, options)
-              ? " is-consolidated"
-              : isPerfBreakdownRow(sizedRow)
-                ? " is-breakdown"
+              sizedRow.depth === 1
+                ? " is-depth-1"
+                : sizedRow.depth === 2
+                  ? " is-depth-2"
+                  : sizedRow.depth >= 3
+                    ? " is-depth-3"
+                    : "";
+            const complaintParentClass =
+              sizedRow.isComplaintParent || sizedRow.kind === "complaint-group"
+                ? " is-complaint-parent"
                 : "";
+            const complaintStatusClass =
+              sizedRow.kind === "complaint-status" ? " is-complaint-status" : "";
+            const tierClass =
+              complaintParentClass || complaintStatusClass
+                ? ""
+                : isPerfConsolidatedRow(sizedRow, options)
+                  ? " is-consolidated"
+                  : isPerfBreakdownRow(sizedRow)
+                    ? " is-breakdown"
+                    : "";
             const labelClass = `stats-bar-label${depthClass}`;
             const comboFill =
               sizedRow.comboIndex != null ? ` combo-${sizedRow.comboIndex % PERF_COMBO_COLORS.length}` : fillExtra;
-            return `<div class="stats-bar-row dense${tierClass}${depthClass}">
+            return `<div class="stats-bar-row dense${tierClass}${depthClass}${complaintParentClass}${complaintStatusClass}">
               <span class="${labelClass}">${displayLabel}${sub}</span>
               <div class="stats-bar-track">
                 <div class="stats-bar-fill ${fillClass}${comboFill}" style="width:${sizedRow.width}%"></div>
@@ -10394,6 +10859,7 @@
       }
 
       function perfViewColLabel(view) {
+        if (view === "complaint-status") return "Status";
         if (view === "gebiet") return "Gebiet";
         if (view === "mitarbeiter") return "Mitarbeiter";
         if (view === "produkt") return "Produkt";
@@ -10428,16 +10894,27 @@
       function renderPerfTable(mount, rows, colLabel, metric, options = {}) {
         if (!mount) return;
         const meta = PERF_METRIC_META[metric];
-        const dataRows = filterPerfDisplayRows(rows).filter((row) => row.kind !== "combo-header");
+        const dataRows = filterPerfDisplayRows(rows).filter(
+          (row) => row.kind !== "combo-header" && row.kind !== "complaint-group-divider",
+        );
         if (!dataRows.length) {
           mount.innerHTML = '<p class="stats-perf-empty">Keine Daten für den gewählten Zeitraum.</p>';
           return;
         }
         const leanHierarchy = options.leanHierarchy === true;
-        const body = dataRows
+        const displayRows = filterPerfDisplayRows(rows);
+        const body = displayRows
           .map((row) => {
+            if (row.kind === "complaint-group-divider") {
+              return '<tr class="stats-complaint-group-divider"><td colspan="3" aria-hidden="true"></td></tr>';
+            }
+            if (row.kind === "combo-header") return "";
             let cls = "";
-            if (leanHierarchy) {
+            if (row.isComplaintParent || row.kind === "complaint-group") {
+              cls = "is-complaint-parent";
+            } else if (row.kind === "complaint-status") {
+              cls = "is-complaint-status";
+            } else if (leanHierarchy) {
               if (row.kind === "gebiet" || (row.kind === "mitarbeiter" && row.depth === 0)) {
                 cls = "is-area";
               } else if (row.kind === "produkt" && row.depth > 0) {
@@ -10696,10 +11173,9 @@
       function getSelectedComboDisplayRows(selected, metric, period) {
         const rows = [];
         selected.forEach((combo, comboIndex) => {
-          const comboLabel = combo.name || hierarchyLevelLabel(combo.level);
           rows.push({
             kind: "combo-header",
-            label: comboLabel,
+            label: comboSectionHeadline(combo),
             depth: -1,
             comboIndex,
             value: null,
@@ -10762,7 +11238,7 @@
         mount.innerHTML = `
           <div class="stats-perf-combo-config">
             <label class="stats-perf-combo-field">Name
-              <input type="text" class="perf-combo-name" value="${(draft.name || hierarchyLevelLabel(draft.level)).replace(/"/g, "&quot;")}" maxlength="48" />
+              <input type="text" class="perf-combo-name" value="${(draft.name || "").replace(/"/g, "&quot;")}" placeholder="${hierarchyLevelLabel(draft.level).replace(/"/g, "&quot;")}" maxlength="48" />
             </label>
             <label class="stats-perf-combo-field">Analyseebene
               <select class="perf-combo-level">${levelOptions}</select>
@@ -10807,7 +11283,9 @@
         }
         normalizePerfSegmentState(state, metric, period);
         syncPerfVizToggleUi(segment, state.vizMode);
-        ["gebiet", "mitarbeiter", "produkt"].forEach((view) => renderSimpleDimensionFold(segment, metric, period, view));
+        perfSegmentDimensionViews(metric).forEach((view) =>
+          renderSimpleDimensionFold(segment, metric, period, view),
+        );
         renderComboConfigurator(segment, metric, period, state.draft);
         renderComboResults(segment, metric, period);
       }
@@ -11013,24 +11491,40 @@
         refreshAllPerformanceSegments();
       }
 
-      const PERF_SUMMARY_BY_PERIOD = {
-        gesamt: { conversion: "32,4%", complaints: "2,1%", investment: "284 €" },
-        day: { conversion: "—", complaints: "—", investment: "—" },
-        "7d": { conversion: "—", complaints: "—", investment: "—" },
-        "30d": { conversion: "34,8%", complaints: "1,8%", investment: "276 €" },
-        "60d": { conversion: "32,4%", complaints: "2,1%", investment: "284 €" },
-      };
+      function formatPerfSummaryKpi(metric, value, leadCount) {
+        if (!leadCount || value == null || Number.isNaN(value)) return "—";
+        if (metric === "investment") return `${Math.round(value)} €`;
+        return `${value.toFixed(1).replace(".", ",")}%`;
+      }
 
       function syncPerformanceSummaryKpis() {
-        const select = document.getElementById("statsPerformancePeriod");
-        const period = select?.value || "gesamt";
-        const data = PERF_SUMMARY_BY_PERIOD[period] || PERF_SUMMARY_BY_PERIOD.gesamt;
+        const period = getPerformancePeriod();
+        const leads = getLeadsInPerformancePeriod(period);
+        leads.forEach(ensureLeadRowPrice);
         const conversionEl = document.getElementById("perfKpiConversion");
         const complaintsEl = document.getElementById("perfKpiComplaints");
         const investmentEl = document.getElementById("perfKpiInvestment");
-        if (conversionEl) conversionEl.textContent = data.conversion;
-        if (complaintsEl) complaintsEl.textContent = data.complaints;
-        if (investmentEl) investmentEl.textContent = data.investment;
+        if (conversionEl) {
+          conversionEl.textContent = formatPerfSummaryKpi(
+            "conversion",
+            computeGroupMetricFromLeads(leads, "conversion"),
+            leads.length,
+          );
+        }
+        if (complaintsEl) {
+          complaintsEl.textContent = formatPerfSummaryKpi(
+            "complaints",
+            computeGroupMetricFromLeads(leads, "complaints"),
+            leads.length,
+          );
+        }
+        if (investmentEl) {
+          investmentEl.textContent = formatPerfSummaryKpi(
+            "investment",
+            computeGroupMetricFromLeads(leads, "investment"),
+            leads.length,
+          );
+        }
         refreshAllPerformanceSegments();
       }
 
@@ -11038,7 +11532,6 @@
       try {
         removePerfConsolidatedSummaryBlocks();
         initPerformanceSegments();
-        syncPerformanceSummaryKpis();
       } catch (perfInitError) {
         console.error("Performance charts init skipped:", perfInitError);
       }
@@ -11914,7 +12407,7 @@
         const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
         const a = chars[(seq * 3) % chars.length];
         const b = chars[(seq * 11 + 5) % chars.length];
-        return `VIA-DMO-${String(100 + seq).padStart(3, "0")}-${a}${b}`;
+        return `VIA-DMO-${String(10000 + seq)}-${a}${b}`;
       }
 
       function statusMarkupForLead(status) {
@@ -11934,6 +12427,9 @@
         const tr = document.createElement("tr");
         tr.className = "lead-row";
         tr.dataset.status = spec.status;
+        tr.dataset.leadPrice = String(
+          spec.leadPrice ?? leadPriceForProduct(spec.bedarf, spec.ref),
+        );
         tr.dataset.suppressLeadNotification = "1";
         tr.innerHTML = `
             <td data-col="anfragenNummer">${spec.ref}</td>
@@ -11965,31 +12461,36 @@
         applyFilter(false);
       }
 
-      function seedBulkDemoLeads(count) {
+      function seedBulkDemoLeads(count, statusPool = [], statusOffset = 0, refSeqStart = 5) {
         if (!leadBody || count < 1) return;
         const names = buildUniqueDemoNamePairs(count);
-        const statuses = ["Neu", "In Bearbeitung", "Gewonnen", "Geschlossen"];
         const priorities = ["Niedrig", "Mittel", "Hoch"];
         const assignableOwners = TENANT_MITARBEITER;
+        const standortChoices = [...OVERVIEW_STANDORT_OPTIONS, "Kein Gebiet"];
 
         for (let i = 0; i < count; i++) {
           const person = names[i];
           if (!person) continue;
-          const loc = DEMO_BEDARFSORTE[i % DEMO_BEDARFSORTE.length];
-          const status = statuses[i % statuses.length];
-          const zustandigkeit = assignableOwners[i % assignableOwners.length];
-          const standort = getEmployeeHomeGebiet(zustandigkeit) || "Kein Gebiet";
+          const loc = DEMO_BEDARFSORTE[Math.floor(Math.random() * DEMO_BEDARFSORTE.length)];
+          const status =
+            statusPool[statusOffset + i] ||
+            LEAD_STATUS_DISTRIBUTION[0].status;
+          const zustandigkeit = randomItem(assignableOwners);
+          const standort = randomItem(standortChoices);
+          const bedarf = randomItem(LEAD_BEDARF_PRODUCTS);
+          const ref = generateDemoLeadRef(refSeqStart + i);
           appendDemoLeadRow({
-            ref: generateDemoLeadRef(i + 1),
-            datum: formatLeadDateDaysAgo(i % 120),
+            ref,
+            datum: formatLeadDateDaysAgo(Math.floor(Math.random() * 120)),
             name: person.display,
-            bedarf: bedarfProductForDemoIndex(i, count),
+            bedarf,
             bedarfsort: `${loc.plz} ${loc.ort}`,
             standort,
-            quelle: quelleForDemoIndex(i, count),
-            prioritaet: priorities[i % priorities.length],
+            quelle: randomItem(LEAD_QUELLEN),
+            prioritaet: randomItem(priorities),
             status,
             zustandigkeit,
+            leadPrice: leadPriceForProduct(bedarf, ref),
           });
         }
         applyColumnConfig();
@@ -11997,14 +12498,111 @@
         updateTaskDueBadges();
       }
 
-      /** 4 seed rows + 96 generated = 100 leads; 4 Erstkontakt tasks due today on page 1. */
+      function renderStatsBarRows(container, items, fillClass = "blue") {
+        if (!container || !items.length) {
+          if (container) container.innerHTML = '<p class="stats-perf-empty">Keine Daten.</p>';
+          return;
+        }
+        const max = Math.max(...items.map((item) => item.count), 1);
+        container.innerHTML = items
+          .map((item) => {
+            const width = Math.max(4, (item.count / max) * 100);
+            const pct = item.percent.toFixed(1).replace(".", ",");
+            return `<div class="stats-bar-row dense">
+                <span class="stats-bar-label">${item.label}</span>
+                <div class="stats-bar-track">
+                  <div class="stats-bar-fill ${fillClass}" style="width:${width}%"></div>
+                </div>
+                <span class="stats-bar-meta">${item.count} | ${pct}%</span>
+              </div>`;
+          })
+          .join("");
+      }
+
+      function countLeadsByStatus(leads) {
+        const counts = new Map();
+        LEAD_STATUS_DISTRIBUTION.forEach(({ status }) => counts.set(status, 0));
+        leads.forEach((row) => {
+          const status = getLeadRowStatus(row);
+          counts.set(status, (counts.get(status) || 0) + 1);
+        });
+        return counts;
+      }
+
+      function syncStatsOverviewFromLeads() {
+        const allLeads = getLeadRows();
+        allLeads.forEach(ensureLeadRowPrice);
+
+        const receivedEl = document.getElementById("statsKpiReceivedLeads");
+        if (receivedEl) receivedEl.textContent = String(allLeads.length);
+
+        const periodMap = {
+          day: "statsPeriodDay",
+          "7d": "statsPeriod7d",
+          "30d": "statsPeriod30d",
+          "60d": "statsPeriod60d",
+          gesamt: "statsPeriodGesamt",
+        };
+        Object.entries(periodMap).forEach(([period, id]) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const count =
+            period === "gesamt" ? allLeads.length : getLeadsInPerformancePeriod(period).length;
+          el.textContent = String(count);
+        });
+
+        const statusCounts = countLeadsByStatus(allLeads);
+        const statusItems = LEAD_STATUS_DISTRIBUTION.map(({ status }) => ({
+          status,
+          label: LEAD_STATUS_CHART_LABELS[status] || status,
+          count: statusCounts.get(status) || 0,
+        }))
+          .sort((a, b) => b.count - a.count)
+          .map((entry) => ({
+            label: entry.label,
+            count: entry.count,
+            percent: allLeads.length ? (entry.count / allLeads.length) * 100 : 0,
+          }));
+        renderStatsBarRows(document.getElementById("statsEvalStatusChart"), statusItems, "blue");
+
+        const neuCount = statusCounts.get("Neu") || 0;
+        const subline = document.querySelector("#overviewSection .subline");
+        if (subline) {
+          subline.textContent =
+            neuCount === 1
+              ? "1 neuer Interessent wartet auf Ihren Anruf."
+              : `${neuCount} neue Interessenten warten auf Ihren Anruf.`;
+        }
+      }
+
+      function finalizeLeadAndStatsSync() {
+        syncPerformanceSummaryKpis();
+        syncStatsOverviewFromLeads();
+      }
+
+      /** 4 seed rows + 296 generated = 300 leads; Erstkontakt tasks on Neu leads only. */
       function initLeadOverviewDemoData() {
         if (leadOverviewDemoSeeded || !leadBody) return;
         leadOverviewDemoSeeded = true;
-        seedBulkDemoLeads(96);
+        const statusPool = buildLeadStatusPool(LEAD_OVERVIEW_TOTAL);
+        const seedRows = Array.from(leadBody.querySelectorAll(".lead-row"));
+        const bulkOffset = applyLeadStatusPoolToRows(seedRows, statusPool, 0);
+        seedRows.forEach((row) => {
+          const bedarf = getCellValue(row, "bedarf");
+          const ref = getCellValue(row, "anfragenNummer");
+          row.dataset.leadPrice = String(leadPriceForProduct(bedarf, ref));
+          const standort = randomItem([...OVERVIEW_STANDORT_OPTIONS, "Kein Gebiet"]);
+          const zustandigkeit = randomItem(TENANT_MITARBEITER);
+          syncLeadRowPlainColumn(row, "standort", standort);
+          syncLeadRowPlainColumn(row, "zustandigkeit", zustandigkeit);
+          renderOverviewInlineSelectCell(row, "standort", standort);
+          renderOverviewInlineSelectCell(row, "zustandigkeit", zustandigkeit);
+        });
+        seedBulkDemoLeads(LEAD_OVERVIEW_TOTAL - seedRows.length, statusPool, bulkOffset, seedRows.length + 1);
         leadTablePage = 1;
         applyFilter(true);
         configureDueTodayTasksOnFirstListPage(4);
+        finalizeLeadAndStatsSync();
       }
 
       function randomImportLeadRef() {
@@ -13127,9 +13725,17 @@
       cropperDeleteBtn.addEventListener("click", deleteCurrentCroppedImage);
       cropperZoom.addEventListener("input", () => {
         if (!cropState.image) return;
-        const percent = Number(cropperZoom.value) / 100;
-        cropState.scale =
-          cropState.minScale + (cropState.maxScale - cropState.minScale) * (percent - 1) / 2;
+        const prevCenterX = cropState.cropX + cropState.cropW / 2;
+        const prevCenterY = cropState.cropY + cropState.cropH / 2;
+        const prevImageW = cropState.image.width * cropState.scale;
+        const prevImageH = cropState.image.height * cropState.scale;
+        const relX = prevImageW ? (prevCenterX - cropState.offsetX) / prevImageW : 0.5;
+        const relY = prevImageH ? (prevCenterY - cropState.offsetY) / prevImageH : 0.5;
+        cropState.scale = cropScaleFromZoomPercent(Number(cropperZoom.value));
+        const imageW = cropState.image.width * cropState.scale;
+        const imageH = cropState.image.height * cropState.scale;
+        cropState.offsetX = prevCenterX - relX * imageW;
+        cropState.offsetY = prevCenterY - relY * imageH;
         clampCropImagePosition();
         renderCropper();
       });
