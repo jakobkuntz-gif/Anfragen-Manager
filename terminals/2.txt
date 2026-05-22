@@ -1,0 +1,9 @@
+---
+pid: 29608
+cwd: |
+  C:\Users\VP
+---
+PS C:\Users\VP> cd "C:\Users\VP\.cursor\projects\empty-window"
+>> git init
+>> git add .
+>> git commit -m "first commit"

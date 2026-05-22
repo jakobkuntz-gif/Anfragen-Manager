@@ -1,0 +1,107 @@
+---
+pid: 28232
+cwd: |
+  C:\Users\VP
+---
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:28 Zeichen:1
++ git commit -m "first commit"cd "C:\Users\VP\.cursor\projects\empty-wi ...
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:29 Zeichen:1
++ git init
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:30 Zeichen:1
++ git add .
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:31 Zeichen:1
++ git commit -m "first commit"cd "C:\Users\VP\.cursor\projects\empty-wi ...
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:32 Zeichen:1
++ git init
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:33 Zeichen:1
++ git add .
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:34 Zeichen:1
++ git commit -m "first commit"
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\VP> cd "C:\Users\VP\.cursor\projects\empty-window"
+>> git init
+>> git add .
+>> git commit -m "first commit"
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:2 Zeichen:1
++ git init
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:3 Zeichen:1
++ git add .
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+git : Die Benennung "git" wurde nicht als Name eines Cmdlet, einer Funktion, einer Skriptdatei 
+oder eines ausführbaren Programms erkannt. Überprüfen Sie die Schreibweise des Namens, oder ob   
+der Pfad korrekt ist (sofern enthalten), und wiederholen Sie den Vorgang.
+In Zeile:4 Zeichen:1
++ git commit -m "first commit"
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\VP\.cursor\projects\empty-window>
+ *  History restored 
+
+PS C:\Users\VP> 
