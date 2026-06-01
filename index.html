@@ -1226,6 +1226,44 @@
         font-weight: 600;
       }
 
+      th.lead-sortable-th {
+        padding: 0;
+      }
+
+      .lead-sort-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+        margin: 0;
+        padding: 10px 8px;
+        border: none;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        font-weight: 600;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .lead-sort-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .lead-sort-btn:focus-visible {
+        outline: 2px solid var(--white);
+        outline-offset: -2px;
+      }
+
+      .lead-sort-btn .lead-sort-icon {
+        font-size: 11px;
+        opacity: 0.55;
+      }
+
+      th.lead-sortable-th.is-sort-active .lead-sort-btn .lead-sort-icon {
+        opacity: 1;
+      }
+
       td {
         border-bottom: 1px solid var(--line);
         padding: 9px 8px;
@@ -5357,7 +5395,20 @@
               <thead>
                 <tr>
                   <th data-col="anfragenNummer">Anfragen-Nr</th>
-                  <th data-col="anfrageDatum">Anfrage-Datum</th>
+                  <th
+                    data-col="anfrageDatum"
+                    class="lead-sortable-th is-sort-active"
+                    data-sort-key="anfrageDatum"
+                    aria-sort="descending"
+                  >
+                    <button type="button" class="lead-sort-btn" data-sort-key="anfrageDatum">
+                      <span>Anfrage-Datum</span>
+                      <i
+                        class="fa-solid fa-arrow-down-wide-short lead-sort-icon"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                  </th>
                   <th data-col="name">Name</th>
                   <th data-col="bedarf">Bedarf</th>
                   <th data-col="bedarfsort">Bedarfsort</th>
@@ -7216,6 +7267,7 @@
       const leadPageNext = document.getElementById("leadPageNext");
       let leadTablePage = 1;
       let leadTablePageSize = 10;
+      const leadTableSort = { key: "anfrageDatum", direction: "desc" };
       let overviewTasksOnlyFilter = false;
       let leadOverviewDemoSeeded = false;
       const leadDetailTasksList = document.getElementById("leadDetailTasksList");
@@ -7851,11 +7903,28 @@
           if (index >= statusPool.length) return;
           const status = statusPool[index];
           index += 1;
-          row.dataset.status = status;
-          const cell = row.querySelector('[data-col="status"]');
-          if (cell) cell.innerHTML = statusMarkupForLead(status);
+          setLeadOverviewRowStatus(row, status);
         });
         return index;
+      }
+
+      function setLeadOverviewRowStatus(row, status) {
+        if (!row) return;
+        row.dataset.status = status;
+        const cell = row.querySelector('[data-col="status"]');
+        if (cell) cell.innerHTML = statusMarkupForLead(status);
+      }
+
+      /** Demo: the five most recent leads (by Anfrage-Datum) are always Neu. */
+      function ensureNeuStatusOnNewestLeads(count = 5) {
+        const rows = getLeadRows()
+          .slice()
+          .sort((a, b) => compareLeadRowsByAnfrageDatum(a, b, "desc"));
+        rows.slice(0, count).forEach((row, index) => {
+          syncLeadRowPlainColumn(row, "anfrageDatum", formatLeadDateDaysAgo(index));
+          setLeadOverviewRowStatus(row, "Neu");
+          registerIncomingLeadRow(row);
+        });
       }
 
       function isSystemLeadStatus(status) {
@@ -7865,6 +7934,8 @@
       const COMPLAINT_PENDING_STATUS = "Reklamation wird geprüft";
       const REJECTED_COMPLAINT_STATUS = "Reklamation abgelehnt - geschlossen";
       const SUCCESSFUL_COMPLAINT_STATUS = "Reklamation erfolgreich - geschlossen";
+      const SUCCESSFUL_COMPLAINT_STATUS_HINT =
+        "diese Anfrage wird nicht berechnet / bei der kommenden Rechnung gutgeschrieben";
 
       const LEAD_STATUS_CHART_LABELS = {
         Neu: "Neu",
@@ -7987,7 +8058,9 @@
       function syncLeadDetailStatusControl(row) {
         const statusControl = document.querySelector(".detail-control-status");
         const readonlyBadge = document.getElementById("detailStatusReadonlyBadge");
+        const systemHint = document.getElementById("detailStatusSystemHint");
         const status = (row?.dataset.status || getCellValue(row, "status") || "").trim();
+        const defaultSystemHint = "Automatischer Status – nicht manuell änderbar";
 
         if (isSystemLeadStatus(status)) {
           statusControl?.classList.add("is-system-locked");
@@ -7995,9 +8068,16 @@
             readonlyBadge.className = `status ${getStatusBadgeClass(status)}`;
             readonlyBadge.textContent = status;
           }
+          if (systemHint) {
+            systemHint.textContent =
+              status === SUCCESSFUL_COMPLAINT_STATUS
+                ? SUCCESSFUL_COMPLAINT_STATUS_HINT
+                : defaultSystemHint;
+          }
           if (detailStatusSelect) detailStatusSelect.disabled = true;
         } else {
           statusControl?.classList.remove("is-system-locked");
+          if (systemHint) systemHint.textContent = defaultSystemHint;
           if (detailStatusSelect) {
             detailStatusSelect.disabled = false;
             setSelectValue("detailStatusSelect", status);
@@ -8852,6 +8932,7 @@
 
         leadBody.addEventListener("click", (e) => {
           if (e.target.closest(".overview-inline-select")) return;
+          if (e.target.closest(".lead-sort-btn")) return;
           const openBtn = e.target.closest(".open-lead-btn");
           const row = openBtn
             ? openBtn.closest(".lead-row")
@@ -8920,6 +9001,16 @@
 
       wireLeadOverviewTable();
 
+      document.querySelector(".lead-sort-btn[data-sort-key='anfrageDatum']")?.addEventListener(
+        "click",
+        (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          toggleLeadAnfrageDatumSort();
+        },
+      );
+      syncLeadTableSortHeaderUi();
+
       document
         .getElementById("closeDrawer")
         ?.addEventListener("click", () => drawer.classList.remove("open"));
@@ -8945,7 +9036,8 @@
       function getFilteredLeadRows() {
         const q = (search?.value || "").toLowerCase().trim();
         const selectedStatus = statusFilter?.value || "";
-        return getLeadRows().filter((row) => rowMatchesLeadFilter(row, q, selectedStatus));
+        const filtered = getLeadRows().filter((row) => rowMatchesLeadFilter(row, q, selectedStatus));
+        return sortLeadRows(filtered);
       }
 
       function updateLeadTablePaginationUi(filteredCount, rangeStart, rangeEnd) {
@@ -8966,6 +9058,7 @@
         if (resetPage) leadTablePage = 1;
 
         const filtered = getFilteredLeadRows();
+        syncLeadBodyDomOrder(filtered);
         const total = filtered.length;
         const totalPages = Math.max(1, Math.ceil(total / leadTablePageSize));
         if (leadTablePage > totalPages) leadTablePage = totalPages;
@@ -9664,13 +9757,68 @@
       }
 
       function parseAnfrageDatum(text) {
-        const match = String(text || "").match(/(\d{2})\.(\d{2})\.(\d{4})/);
+        const match = String(text || "").trim().match(/(\d{2})\.(\d{2})\.(\d{4})(?:,\s*(\d{1,2}):(\d{2}))?/);
         if (!match) return null;
         const day = Number(match[1]);
         const month = Number(match[2]) - 1;
         const year = Number(match[3]);
-        const date = new Date(year, month, day);
+        const hours = match[4] != null ? Number(match[4]) : 0;
+        const minutes = match[5] != null ? Number(match[5]) : 0;
+        const date = new Date(year, month, day, hours, minutes);
         return Number.isNaN(date.getTime()) ? null : date;
+      }
+
+      function getLeadAnfrageDatumSortTime(row) {
+        const date = parseAnfrageDatum(getCellValue(row, "anfrageDatum"));
+        return date ? date.getTime() : 0;
+      }
+
+      function compareLeadRowsByAnfrageDatum(a, b, direction) {
+        const diff = getLeadAnfrageDatumSortTime(a) - getLeadAnfrageDatumSortTime(b);
+        return direction === "asc" ? diff : -diff;
+      }
+
+      function sortLeadRows(rows) {
+        if (leadTableSort.key !== "anfrageDatum") return rows;
+        return [...rows].sort((a, b) =>
+          compareLeadRowsByAnfrageDatum(a, b, leadTableSort.direction),
+        );
+      }
+
+      function syncLeadBodyDomOrder(sortedRows) {
+        if (!leadBody || !sortedRows.length) return;
+        const sortedSet = new Set(sortedRows);
+        const rest = getLeadRows().filter((row) => !sortedSet.has(row));
+        sortedRows.forEach((row) => leadBody.appendChild(row));
+        rest.forEach((row) => leadBody.appendChild(row));
+      }
+
+      function syncLeadTableSortHeaderUi() {
+        const th = document.querySelector('th.lead-sortable-th[data-sort-key="anfrageDatum"]');
+        const btn = document.querySelector(".lead-sort-btn[data-sort-key='anfrageDatum']");
+        if (!th || !btn) return;
+        const isDesc = leadTableSort.direction === "desc";
+        th.classList.add("is-sort-active");
+        th.setAttribute("aria-sort", isDesc ? "descending" : "ascending");
+        const icon = btn.querySelector(".lead-sort-icon");
+        if (icon) {
+          icon.className = `fa-solid ${
+            isDesc ? "fa-arrow-down-wide-short" : "fa-arrow-up-wide-short"
+          } lead-sort-icon`;
+        }
+        btn.setAttribute(
+          "aria-label",
+          isDesc
+            ? "Nach Anfrage-Datum sortieren: neueste zuerst"
+            : "Nach Anfrage-Datum sortieren: älteste zuerst",
+        );
+        btn.title = isDesc ? "Neueste zuerst" : "Älteste zuerst";
+      }
+
+      function toggleLeadAnfrageDatumSort() {
+        leadTableSort.direction = leadTableSort.direction === "desc" ? "asc" : "desc";
+        syncLeadTableSortHeaderUi();
+        applyFilter(true);
       }
 
       function periodToMaxDays(period) {
@@ -12599,6 +12747,7 @@
           renderOverviewInlineSelectCell(row, "zustandigkeit", zustandigkeit);
         });
         seedBulkDemoLeads(LEAD_OVERVIEW_TOTAL - seedRows.length, statusPool, bulkOffset, seedRows.length + 1);
+        ensureNeuStatusOnNewestLeads(5);
         leadTablePage = 1;
         applyFilter(true);
         configureDueTodayTasksOnFirstListPage(4);
@@ -13618,6 +13767,7 @@
 
         getLeadRows().forEach(enhanceLeadOverviewInlineSelects);
         getLeadRows().forEach(syncLeadRowQuelleDataset);
+        syncLeadTableSortHeaderUi();
         applyFilter(true);
         applyColumnConfig();
       }
